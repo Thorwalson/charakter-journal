@@ -24,7 +24,7 @@ window.CJ = {
     github:      "#",   // z. B. https://github.com/DEIN-NAME/charakter-journal
     githubIssues:"#",   // z. B. https://github.com/DEIN-NAME/charakter-journal/issues
     discussions: "#",   // z. B. https://github.com/DEIN-NAME/charakter-journal/discussions
-    discord:     https://discord.gg/2z7APn3wnQ ,   // Einladungslink eures Discord-Servers
+    discord:     "https://discord.gg/2z7APn3wnQ",   // Einladungslink eures Discord-Servers
     kofi:        "#",   // z. B. https://ko-fi.com/DEIN-NAME
     paypal:      "#",   // z. B. https://paypal.me/DEIN-NAME
     curseforge:  "#",   // Projektseite auf CurseForge
