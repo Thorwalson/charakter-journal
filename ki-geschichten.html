@@ -1,0 +1,169 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>KI-Geschichten – Charakter Journal</title>
+  <meta name="description" content="Mit welcher KI kannst du aus deinem Journal eine Geschichte erstellen? Kostenlose Optionen, Links und der wichtigste Tipp: ein Charakter, eine KI, ein Chat.">
+  <meta name="theme-color" content="#0b0d14">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/config.js"></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <section class="page-hero wrap">
+      <h1>KI-Geschichten</h1>
+      <div class="rule"></div>
+      <p>Mit diesen KI-Assistenten kannst du aus deinen Journal-Daten kostenlos eine Geschichte schreiben lassen, und so bleibt sie wie aus einem Guss.</p>
+    </section>
+
+    <!-- GOLDENE REGEL -->
+    <section class="section">
+      <div class="wrap prose">
+        <div class="panel golden">
+          <h2>Die goldene Regel</h2>
+          <div class="equation"><span>1 Charakter</span><span>1 KI</span><span>1 Chat</span></div>
+          <p>Bleib für <strong>einen Charakter</strong> bei <strong>einer KI</strong> und schreib die ganze Geschichte im <strong>selben Chat</strong> weiter. <strong>Pinne oder markiere den Chat</strong>, damit du ihn jederzeit sofort wiederfindest.</p>
+
+          <div class="reasons">
+            <div><strong>Die KI kennt nur den Chat</strong><p>Eine KI „erinnert“ sich vor allem an das, was im aktuellen Chat steht. Namen, Figuren, Orte und Ton bleiben nur erhalten, wenn alles an einem Ort passiert.</p></div>
+            <div><strong>Gleicher Stil</strong><p>Jede KI schreibt ein bisschen anders. Wechselst du mittendrin, kippt Erzählstimme und Stil, und die Geschichte wirkt zusammengestückelt.</p></div>
+            <div><strong>Roter Faden</strong><p>Offene Handlungsfäden, Nebenfiguren und Running Gags wirst du in späteren Kapiteln wieder aufgreifen können, wenn die KI sie noch „sieht“.</p></div>
+            <div><strong>Schneller wiederfinden</strong><p>Ein angepinnter, nach dem Charakter benannter Chat ist mit einem Klick offen, auch nach Wochen.</p></div>
+          </div>
+        </div>
+        <p class="muted center" style="margin-top:1rem">Du hast mehrere Charaktere? Dann bekommt <strong>jeder seinen eigenen Chat</strong> (und darf gern bei derselben KI bleiben).</p>
+      </div>
+    </section>
+
+    <!-- KI-KARTEN -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Kostenlose KI-Assistenten</h2>
+          <div class="rule"></div>
+          <p>Alle fünf lassen sich ohne Bezahlabo nutzen. Such dir eine aus und bleib dabei.</p>
+        </div>
+        <div id="ai-list"></div>
+
+        <div class="notice" style="max-width:820px;margin-inline:auto;margin-top:2rem">
+          <strong>Stand der Angaben: <span data-ai-checked></span>.</strong>
+          Gratis-Angebote, Limits und Funktionen ändern sich bei den Anbietern häufig. Schau im Zweifel in die jeweilige Hilfe. Die Reihenfolge ist alphabetisch und keine Rangliste oder Empfehlung für einen Anbieter.
+        </div>
+      </div>
+    </section>
+
+    <!-- SO GEHT'S -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>So gehst du vor</h2>
+          <div class="rule"></div>
+        </div>
+        <div class="steps">
+          <article class="panel step"><h3>KI wählen</h3><p>Such dir einen Assistenten aus und melde dich an, damit dein Chatverlauf gespeichert bleibt.</p></article>
+          <article class="panel step"><h3>Chat starten</h3><p>Schick den Start-Prompt (unten) und gib ihm gleich einen Namen wie „Thorwin – Chronik“.</p></article>
+          <article class="panel step"><h3>Chat anpinnen</h3><p>Pinne oder markiere den Chat, damit er immer ganz oben steht.</p></article>
+          <article class="panel step"><h3>Kapitel für Kapitel</h3><p>Schick nach jedem Levelabschnitt (1–5, 6–10 …) den nächsten Journal-Prompt im selben Chat.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- PROMPT-VORLAGEN -->
+    <section class="section">
+      <div class="wrap prose">
+        <div class="section-head">
+          <h2>Prompt-Vorlagen</h2>
+          <div class="rule"></div>
+          <p>Kopieren, in den Chat einfügen, die Platzhalter in [eckigen Klammern] ersetzen.</p>
+        </div>
+
+        <div class="panel parchment">
+          <div class="prompt-block">
+            <div class="prompt-head">
+              <h3>1 · Start-Prompt (einmal am Anfang)</h3>
+              <button class="btn small" type="button" data-copy="prompt-start">Kopieren</button>
+            </div>
+            <p class="hint">Legt die Spielregeln für die ganze Geschichte fest.</p>
+<pre class="prompt" id="prompt-start">Du bist mein persönlicher Geschichtenerzähler. Wir schreiben gemeinsam die Lebensgeschichte meines World-of-Warcraft-Charakters, Kapitel für Kapitel, in diesem einen Chat.
+
+Regeln:
+1. Bleibe immer im gleichen Stil (episches Fantasy-Abenteuer, dritte Person) und behalte alle Namen, Orte, Figuren und Ereignisse bei.
+2. Erfinde Gefühle, Dialoge und Nebenfiguren dazu, aber ändere keine Fakten aus meinen Spieldaten.
+3. Merke dir offene Handlungsfäden und greife sie in späteren Kapiteln wieder auf.
+4. Schreibe nur das Kapitel, das ich dir gebe, und greife nicht vor.
+
+Charakter: [Name, Volk, Klasse]
+Kurzer Hintergrund (optional): [Persönlichkeit, Ziel, Besonderheiten]
+
+Bestätige kurz, dass du bereit bist. Danach schicke ich dir das erste Kapitel mit den Spieldaten aus Charakter Journal.</pre>
+          </div>
+
+          <div class="prompt-block">
+            <div class="prompt-head">
+              <h3>2 · Weiter-Prompt (für jedes neue Kapitel)</h3>
+              <button class="btn small" type="button" data-copy="prompt-next">Kopieren</button>
+            </div>
+            <p class="hint">Im selben Chat. Darunter fügst du den Prompt aus Charakter Journal ein.</p>
+<pre class="prompt" id="prompt-next">Hier sind die Spieldaten für das nächste Kapitel (Level [X] bis [Y]). Schreibe es als direkte Fortsetzung der bisherigen Geschichte in diesem Chat, im selben Stil und mit denselben Figuren und Orten:
+
+[Prompt aus Charakter Journal hier einfügen]</pre>
+          </div>
+
+          <div class="prompt-block">
+            <div class="prompt-head">
+              <h3>3 · Story-Bibel (wenn der Chat zu lang wird)</h3>
+              <button class="btn small" type="button" data-copy="prompt-bible">Kopieren</button>
+            </div>
+            <p class="hint">Rettet die Geschichte in einen neuen Chat, siehe unten.</p>
+<pre class="prompt" id="prompt-bible">Fasse die bisherige Geschichte als „Story-Bibel“ zusammen, damit ich sie in einem neuen Chat nahtlos weiterführen kann. Gliedere so:
+1. Charakter (Name, Volk, Klasse, Persönlichkeit)
+2. Erzählstil und Ton
+3. Wichtige Figuren und Orte
+4. Chronologische Kurzfassung aller bisherigen Kapitel
+5. Offene Handlungsfäden
+Maximal 500 Wörter.</pre>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- CHAT ZU LANG -->
+    <section class="section">
+      <div class="wrap prose">
+        <h2>Wenn der Chat zu lang wird</h2>
+        <p>Jede KI kann nur eine begrenzte Textmenge gleichzeitig „im Blick“ behalten. Bei sehr langen Chats kann sie frühe Details vergessen oder dich auffordern, einen neuen Chat zu beginnen. So rettest du deine Geschichte:</p>
+        <div class="panel">
+          <ol class="howto">
+            <li><h3>Story-Bibel erzeugen</h3><p class="muted">Schick im alten Chat den Story-Bibel-Prompt von oben. Du bekommst eine kompakte Zusammenfassung.</p></li>
+            <li><h3>Neuen Chat starten</h3><p class="muted">Am besten bei <strong>derselben KI</strong>. Schick den Start-Prompt und füge danach die Story-Bibel ein.</p></li>
+            <li><h3>Neuen Chat anpinnen und alten behalten</h3><p class="muted">Benenne ihn z. B. „Thorwin – Chronik Teil 2“ und lass den alten Chat als Archiv bestehen. Lösche ihn nicht.</p></li>
+          </ol>
+        </div>
+
+        <div class="notice">
+          <strong>Sichere deine Kapitel!</strong> Kopiere fertige Kapitel regelmäßig in ein eigenes Dokument (z. B. Word). Chats können verschwinden, etwa wenn du den Verlauf löschst, ein Konto verlierst oder der Anbieter etwas ändert. Mit dem geplanten Export im Charakter Journal wird das noch einfacher.
+        </div>
+        <div class="notice blue">
+          <strong>Datenschutz:</strong> Verwende in Chats keine echten Namen oder privaten Daten, nur deinen Spielcharakter. Wie jeder Anbieter mit deinen Eingaben umgeht, steht in dessen Datenschutzeinstellungen, dort kannst du es meist auch anpassen.
+        </div>
+
+        <div class="panel center" style="margin-top:2rem">
+          <h2>Deine Geschichte ist fertig?</h2>
+          <p class="muted">Zeig sie uns und der Community! Wir freuen uns über jede Chronik.</p>
+          <div class="btn-row" style="justify-content:center">
+            <a class="btn" href="community.html#geschichten">Geschichte einsenden</a>
+            <a class="btn ghost" href="roadmap.html">Roadmap ansehen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

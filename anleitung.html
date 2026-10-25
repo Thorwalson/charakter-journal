@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Anleitung – Charakter Journal</title>
+  <meta name="description" content="So installierst und benutzt du Charakter Journal: Schritt für Schritt, mit FAQ.">
+  <meta name="theme-color" content="#0b0d14">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/config.js"></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <section class="page-hero wrap">
+      <h1>Anleitung</h1>
+      <div class="rule"></div>
+      <p>Installation, erste Schritte und Antworten auf häufige Fragen.</p>
+    </section>
+
+    <!-- INSTALLATION -->
+    <section class="section">
+      <div class="wrap prose">
+        <h2>1 · Installation</h2>
+
+        <div class="panel" style="margin-bottom:1.4rem">
+          <h3>Weg A: Per Addon-Manager (empfohlen)</h3>
+          <p>Am bequemsten ist ein Addon-Manager wie der CurseForge-Client oder WowUp. Dort suchst du nach <em>Charakter Journal</em>, klickst auf „Installieren“ und bekommst Updates automatisch.</p>
+          <a class="btn small ghost" data-link="curseforge" href="#">Auf CurseForge ansehen</a>
+        </div>
+
+        <div class="panel">
+          <h3>Weg B: Von Hand</h3>
+          <ol class="howto" style="margin-top:1.2rem">
+            <li>
+              <h3>Passende Version herunterladen</h3>
+              <p class="muted">Auf der Seite <a href="downloads.html">Downloads</a> das Paket für deine WoW-Version wählen (Retail, Classic, Classic Hardcore oder WoW Forever).</p>
+            </li>
+            <li>
+              <h3>ZIP-Datei entpacken</h3>
+              <p class="muted">Rechtsklick auf die Datei → „Alle extrahieren“. Du erhältst einen Ordner namens <code>CharakterJournal</code>.</p>
+            </li>
+            <li>
+              <h3>Den AddOns-Ordner von WoW finden</h3>
+              <p class="muted">Öffne die Battle.net-App, wähle dein Spiel und klicke auf <em>Optionen → Im Explorer anzeigen</em>. Dort wechselst du in den Ordner deiner Version:</p>
+              <div class="table-wrap">
+                <table>
+                  <thead><tr><th>Version</th><th>Typischer Pfad</th></tr></thead>
+                  <tbody>
+                    <tr><td>Retail</td><td><code>…\World of Warcraft\_retail_\Interface\AddOns</code></td></tr>
+                    <tr><td>Classic (Progression)</td><td><code>…\World of Warcraft\_classic_\Interface\AddOns</code></td></tr>
+                    <tr><td>Classic Era / Hardcore</td><td><code>…\World of Warcraft\_classic_era_\Interface\AddOns</code></td></tr>
+                    <tr><td>WoW Forever</td><td>Ordner deines jeweiligen Clients, siehe Hinweis unten</td></tr>
+                  </tbody>
+                </table>
+              </div>
+              <p class="muted" style="margin-top:.8rem">Hinweis: Die Ordnernamen können je nach Installation abweichen. Gibt es den Ordner <code>Interface\AddOns</code> noch nicht, lege ihn einfach an.</p>
+            </li>
+            <li>
+              <h3>Ordner hineinkopieren</h3>
+              <p class="muted">Kopiere den Ordner <code>CharakterJournal</code> in den <code>AddOns</code>-Ordner. Wichtig: Direkt in <code>AddOns</code>, nicht noch eine Ebene tiefer verschachtelt.</p>
+            </li>
+            <li>
+              <h3>Spiel starten und prüfen</h3>
+              <p class="muted">Starte WoW, klicke auf der Charakterauswahl unten links auf <em>AddOns</em> und prüfe, ob „Charakter Journal“ aktiviert ist. Ist es als „veraltet“ markiert, setze den Haken bei <em>Veraltete AddOns laden</em>.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- BENUTZUNG -->
+    <section class="section">
+      <div class="wrap prose">
+        <h2>2 · Benutzung</h2>
+        <div class="notice">
+          <strong>Hinweis:</strong> Charakter Journal ist in Entwicklung. Welche Funktionen und Befehle es in welcher Version gibt, siehst du in der <a href="roadmap.html">Roadmap</a>. Diese Anleitung wird mit jeder Version erweitert.
+        </div>
+        <div class="panel">
+          <ol class="howto">
+            <li>
+              <h3>Einfach spielen</h3>
+              <p class="muted">Nach der Installation schreibt das Journal automatisch mit. Du musst nichts einstellen. Level, Quests, Zonen, Gegner und Fähigkeiten werden gespeichert.</p>
+            </li>
+            <li>
+              <h3>Journal öffnen</h3>
+              <p class="muted">Im Spiel öffnest du dein Journal über den Befehl <code>/cj</code> oder den Minimap-Button (Details folgen mit der ersten Version).</p>
+            </li>
+            <li>
+              <h3>Exportieren</h3>
+              <p class="muted">Du kannst dein Journal als Word- oder Excel-Datei speichern. Da WoW-Addons selbst keine Dateien schreiben dürfen, läuft das über die Website: Du kopierst den Export-Text aus dem Spiel oder lädst deine Datei hoch, und die Umwandlung passiert direkt in deinem Browser.</p>
+            </li>
+            <li>
+              <h3>Geschichte erzeugen</h3>
+              <p class="muted">Wähle einen Levelabschnitt (z. B. 1–5 oder 6–10), lass dir daraus einen Prompt erstellen und füge ihn in ChatGPT, Claude, Gemini oder eine andere KI ein. Kostenlose KI-Optionen und den wichtigen Tipp „ein Charakter, eine KI, ein Chat“ findest du auf der Seite <a href="ki-geschichten.html">KI-Geschichten</a>. Ein Prompt-Beispiel steht auf der <a href="index.html">Startseite</a>.</p>
+            </li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <!-- FAQ -->
+    <section class="section" id="faq">
+      <div class="wrap prose">
+        <h2>3 · Häufige Fragen</h2>
+
+        <details>
+          <summary>Ist das Addon erlaubt? Kann ich gesperrt werden?</summary>
+          <div>Charakter Journal liest nur Informationen mit, die das Spiel Addons ohnehin zur Verfügung stellt, und automatisiert nichts. Es ist ein reines Tagebuch-Addon. Wie bei jedem Addon nutzt du es auf eigene Verantwortung.</div>
+        </details>
+        <details>
+          <summary>Kostet das etwas?</summary>
+          <div>Nein. Das Addon ist kostenlos. Wenn es dir gefällt, freuen wir uns über Unterstützung auf der Seite <a href="unterstuetzen.html">Unterstützen</a>.</div>
+        </details>
+        <details>
+          <summary>Verlangsamt das Addon mein Spiel?</summary>
+          <div>Das Ziel ist ein möglichst schlankes Addon. Häufige Ereignisse (z. B. Kampfaktionen) werden zusammengefasst gespeichert, statt jede Einzelheit aufzuzeichnen.</div>
+        </details>
+        <details>
+          <summary>Wo werden meine Daten gespeichert?</summary>
+          <div>Lokal auf deinem Computer, in der SavedVariables-Datei von WoW. Es werden keine Daten automatisch an uns übertragen. Wenn du eine Geschichte einsendest, entscheidest du das selbst.</div>
+        </details>
+        <details>
+          <summary>Welche KI kann ich für die Geschichten nutzen?</summary>
+          <div>Jede, bei der du Text einfügen kannst, z. B. ChatGPT, Claude oder Gemini. Der Prompt ist so aufgebaut, dass er in jedes Chatfenster passt.</div>
+        </details>
+        <details>
+          <summary>Mein Charakter ist schon Level 40. Kann ich trotzdem starten?</summary>
+          <div>Ja, das Journal beginnt ab dem Moment, in dem du es installierst. Die Zeit davor kann es nicht rückwirkend erfassen. Am schönsten wird es mit einem neuen Charakter.</div>
+        </details>
+        <details>
+          <summary>Ich habe einen Fehler gefunden. Was nun?</summary>
+          <div>Melde ihn bitte in unserer <a href="community.html">Community</a> oder über <a data-link="githubIssues" href="#">GitHub Issues</a>. Hilfreich sind deine WoW-Version, die Addon-Version und eine kurze Beschreibung, was passiert ist.</div>
+        </details>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>

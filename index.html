@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Charakter Journal – Deine WoW-Reise als Geschichte</title>
+  <meta name="description" content="Charakter Journal ist ein Addon für World of Warcraft, das deine Reise festhält – Level, Quests, Zonen, Gegner und Fähigkeiten – und daraus deine ganz persönliche Geschichte macht.">
+  <meta property="og:title" content="Charakter Journal – Deine Reise. Deine Legende.">
+  <meta property="og:description" content="Das WoW-Addon, das aus deinen Abenteuern eine Geschichte macht.">
+  <meta property="og:image" content="assets/social-preview.png">
+  <meta name="theme-color" content="#0b0d14">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/config.js"></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <!-- HERO -->
+    <section class="hero">
+      <div class="wrap hero-grid">
+        <div class="hero-text">
+          <span class="badge">Addon für World of Warcraft · in Entwicklung</span>
+          <h1>Jeder Held verdient<br><span>seine Geschichte.</span></h1>
+          <p class="lead">
+            <strong>Charakter Journal</strong> schreibt mit, während du spielst: jedes Level, jede Quest,
+            jede betretene Zone, jeden besiegten Gegner. Daraus entsteht dein Reisetagebuch –
+            und auf Wunsch eine Geschichte, die nur du erzählen kannst.
+          </p>
+          <div class="btn-row">
+            <a class="btn" href="downloads.html">⬇ Zu den Downloads</a>
+            <a class="btn ghost" href="anleitung.html">Wie funktioniert's?</a>
+          </div>
+        </div>
+        <div class="hero-logo">
+          <img src="assets/logo.png" alt="Logo von Charakter Journal: ein Lederbuch mit goldenem CJ-Siegel, Schreibfeder und Burg im Hintergrund" width="420" height="420"
+               onerror="this.outerHTML='<span class=&quot;logo-fallback&quot;>CJ</span>'">
+        </div>
+      </div>
+    </section>
+
+    <!-- WAS WIRD FESTGEHALTEN -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Was dein Journal festhält</h2>
+          <div class="rule"></div>
+          <p>Du spielst ganz normal weiter. Das Addon schreibt im Hintergrund mit.</p>
+        </div>
+        <div class="grid cols-3">
+          <article class="panel feature"><div class="icon">⭐</div><h3>Levelaufstiege</h3><p>Wann du welches Level erreicht hast – und wo du dabei warst.</p></article>
+          <article class="panel feature"><div class="icon">📜</div><h3>Quests</h3><p>Angenommene und abgeschlossene Aufträge, in der Reihenfolge deiner Reise.</p></article>
+          <article class="panel feature"><div class="icon">💪</div><h3>Attribute</h3><p>Wie sich deine Werte mit jedem Level entwickeln.</p></article>
+          <article class="panel feature"><div class="icon">🗺️</div><h3>Zonen</h3><p>Jede neu betretene Region, vom ersten Startgebiet bis ins Endgame.</p></article>
+          <article class="panel feature"><div class="icon">☠️</div><h3>Besiegte Gegner</h3><p>Zusammengefasst und übersichtlich: Welche Feinde hast du wie oft bezwungen?</p></article>
+          <article class="panel feature"><div class="icon">✨</div><h3>Fähigkeiten</h3><p>Welche Zauber und Fertigkeiten du einsetzt und wie dein Stil sich verändert.</p></article>
+        </div>
+        <p class="center muted" style="margin-top:1.6rem">… und vieles mehr ist geplant. Schau in die <a href="roadmap.html">Roadmap</a>.</p>
+      </div>
+    </section>
+
+    <!-- SO ENTSTEHT DEINE GESCHICHTE -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>So wird aus Spielzeit eine Legende</h2>
+          <div class="rule"></div>
+        </div>
+        <div class="steps">
+          <article class="panel step"><h3>Spielen</h3><p>Installiere das Addon und spiele wie gewohnt. Dein Journal füllt sich von allein.</p></article>
+          <article class="panel step"><h3>Exportieren</h3><p>Speichere dein Journal als Word- oder Excel-Datei, ganz nach deinem Geschmack.</p></article>
+          <article class="panel step"><h3>Erzählen lassen</h3><p>Wähle einen Levelabschnitt (z. B. 1–5), erzeuge daraus einen Prompt und füge ihn in die KI deiner Wahl ein. <a href="ki-geschichten.html">Welche KI passt?</a></p></article>
+          <article class="panel step"><h3>Teilen</h3><p>Schick uns deine Geschichte oder teile sie mit der Community. Die besten Chroniken sollen später als Buch erscheinen.</p></article>
+        </div>
+      </div>
+    </section>
+
+    <!-- BEISPIEL-PROMPT -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Ein Blick ins Journal</h2>
+          <div class="rule"></div>
+          <p>So könnte ein erzeugter Prompt für die Level 1–5 aussehen (Beispiel). Einfach kopieren, in ChatGPT, Claude, Gemini &amp; Co. einfügen – fertig.</p>
+        </div>
+        <div class="panel parchment prose">
+          <div class="prompt-head">
+            <h3>Beispiel · Level 1–5</h3>
+            <button class="btn small" type="button" data-copy="example-prompt">Prompt kopieren</button>
+          </div>
+<pre class="prompt" id="example-prompt">Du bist ein Geschichtenerzähler. Schreibe aus den folgenden Spieldaten eine zusammenhängende, spannende Abenteuergeschichte im Fantasy-Stil. Erfinde Gefühle und Dialoge dazu, aber halte dich an die genannten Orte, Gegner und Ereignisse.
+
+Charakter: Thorwin, Zwerg, Krieger
+Abschnitt: Level 1 bis 5
+
+Reiseverlauf:
+- Start in Kharanos (Dun Morogh)
+- Level 2: Quest "Der Wolfsplage ein Ende" abgeschlossen
+- Level 3: 12 Jungwölfe und 4 Trolle besiegt
+- Level 4: Neue Zone betreten: Das Tal des Eises
+- Level 5: Quest "Das Erbe der Ahnen" abgeschlossen
+
+Häufigste Fähigkeiten: Heldenhafter Stoß (38x), Donnerknall (11x)
+
+Schreibe die Geschichte in der dritten Person, ca. 600 Wörter.</pre>
+        </div>
+      </div>
+    </section>
+
+    <!-- VERSIONEN -->
+    <section class="section">
+      <div class="wrap">
+        <div class="section-head">
+          <h2>Für jede Version von WoW</h2>
+          <div class="rule"></div>
+          <p>Retail, Classic, Classic Hardcore und WoW Forever: Das Journal begleitet dich überall hin.</p>
+        </div>
+        <div class="center"><a class="btn" href="downloads.html">Alle Versionen ansehen</a></div>
+      </div>
+    </section>
+
+    <!-- MITMACHEN -->
+    <section class="section">
+      <div class="wrap">
+        <div class="panel center">
+          <h2>Werde Teil der Legende</h2>
+          <p class="muted" style="max-width:620px;margin-inline:auto">
+            Du hast eine Idee, einen Fehler gefunden oder willst deine Geschichte zeigen?
+            Charakter Journal wächst mit seiner Community, und jede Unterstützung hilft.
+          </p>
+          <div class="btn-row" style="justify-content:center">
+            <a class="btn" href="community.html">Zur Community</a>
+            <a class="btn ghost" href="unterstuetzen.html">Projekt unterstützen</a>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+</body>
+</html>
