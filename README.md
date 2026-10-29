@@ -35,3 +35,19 @@ Fertige statische Website (nur HTML, CSS und JavaScript). Kein Server, keine Ins
 1. Im Repository rechts auf „Releases“ → „Create a new release“.
 2. Tag z. B. `v0.1.0`, ZIP-Dateien pro WoW-Version anhängen (z. B. `CharakterJournal-0.1.0-retail.zip`).
 3. Rechtsklick auf die hochgeladene Datei → Link kopieren → in `js/config.js` bei der passenden Version unter `url` einfügen, `status` auf `"release"` stellen.
+
+## Dashboard (Baukasten) – `admin.html`
+
+Mit dem Dashboard pflegst du die Website ohne Code: Download-ZIPs per Drag & Drop, Roadmap (Karten verschieben), Timeline, Screenshots, Story-Galerie und Links. Aufruf: `https://DEIN-NAME.github.io/charakter-journal/admin.html`
+
+1. Einmalig einen GitHub-Token erstellen (Schritt-für-Schritt-Anleitung steht im Dashboard unter „Verbinden“).
+2. Im Dashboard Änderungen vornehmen, in der „Vorschau“ ansehen.
+3. „Veröffentlichen“ klicken. Nach 1–2 Minuten ist die Website aktuell.
+
+**Wichtig**
+- Alles, was das Dashboard verwaltet (Versionen, Roadmap, Timeline, Screenshots, Galerie, Links, Name), wird in `js/content.js` gespeichert und **überschreibt** die Werte in `js/config.js`. Habt ihr das Dashboard einmal benutzt, ändert diese Bereiche bitte nur noch dort.
+- Der Token ist wie ein Passwort. Niemals teilen, auf fremden PCs „Token vergessen“ klicken.
+- Hochgeladene Dateien existieren erst nach „Veröffentlichen“ im Repository. Das Browser-Fenster vorher nicht neu laden.
+- ZIP-Dateien bis ca. 90 MB funktionieren direkt. Größere bitte über GitHub Releases verteilen.
+- Geschichten in der Story-Galerie erscheinen nur, wenn „Einverständnis des Verfassers“ angehakt ist.
+- Die KI-Seite (`ais` in `js/config.js`) und die Seitentexte werden weiterhin von Hand in den Dateien gepflegt.

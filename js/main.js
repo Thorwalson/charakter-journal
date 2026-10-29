@@ -6,6 +6,20 @@
 (function () {
   "use strict";
   var C = window.CJ || {};
+
+  /* Vorschau-Modus: Das Dashboard zeigt die Seiten mit dem aktuellen Entwurf */
+  var PREVIEW = false;
+  try {
+    if (window.parent !== window && /[?&]preview=1/.test(location.search) && window.parent.CJ_DRAFT) {
+      PREVIEW = true;
+      var D = window.parent.CJ_DRAFT;
+      for (var pk in D) { if (Object.prototype.hasOwnProperty.call(D, pk)) C[pk] = D[pk]; }
+    }
+  } catch (e) {}
+  function asset(p) {
+    try { return PREVIEW && window.parent.CJ_ASSET ? window.parent.CJ_ASSET(p) : p; } catch (e) { return p; }
+  }
+
   var L = C.links || {};
 
   var PAGES = [
@@ -171,6 +185,66 @@
     for (var i = 0; i < chk.length; i++) chk[i].textContent = C.aisChecked || "";
   }
 
+
+  /* ---------- Screenshots ---------- */
+  function renderScreenshots() {
+    var host = document.getElementById("screenshots");
+    var sec = document.getElementById("shots-section");
+    if (!host || !C.screenshots || !C.screenshots.length) return;
+    host.innerHTML = C.screenshots.map(function (s, i) {
+      return '<figure class="shot"><button type="button" class="shot-btn" data-shot="' + i + '" aria-label="Screenshot vergrößern">' +
+        '<img loading="lazy" src="' + esc(asset(s.src)) + '" alt="' + esc(s.alt || s.caption || "Screenshot") + '"></button>' +
+        (s.caption ? "<figcaption>" + esc(s.caption) + "</figcaption>" : "") + "</figure>";
+    }).join("");
+    if (sec) sec.hidden = false;
+  }
+
+  function setupLightbox() {
+    var box = null;
+    document.addEventListener("click", function (e) {
+      var b = e.target.closest ? e.target.closest("[data-shot]") : null;
+      if (!b || !C.screenshots) return;
+      var s = C.screenshots[parseInt(b.getAttribute("data-shot"), 10)];
+      if (!s) return;
+      if (!box) {
+        box = document.createElement("dialog");
+        box.className = "lightbox";
+        box.innerHTML = '<button type="button" class="lb-close" aria-label="Schließen">✕</button><img alt=""><p class="lb-cap"></p>';
+        document.body.appendChild(box);
+        box.addEventListener("click", function () { box.close(); });
+      }
+      box.querySelector("img").src = asset(s.src);
+      box.querySelector("img").alt = s.alt || s.caption || "Screenshot";
+      box.querySelector(".lb-cap").textContent = s.caption || "";
+      if (box.showModal) box.showModal();
+    });
+  }
+
+  /* ---------- Story-Galerie ---------- */
+  function renderGallery() {
+    var host = document.getElementById("gallery");
+    if (!host) return;
+    var list = (C.gallery || []).filter(function (g) { return g.published !== false && g.consent; });
+    var empty = document.getElementById("gallery-empty");
+    if (!list.length) { if (empty) empty.hidden = false; return; }
+    if (empty) empty.hidden = true;
+    host.innerHTML = list.map(function (g) {
+      var plain = String(g.text || "").replace(/\s+/g, " ").trim();
+      var excerpt = plain.length > 220 ? plain.slice(0, 220).replace(/\s+\S*$/, "") + " …" : plain;
+      var paras = String(g.text || "").split(/\n\s*\n/).map(function (p) {
+        return "<p>" + esc(p.trim()).replace(/\n/g, "<br>") + "</p>";
+      }).join("");
+      var meta = [g.character, g.levels ? "Level " + g.levels : ""].filter(Boolean).join(" · ");
+      return '<article class="panel parchment story">' +
+        (g.image ? '<img class="story-img" loading="lazy" src="' + esc(asset(g.image)) + '" alt="' + esc(g.title || "Bild zur Geschichte") + '">' : "") +
+        "<h3>" + esc(g.title) + "</h3>" +
+        '<div class="story-meta">' + (g.author ? "von " + esc(g.author) : "") + (meta ? (g.author ? " · " : "") + esc(meta) : "") + "</div>" +
+        '<p class="story-excerpt">' + esc(excerpt) + "</p>" +
+        "<details><summary>Geschichte lesen</summary><div>" + paras + "</div></details>" +
+        "</article>";
+    }).join("");
+  }
+
   /* ---------- Roadmap ---------- */
   function renderRoadmap() {
     var host = document.getElementById("roadmap");
@@ -249,10 +323,13 @@
     buildFooter();
     renderDownloads();
     renderAIs();
+    renderScreenshots();
+    renderGallery();
     renderRoadmap();
     renderTimeline();
     applyText();
     applyLinks();
     setupCopy();
+    setupLightbox();
   });
 })();

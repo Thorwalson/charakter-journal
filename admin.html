@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Dashboard – Charakter Journal</title>
+  <meta name="robots" content="noindex, nofollow">
+  <meta name="theme-color" content="#0b0d14">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <link rel="stylesheet" href="css/admin.css">
+  <script src="js/config.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/admin.js" defer></script>
+</head>
+<body class="adm-body">
+  <header class="adm-top">
+    <a class="brand" href="index.html" title="Zur Website">
+      <img src="assets/logo-small.png" alt="" width="36" height="36">
+      <span>Dashboard</span>
+    </a>
+    <div class="adm-top-right">
+      <span id="bar-status" class="adm-status" role="status"></span>
+      <button type="button" class="btn small" data-act="goto-publish">🚀 Veröffentlichen</button>
+    </div>
+  </header>
+
+  <div class="adm-shell">
+    <nav id="adm-nav" class="adm-nav" aria-label="Dashboard-Bereiche"></nav>
+    <main id="adm-main" class="adm-main"></main>
+  </div>
+
+  <div id="toast" class="toast" role="status" aria-live="polite"></div>
+  <noscript><p style="padding:2rem">Das Dashboard benötigt JavaScript.</p></noscript>
+</body>
+</html>
