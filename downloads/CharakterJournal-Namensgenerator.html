@@ -1,0 +1,1184 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>WoW-Namen-Generator – Charakter Journal (Offline-Version)</title>
+<link rel="icon" type="image/png" href="data:image/png;base64,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">
+<style>
+
+
+
+
+:root {
+  --bg: #0b0d14;
+  --stone: #1a1e2b;
+  --gold: #d4a843;
+  --gold-hi: #f3d27a;
+  --gold-lo: #8a6a22;
+  --parch: #e9dcb8;
+  --ink: #2a1d0e;
+  --leather: #5a3418;
+  --blue: #2a7de1;
+  --red: #a2384a;
+  --green: #4f9d5d;
+  --text: #e8e2d0;
+  --muted: #a9a38f;
+  --radius: 10px;
+  --display: "Cinzel", "Trajan Pro", "Palatino Linotype", "Book Antiqua", Palatino, Georgia, serif;
+  --body: Georgia, "Palatino Linotype", "Book Antiqua", serif;
+}
+
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  color: var(--text);
+  font-family: var(--body);
+  font-size: 1.05rem;
+  line-height: 1.7;
+  background-color: var(--bg);
+  background-image:
+    radial-gradient(ellipse 80% 50% at 50% -10%, rgba(42, 125, 225, .22), transparent 70%),
+    radial-gradient(ellipse 60% 40% at 92% 38%, rgba(212, 168, 67, .07), transparent 70%),
+    linear-gradient(180deg, #0b0d14 0%, #0e111a 100%);
+  background-attachment: fixed;
+}
+main { flex: 1; }
+
+img { max-width: 100%; height: auto; }
+a { color: var(--gold-hi); text-underline-offset: 3px; }
+a:hover { color: #fff; }
+:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 3px; border-radius: 4px; }
+
+h1, h2, h3, h4 {
+  font-family: var(--display);
+  color: var(--gold-hi);
+  line-height: 1.2;
+  letter-spacing: .02em;
+  text-shadow: 0 2px 10px rgba(0, 0, 0, .5);
+  margin: 0 0 .6em;
+}
+h1 { font-size: clamp(2.2rem, 5vw, 3.6rem); }
+h2 { font-size: clamp(1.6rem, 3vw, 2.2rem); }
+h3 { font-size: 1.2rem; }
+p { margin: 0 0 1em; }
+.muted { color: var(--muted); }
+.center { text-align: center; }
+
+.wrap { width: min(1120px, 100% - 2rem); margin-inline: auto; }
+.section { padding: 3.5rem 0; }
+.section-head { max-width: 720px; margin: 0 auto 2.2rem; text-align: center; }
+.section-head p { color: var(--muted); }
+
+
+.rule {
+  height: 14px; margin: 1rem auto 0; width: min(280px, 70%);
+  background:
+    linear-gradient(90deg, transparent, var(--gold) 30%, var(--gold) 70%, transparent) center / 100% 2px no-repeat;
+  position: relative;
+}
+.rule::after {
+  content: ""; position: absolute; left: 50%; top: 50%;
+  width: 10px; height: 10px; background: var(--gold);
+  transform: translate(-50%, -50%) rotate(45deg);
+  box-shadow: 0 0 0 3px var(--bg), 0 0 12px rgba(243, 210, 122, .6);
+}
+
+
+.site-header {
+  position: sticky; top: 0; z-index: 50;
+  background: rgba(11, 13, 20, .93);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--gold-lo);
+  box-shadow: 0 6px 24px rgba(0, 0, 0, .45);
+}
+.nav { display: flex; align-items: center; justify-content: space-between; gap: 1rem; padding: .55rem 0; }
+.brand {
+  white-space: nowrap;
+  display: flex; align-items: center; gap: .7rem;
+  font-family: var(--display); font-weight: 700; font-size: 1.05rem;
+  color: var(--gold-hi); text-decoration: none; letter-spacing: .03em;
+}
+.brand img, .brand .logo-fallback { width: 44px; height: 44px; }
+.brand em { font-style: normal; color: var(--text); }
+.nav-links { display: flex; gap: .1rem; flex-wrap: wrap; }
+.nav-links a {
+  white-space: nowrap;
+  font-family: var(--display); font-size: .82rem; font-weight: 600;
+  letter-spacing: .05em; text-transform: uppercase; text-decoration: none;
+  color: var(--text); padding: .5rem .5rem; border-radius: 6px;
+  border: 1px solid transparent; transition: .15s;
+}
+.nav-links a:hover { color: var(--gold-hi); border-color: var(--gold-lo); }
+.nav-links a[aria-current="page"] {
+  color: var(--gold-hi); border-color: var(--gold-lo);
+  background: rgba(212, 168, 67, .08);
+}
+.nav-toggle {
+  display: none; background: transparent; color: var(--gold-hi);
+  border: 1px solid var(--gold-lo); border-radius: 6px;
+  font-size: 1.4rem; line-height: 1; padding: .35rem .65rem; cursor: pointer;
+}
+
+
+.logo-fallback {
+  display: inline-flex; align-items: center; justify-content: center;
+  border-radius: 50%; border: 4px solid var(--gold);
+  background: radial-gradient(circle at 35% 30%, #1c4f9c, #0b1c3a);
+  color: var(--gold-hi); font-family: var(--display); font-weight: 900;
+  font-size: 1.1rem; box-shadow: inset 0 0 0 2px #000;
+}
+.hero-logo .logo-fallback { width: min(320px, 70vw); height: min(320px, 70vw); font-size: 5rem; }
+
+
+.btn {
+  display: inline-flex; align-items: center; justify-content: center; gap: .5rem;
+  font-family: var(--display); font-weight: 700; letter-spacing: .06em;
+  text-transform: uppercase; font-size: .9rem; text-decoration: none;
+  padding: .8rem 1.4rem; border-radius: 6px; border: 1px solid #6b4a1c;
+  color: #2a1a05; cursor: pointer;
+  background: linear-gradient(180deg, #f6d77f, #d4a843 55%, #b4872b);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 4px 14px rgba(0, 0, 0, .4);
+  transition: transform .15s, box-shadow .15s, filter .15s;
+}
+.btn:hover {
+  color: #2a1a05; transform: translateY(-2px); filter: brightness(1.08);
+  box-shadow: inset 0 1px 0 rgba(255, 255, 255, .5), 0 8px 22px rgba(212, 168, 67, .35);
+}
+.btn.ghost { background: transparent; color: var(--gold-hi); border-color: var(--gold-lo); box-shadow: none; }
+.btn.ghost:hover { background: rgba(212, 168, 67, .12); color: #fff; }
+.btn.small { padding: .55rem 1rem; font-size: .8rem; }
+.btn.is-disabled { opacity: .4; pointer-events: none; filter: grayscale(.5); }
+.btn-row { display: flex; flex-wrap: wrap; gap: .8rem; }
+
+
+.hero { padding: 3.5rem 0 3rem; }
+.hero-grid { display: grid; grid-template-columns: 1.15fr .85fr; gap: 2rem; align-items: center; }
+.eyebrow {
+  font-family: var(--display); text-transform: uppercase; letter-spacing: .18em;
+  font-size: .8rem; color: var(--muted); margin-bottom: 1rem;
+}
+.hero h1 span { color: #fff; }
+.lead { font-size: 1.2rem; color: #d9d3bf; max-width: 36rem; }
+.badge {
+  display: inline-block; font-family: var(--display); font-size: .72rem; font-weight: 700;
+  letter-spacing: .1em; text-transform: uppercase; padding: .25rem .7rem;
+  border-radius: 999px; border: 1px solid var(--gold-lo); color: var(--gold-hi);
+  background: rgba(212, 168, 67, .08); margin-bottom: 1.2rem;
+}
+.hero-logo { display: flex; justify-content: center; }
+.hero-logo img {
+  width: min(420px, 80vw);
+  filter: drop-shadow(0 14px 44px rgba(42, 125, 225, .38));
+  animation: float 6s ease-in-out infinite;
+}
+@keyframes float { 0%, 100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+
+
+.panel {
+  position: relative; padding: 1.6rem; border-radius: var(--radius);
+  background: linear-gradient(180deg, rgba(32, 37, 54, .95), rgba(20, 23, 34, .95));
+  border: 1px solid var(--gold-lo);
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, .35), 0 0 0 4px rgba(212, 168, 67, .32),
+    0 14px 40px rgba(0, 0, 0, .45), inset 0 0 40px rgba(0, 0, 0, .35);
+}
+.panel > :last-child { margin-bottom: 0; }
+.panel.parchment {
+  color: var(--ink); border-color: #6b4a1c;
+  background:
+    radial-gradient(ellipse at 25% 15%, #f3e9ca, #e2d1a3 65%, #cdb882);
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, .4), 0 0 0 4px rgba(138, 106, 34, .8),
+    0 14px 40px rgba(0, 0, 0, .5), inset 0 0 60px rgba(120, 80, 20, .25);
+}
+.parchment h2, .parchment h3 { color: #5b3a12; text-shadow: none; }
+.parchment a { color: #7a3a10; }
+
+.grid { display: grid; gap: 1.4rem; }
+.grid.cols-3 { grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+.grid.cols-4 { grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); }
+
+.feature .icon {
+  display: inline-flex; width: 52px; height: 52px; align-items: center; justify-content: center;
+  font-size: 1.6rem; margin-bottom: .8rem; border-radius: 50%;
+  background: radial-gradient(circle at 35% 30%, #2a3558, #0f1424);
+  border: 2px solid var(--gold-lo);
+}
+.feature p { color: var(--muted); margin: 0; }
+.feature { transition: transform .2s; }
+.feature:hover { transform: translateY(-4px); }
+
+
+.steps { counter-reset: step; display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); }
+.step { counter-increment: step; }
+.step::before {
+  content: counter(step);
+  display: flex; align-items: center; justify-content: center;
+  width: 44px; height: 44px; margin-bottom: .8rem;
+  font-family: var(--display); font-weight: 900; font-size: 1.2rem; color: #2a1a05;
+  border-radius: 50%; border: 2px solid #6b4a1c;
+  background: linear-gradient(180deg, #f6d77f, #b4872b);
+}
+.step p { color: var(--muted); }
+
+
+ol.howto { list-style: none; counter-reset: h; padding: 0; margin: 0; display: grid; gap: 1.4rem; }
+ol.howto > li { counter-increment: h; position: relative; padding-left: 4rem; }
+ol.howto > li::before {
+  content: counter(h); position: absolute; left: 0; top: 0;
+  width: 44px; height: 44px; display: flex; align-items: center; justify-content: center;
+  font-family: var(--display); font-weight: 900; font-size: 1.2rem; color: #2a1a05;
+  border-radius: 50%; border: 2px solid #6b4a1c;
+  background: linear-gradient(180deg, #f6d77f, #b4872b);
+}
+ol.howto h3 { margin-bottom: .3em; }
+
+code, .code {
+  font-family: Consolas, "SFMono-Regular", Menlo, monospace; font-size: .9em;
+  background: rgba(0, 0, 0, .4); border: 1px solid rgba(212, 168, 67, .3);
+  padding: .1em .45em; border-radius: 4px; color: var(--gold-hi); word-break: break-word;
+}
+.parchment code { background: rgba(90, 52, 24, .12); border-color: rgba(90, 52, 24, .3); color: #5b3a12; }
+
+pre.prompt {
+  margin: 0; white-space: pre-wrap; word-wrap: break-word;
+  font-family: Consolas, "SFMono-Regular", Menlo, monospace; font-size: .92rem; line-height: 1.55;
+  background: rgba(90, 52, 24, .1); border: 1px dashed rgba(90, 52, 24, .5);
+  border-radius: 8px; padding: 1.1rem 1.2rem; color: var(--ink);
+}
+.prompt-head { display: flex; justify-content: space-between; align-items: center; gap: 1rem; flex-wrap: wrap; margin-bottom: 1rem; }
+.prompt-head h3 { margin: 0; }
+
+
+.table-wrap { overflow-x: auto; }
+table { width: 100%; border-collapse: collapse; }
+th, td { text-align: left; padding: .7rem .9rem; border-bottom: 1px solid rgba(212, 168, 67, .25); vertical-align: top; }
+th { font-family: var(--display); color: var(--gold-hi); font-size: .85rem; letter-spacing: .06em; text-transform: uppercase; }
+
+
+details { border: 1px solid var(--gold-lo); border-radius: 8px; background: rgba(0, 0, 0, .25); margin-bottom: .8rem; }
+details summary {
+  cursor: pointer; padding: .9rem 1.1rem; font-family: var(--display); font-weight: 600;
+  color: var(--gold-hi); list-style: none; display: flex; justify-content: space-between; gap: 1rem;
+}
+details summary::-webkit-details-marker { display: none; }
+details summary::after { content: "+"; font-size: 1.3rem; line-height: 1; }
+details[open] summary::after { content: "–"; }
+details > div { padding: 0 1.1rem 1rem; color: #d9d3bf; }
+
+
+.notice {
+  border-left: 4px solid var(--gold); background: rgba(212, 168, 67, .08);
+  padding: .9rem 1.1rem; border-radius: 0 8px 8px 0; color: #d9d3bf; margin: 1.4rem 0;
+}
+.notice.blue { border-color: var(--blue); background: rgba(42, 125, 225, .1); }
+
+
+.dl-card { display: flex; flex-direction: column; gap: .7rem; }
+.dl-card h3 { margin: 0; }
+.dl-card .desc { color: var(--muted); margin: 0; }
+.dl-version { font-family: var(--display); color: #fff; font-size: 1.05rem; }
+.dl-meta { color: var(--muted); font-size: .9rem; }
+.dl-card .btn { margin-top: auto; }
+.dl-older { margin-top: .4rem; }
+.dl-older details { margin: 0; }
+.dl-older ul { margin: 0; padding-left: 1.1rem; font-size: .92rem; }
+.tag {
+  display: inline-block; font-family: var(--display); font-size: .68rem; font-weight: 700;
+  letter-spacing: .08em; text-transform: uppercase; padding: .15rem .55rem; border-radius: 999px;
+  border: 1px solid var(--gold-lo); color: var(--gold-hi); margin-left: .4rem; vertical-align: middle;
+}
+.tag.pre { border-color: var(--blue); color: #8fbdf5; }
+
+
+.board { display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fit, minmax(290px, 1fr)); align-items: start; }
+.board-col h2 { font-size: 1.3rem; display: flex; align-items: center; gap: .6rem; }
+.dot { width: 12px; height: 12px; border-radius: 50%; display: inline-block; }
+.dot.planned { background: var(--muted); }
+.dot.progress { background: var(--blue); box-shadow: 0 0 10px var(--blue); }
+.dot.done { background: var(--green); box-shadow: 0 0 10px var(--green); }
+.rm-item {
+  background: rgba(0, 0, 0, .28); border: 1px solid rgba(212, 168, 67, .28);
+  border-radius: 8px; padding: .9rem 1rem; margin-top: .9rem;
+}
+.rm-item h3 { font-size: 1rem; margin-bottom: .3em; }
+.rm-item p { margin: 0; color: var(--muted); font-size: .96rem; }
+.rm-item .tag { margin: .6rem 0 0; }
+.empty { color: var(--muted); font-style: italic; margin-top: .9rem; }
+
+
+.timeline { position: relative; margin: 1rem 0; padding-left: 2rem; max-width: 760px; margin-inline: auto; }
+.timeline::before {
+  content: ""; position: absolute; left: .55rem; top: .3rem; bottom: .3rem; width: 2px;
+  background: linear-gradient(var(--gold), var(--gold-lo) 60%, rgba(138, 106, 34, .2));
+}
+.tl-item { position: relative; margin-bottom: 1.4rem; }
+.tl-item::before {
+  content: ""; position: absolute; left: -1.85rem; top: 1.2rem; width: 14px; height: 14px;
+  border-radius: 50%; background: var(--bg); border: 2px solid var(--gold-lo);
+}
+.tl-item.done::before { background: var(--gold); box-shadow: 0 0 12px rgba(243, 210, 122, .7); }
+.tl-item.next::before { border-color: var(--blue); box-shadow: 0 0 10px rgba(42, 125, 225, .8); }
+.tl-date { font-family: var(--display); font-size: .78rem; letter-spacing: .12em; text-transform: uppercase; color: var(--muted); margin-bottom: .3rem; }
+.tl-item h3 { margin-bottom: .3em; }
+.tl-item p { margin: 0; color: var(--muted); }
+
+
+.support-grid { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); }
+.support-card { text-align: center; display: flex; flex-direction: column; gap: .8rem; align-items: center; }
+.support-card .icon { font-size: 2rem; }
+.support-card p { color: var(--muted); margin: 0; }
+.support-card .btn { margin-top: auto; }
+.page-hero { padding: 3rem 0 1rem; text-align: center; }
+.page-hero p { color: var(--muted); max-width: 640px; margin-inline: auto; }
+.prose { max-width: 760px; margin-inline: auto; }
+.prose h2 { margin-top: 1.8em; font-size: 1.4rem; }
+
+
+.site-footer {
+  margin-top: 3rem; border-top: 1px solid var(--gold-lo);
+  background: rgba(8, 9, 14, .9); padding: 2rem 0; font-size: .92rem; color: var(--muted);
+}
+.footer-grid { display: grid; gap: 1.5rem; grid-template-columns: 1.6fr 1fr; align-items: start; }
+.footer-links { display: flex; flex-wrap: wrap; gap: .4rem 1.2rem; justify-content: flex-end; }
+.site-footer small { display: block; margin-top: .6rem; line-height: 1.5; }
+
+
+@media (max-width: 860px) {
+  .hero-grid { grid-template-columns: 1fr; text-align: center; }
+  .hero-text { order: 2; }
+  .hero-logo { order: 1; }
+  .lead { margin-inline: auto; }
+  .btn-row { justify-content: center; }
+  .footer-grid { grid-template-columns: 1fr; }
+  .footer-links { justify-content: flex-start; }
+}
+@media (max-width: 1240px) {
+  .nav-toggle { display: block; }
+  .nav { flex-wrap: wrap; }
+  .nav-links { display: none; width: 100%; flex-direction: column; padding-bottom: .6rem; }
+  .nav-links.open { display: flex; }
+  .nav-links a { padding: .7rem .8rem; }
+}
+@media (max-width: 760px) {
+  ol.howto > li { padding-left: 3.4rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  .hero-logo img { animation: none; }
+  .feature, .btn { transition: none; }
+}
+
+
+.golden {
+  text-align: center;
+  border-color: var(--gold);
+  box-shadow:
+    0 0 0 3px rgba(0, 0, 0, .35), 0 0 0 4px rgba(243, 210, 122, .6),
+    0 0 40px rgba(212, 168, 67, .18), 0 14px 40px rgba(0, 0, 0, .45), inset 0 0 40px rgba(0, 0, 0, .35);
+}
+.golden .equation {
+  display: flex; flex-wrap: wrap; justify-content: center; gap: .6rem 1rem;
+  font-family: var(--display); font-weight: 700; color: #fff;
+  font-size: clamp(1.1rem, 3vw, 1.6rem); margin: 1rem 0 1.2rem;
+}
+.golden .equation span { padding: .3rem .9rem; border: 1px solid var(--gold-lo); border-radius: 999px; background: rgba(212, 168, 67, .1); }
+.reasons { display: grid; gap: 1rem; grid-template-columns: repeat(auto-fit, minmax(230px, 1fr)); text-align: left; margin-top: 1.4rem; }
+.reasons div { background: rgba(0, 0, 0, .25); border: 1px solid rgba(212, 168, 67, .25); border-radius: 8px; padding: .9rem 1rem; }
+.reasons strong { display: block; color: var(--gold-hi); font-family: var(--display); margin-bottom: .2rem; }
+.reasons p { margin: 0; color: var(--muted); font-size: .96rem; }
+
+#ai-list { display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.ai-card { display: flex; flex-direction: column; gap: .8rem; }
+.ai-card p { margin: 0; color: #d9d3bf; }
+.ai-head { display: flex; align-items: center; gap: .9rem; }
+.ai-head h3 { margin: 0; }
+.ai-icon {
+  display: inline-flex; width: 52px; height: 52px; align-items: center; justify-content: center;
+  font-size: 1.6rem; border-radius: 50%; border: 2px solid var(--gold-lo);
+  background: radial-gradient(circle at 35% 30%, #2a3558, #0f1424);
+}
+.ai-facts { list-style: none; margin: 0; padding: 0; display: grid; gap: .5rem; font-size: .96rem; color: var(--muted); }
+.ai-facts strong { color: var(--gold-hi); }
+.ai-card details { margin: 0; }
+.ai-card details ol { margin: 0; padding-left: 1.2rem; color: #d9d3bf; }
+.ai-card details ol li { margin-bottom: .3rem; }
+
+.prompt-block + .prompt-block { margin-top: 1.4rem; }
+.prompt-block h3 { margin-bottom: .2rem; }
+.prompt-block .hint { color: #5b3a12; font-size: .95rem; margin-bottom: .8rem; }
+
+
+
+
+.shots { display: grid; gap: 1.2rem; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); }
+.shot { margin: 0; }
+.shot-btn {
+  display: block; width: 100%; padding: 0; cursor: zoom-in; background: #000;
+  border: 1px solid var(--gold-lo); border-radius: var(--radius); overflow: hidden;
+  box-shadow: 0 0 0 3px rgba(0, 0, 0, .35), 0 0 0 4px rgba(212, 168, 67, .32), 0 10px 30px rgba(0, 0, 0, .45);
+}
+.shot-btn img { display: block; width: 100%; aspect-ratio: 16 / 10; object-fit: cover; transition: transform .25s; }
+.shot-btn:hover img { transform: scale(1.04); }
+.shot figcaption { margin-top: .6rem; text-align: center; color: var(--muted); font-size: .92rem; }
+.lightbox { border: 1px solid var(--gold-lo); background: #05060a; color: var(--text); padding: 1rem; max-width: min(1100px, 94vw); border-radius: var(--radius); }
+.lightbox::backdrop { background: rgba(0, 0, 0, .85); }
+.lightbox img { display: block; max-width: 100%; max-height: 78vh; margin: 0 auto; }
+.lightbox .lb-cap { text-align: center; margin: .8rem 0 0; color: var(--muted); }
+.lightbox .lb-close { position: absolute; top: .5rem; right: .5rem; background: rgba(0, 0, 0, .6); color: var(--gold-hi); border: 1px solid var(--gold-lo); border-radius: 6px; padding: .2rem .6rem; cursor: pointer; }
+
+
+.gallery { display: grid; gap: 1.4rem; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+.story-img { width: 100%; max-height: 220px; object-fit: cover; border-radius: 8px; margin-bottom: 1rem; border: 1px solid rgba(90, 52, 24, .5); }
+.story-meta { color: #6b4a1c; font-size: .9rem; margin-bottom: .8rem; font-style: italic; }
+.story-excerpt { color: var(--ink); }
+.story details { background: rgba(90, 52, 24, .08); border-color: #6b4a1c; }
+.story summary { color: #5b3a12; }
+.story details > div { color: var(--ink); }
+
+
+.site-header .wrap { width: min(1320px, 100% - 2rem); }
+
+
+#namegen { display: grid; gap: 1.4rem; }
+.ng-grid { display: grid; gap: .4rem 1.4rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+#namegen .fld { display: flex; flex-direction: column; gap: .35rem; margin-bottom: .9rem; }
+#namegen .fld > span:first-child {
+  font-family: var(--display); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-hi);
+}
+#namegen select {
+  width: 100%; font: inherit; font-size: 1rem; color: var(--text); background: rgba(0, 0, 0, .45);
+  border: 1px solid var(--gold-lo); border-radius: 6px; padding: .6rem .75rem;
+}
+#namegen select option, #namegen select optgroup { background: #12151f; color: var(--text); }
+#namegen select:focus, #namegen input:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 1px; }
+#namegen input[type="range"] { width: 100%; accent-color: var(--gold); margin-top: .3rem; }
+
+
+.seg { display: flex; border: 1px solid var(--gold-lo); border-radius: 8px; overflow: hidden; background: rgba(0, 0, 0, .35); }
+.seg button {
+  flex: 1; font: inherit; font-size: .92rem; color: var(--text); background: transparent; border: 0; padding: .6rem .5rem;
+  cursor: pointer; border-right: 1px solid rgba(212, 168, 67, .25);
+}
+.seg button:last-child { border-right: 0; }
+.seg button:hover { background: rgba(212, 168, 67, .1); }
+.seg button.on { background: linear-gradient(180deg, #f6d77f, #b4872b); color: #2a1a05; font-weight: 700; }
+
+
+.switch { display: inline-flex; align-items: center; gap: .7rem; cursor: pointer; }
+.switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.switch .track { position: relative; width: 52px; height: 28px; flex: none; border-radius: 999px; background: #1b2030; border: 1px solid var(--gold-lo); transition: .2s; }
+.switch .track::after {
+  content: ""; position: absolute; left: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--muted); transition: .2s;
+}
+.switch input:checked + .track { background: rgba(212, 168, 67, .3); border-color: var(--gold-hi); }
+.switch input:checked + .track::after { transform: translateX(24px); background: var(--gold-hi); box-shadow: 0 0 10px rgba(243, 210, 122, .7); }
+.switch input:focus-visible + .track { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+.switch .lbl { font-family: var(--display); font-weight: 700; color: #fff; }
+.chk.small { display: flex; gap: .5rem; align-items: center; margin-top: .6rem; font-size: .9rem; color: var(--muted); cursor: pointer; }
+.chk.small input { width: 16px; height: 16px; accent-color: var(--gold); }
+
+.ng-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: .4rem; }
+.ng-pool { margin: .9rem 0 0; font-size: .92rem; }
+
+
+.ng-results { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.ng-card {
+  position: relative; display: grid; grid-template-columns: 1fr auto; gap: .2rem .8rem; align-items: center;
+  padding: 1rem 1.1rem 1rem 1.3rem; border-radius: var(--radius); border: 1px solid var(--gold-lo);
+  background: linear-gradient(180deg, rgba(32, 37, 54, .95), rgba(20, 23, 34, .95));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+}
+.ng-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; border-radius: var(--radius) 0 0 var(--radius); background: var(--cc, var(--gold)); }
+.ng-name { font-family: var(--display); font-size: 1.35rem; font-weight: 700; color: var(--cc, var(--gold-hi)); text-shadow: 0 2px 8px rgba(0, 0, 0, .6); line-height: 1.25; word-break: break-word; }
+.ng-name .ln { color: #fff; }
+.ng-meta { grid-column: 1; color: var(--muted); font-size: .86rem; }
+.ng-meta .ok { color: #8fd49b; margin-left: .4rem; }
+.ng-meta .warn { color: #f0c27a; margin-left: .4rem; }
+.ng-btns { display: flex; gap: .4rem; grid-column: 2; grid-row: 1 / span 2; }
+#namegen .icon-btn {
+  background: rgba(0, 0, 0, .35); color: var(--gold-hi); border: 1px solid var(--gold-lo); border-radius: 6px;
+  padding: .35rem .6rem; cursor: pointer; font-size: 1rem; line-height: 1.2;
+}
+#namegen .icon-btn:hover { background: rgba(212, 168, 67, .18); }
+#namegen .icon-btn.on { background: rgba(212, 168, 67, .3); color: #fff; }
+
+.ng-favs-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.ng-favs-head h2 { font-size: 1.25rem; margin: 0 0 .6rem; }
+.ng-fav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .5rem 0; border-bottom: 1px solid rgba(212, 168, 67, .2); }
+.ng-fav:last-child { border-bottom: 0; }
+#namegen .lnk { background: none; border: 0; color: var(--gold-hi); text-decoration: underline; cursor: pointer; font: inherit; padding: 0; }
+#namegen [hidden] { display: none !important; }
+
+@media (max-width: 560px) {
+  .seg button { font-size: .82rem; padding: .6rem .3rem; }
+  .ng-results { grid-template-columns: 1fr; }
+}
+
+.offline-top { display:flex; align-items:center; gap:.8rem; padding:.7rem 1rem; border-bottom:1px solid var(--gold-lo); background:#0b0d14; }
+.offline-top img { width:36px; height:36px; }
+.offline-top strong { font-family:var(--display); color:var(--gold-hi); }
+</style>
+</head>
+<body>
+<div class="offline-top"><img alt="" src="data:image/png;base64,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"><strong>Charakter Journal · Namen-Generator</strong><span class="muted" style="margin-left:auto;font-size:.85rem">Offline-Version</span></div>
+<main>
+  <section class="page-hero wrap">
+    <h1>Namen-Generator</h1>
+    <div class="rule"></div>
+    <p>Wähle Klasse und Volk, und der Generator würfelt dir passende Namen. Diese Datei funktioniert komplett ohne Internet.</p>
+  </section>
+  <section class="section" style="padding-top:1.5rem"><div class="wrap"><div id="namegen"><noscript>Bitte JavaScript aktivieren.</noscript></div></div></section>
+</main>
+<footer class="site-footer"><div class="wrap">
+  <strong>Charakter Journal</strong> – Deine Reise. Deine Legende.
+  <small>Inoffizielles Fan-Projekt, nicht mit Blizzard Entertainment, Inc. verbunden. World of Warcraft® ist eine eingetragene Marke von Blizzard Entertainment, Inc.</small>
+</div></footer>
+<script>
+/* ==========================================================
+   Charakter Journal – Namens-Datenbank für den Namen-Generator
+   ----------------------------------------------------------
+   So erweiterst du die Sammlung (ohne Programmierkenntnisse):
+   • Alle Listen sind Wörter, getrennt durch Leerzeichen.
+   • Silben (s = Anfang, m = Mitte, e = Ende) klein schreiben.
+   • "cm / cf / cl" = fertige Namen (männlich / weiblich / Nachname),
+     hier normal mit Großbuchstaben am Anfang.
+   • "A" und "B" = Nachnamen-Bausteine (A + B, z. B. iron + forge).
+   Nach Änderungen: tools/build_namegen_offline.py ausführen,
+   damit auch die Download-Version aktualisiert wird.
+   ========================================================== */
+(function () {
+  "use strict";
+  function w(s) { return s.replace(/\s+/g, " ").trim().split(" "); }
+
+  /* ---------- Klassen ---------- */
+  var classes = [
+    { id: "warrior", de: "Krieger", icon: "⚔️", color: "#C69B6D",
+      A: w("iron steel battle war grim stone bone blood storm shield thunder bold brave hard rage"),
+      B: w("fist blade breaker bearer guard hammer crusher cleaver wall born bane hand song heart strike") },
+    { id: "paladin", de: "Paladin", icon: "🛡️", color: "#F48CBA",
+      A: w("dawn light holy sun gold bright hope valor grace honor radiant silver true noble dusk"),
+      B: w("bringer shield heart hand guard ward vow brand helm bearer light crest blade wing oath") },
+    { id: "hunter", de: "Jäger", icon: "🏹", color: "#AAD372",
+      A: w("wild hawk wolf swift far bow stag eagle fox thorn moss grey lone deep wind"),
+      B: w("eye bow stride track shot runner fang claw feather tracker hunter bane call wood arrow") },
+    { id: "rogue", de: "Schurke", icon: "🗡️", color: "#FFF468",
+      A: w("shadow night silent dusk quick black crow dagger grim whisper sly ash hollow cloak raven"),
+      B: w("step blade fingers whisper cloak knife hand stalker walker bane creep shade dancer thorn mark") },
+    { id: "priest", de: "Priester", icon: "✨", color: "#FFFFFF",
+      A: w("soul holy grace mercy silver pale hallow faith spirit light dawn calm bright gentle sacred"),
+      B: w("weaver whisper ward light song hand heart keeper bringer bloom prayer veil tide wing glow") },
+    { id: "deathknight", de: "Todesritter", icon: "💀", color: "#C41E3A",
+      A: w("frost grave cold bone dread death pale doom rime night ash cinder grim wraith winter"),
+      B: w("bringer blade rider hollow bane reaper brand shroud touch hand born fall mourn forged warden") },
+    { id: "shaman", de: "Schamane", icon: "🌩️", color: "#0070DD",
+      A: w("storm earth spirit thunder wind stone flame river totem cloud mist rain ember wolf tide"),
+      B: w("caller speaker walker singer bound born weaver rider tide call tongue heart fury strike seeker") },
+    { id: "mage", de: "Magier", icon: "🔮", color: "#3FC7EB",
+      A: w("star arcane rune spell frost fire moon sage silver bright mystic glim ember mana void"),
+      B: w("weaver spark flame bright fire scribe tome wise caster light glow thought craft wand gleam") },
+    { id: "warlock", de: "Hexenmeister", icon: "👁️", color: "#8788EE",
+      A: w("doom dark hex void fel ash gloom cinder dread shade soul night curse grim malice"),
+      B: w("bringer weaver whisper binder brand touch fire flame caller bound pact born wick fang scourge") },
+    { id: "monk", de: "Mönch", icon: "🥋", color: "#00FF98",
+      A: w("jade still calm misty serene crane tiger ox mist wind river bamboo peace silent balance"),
+      B: w("palm fist step breath heart path mist tide flow hand spirit brew staff stone ward") },
+    { id: "druid", de: "Druide", icon: "🌿", color: "#FF7C0A",
+      A: w("moon grove thorn wild moss fern oak elder bark leaf star root dream wood green"),
+      B: w("whisper bloom walker song root bark claw born leaf shade grove warden heart call branch") },
+    { id: "demonhunter", de: "Dämonenjäger", icon: "🦇", color: "#A330C9",
+      A: w("fel blind night dark chain shadow glaive horn grim ash wrath scar black exile umbral"),
+      B: w("glaive blade sight bane hunter wing brand scar bound fury step gaze stride slayer fang") },
+    { id: "evoker", de: "Rufer", icon: "🐉", color: "#33937F",
+      A: w("scale wyrm ember sky storm drake flame gale dawn cinder azure ruby emerald sand time"),
+      B: w("wing flame breath caller born heart scale claw flight tongue song fang bound talon soar") }
+  ];
+
+  /* ---------- Völker ---------- */
+  /* f = Fraktion: A Allianz, H Horde, N neutral; c = Namens-Kultur; xA/xB = Zusatz-Bausteine für Nachnamen */
+  var races = [
+    { id: "human", de: "Mensch", f: "A", c: "human" },
+    { id: "dwarf", de: "Zwerg", f: "A", c: "dwarf" },
+    { id: "nightelf", de: "Nachtelf", f: "A", c: "nightelf" },
+    { id: "gnome", de: "Gnom", f: "A", c: "gnome" },
+    { id: "draenei", de: "Draenei", f: "A", c: "draenei" },
+    { id: "worgen", de: "Worgen", f: "A", c: "worgen" },
+    { id: "voidelf", de: "Leerenelf", f: "A", c: "belf", xA: w("void umbral astral rift shade"), xB: w("seeker walker gaze") },
+    { id: "lightforged", de: "Lichtgeschmiedeter Draenei", f: "A", c: "draenei", xA: w("light radiant holy sun blessed"), xB: w("forged bearer lance") },
+    { id: "darkiron", de: "Dunkeleisenzwerg", f: "A", c: "dwarf", xA: w("ember ash magma cinder slag"), xB: w("fury brand scorch") },
+    { id: "kultiran", de: "Kul Tiraner", f: "A", c: "kultiran" },
+    { id: "mechagnome", de: "Mechagnom", f: "A", c: "gnome", xA: w("cog gear steel rivet volt"), xB: w("bot tron core") },
+    { id: "orc", de: "Orc", f: "H", c: "orc" },
+    { id: "undead", de: "Untoter", f: "H", c: "undead" },
+    { id: "tauren", de: "Tauren", f: "H", c: "tauren" },
+    { id: "troll", de: "Troll", f: "H", c: "troll" },
+    { id: "bloodelf", de: "Blutelf", f: "H", c: "belf" },
+    { id: "goblin", de: "Goblin", f: "H", c: "goblin" },
+    { id: "nightborne", de: "Nachtgeborener", f: "H", c: "belf", xA: w("night arcane star glimmer"), xB: w("song bloom veil") },
+    { id: "highmountain", de: "Hochbergtauren", f: "H", c: "tauren", xA: w("peak stag snow crag antler"), xB: w("horn crest") },
+    { id: "magharorc", de: "Mag'har-Orc", f: "H", c: "orc", xA: w("red frost ancestor"), xB: w("totem") },
+    { id: "zandalari", de: "Zandalari-Troll", f: "H", c: "troll", xA: w("gold sun loa golden"), xB: w("crown throne") },
+    { id: "vulpera", de: "Vulpera", f: "H", c: "vulpera" },
+    { id: "pandaren", de: "Pandaren", f: "N", c: "pandaren" },
+    { id: "dracthyr", de: "Dracthyr", f: "N", c: "dracthyr" },
+    { id: "earthen", de: "Earthen", f: "N", c: "earthen" }
+  ];
+
+  /* ---------- Namens-Kulturen ---------- */
+  var cultures = {
+    human: {
+      m: { s: w("al ber ced dun ed gar hal jor lor mar os rod tor wil ald bran cor dar gal hen"), m: w("a e o i ar en er"),
+           e: w("ric rick win ward mund bert wyn don ton dric ald rad gar helm an as ian us or") },
+      f: { s: w("ade bri cat dia el eli gwen isa jo ly mar mei ro sel tam vi ana ceci lil mir"), m: w("a e i an el ar"),
+           e: w("lyn na ra ssa lia belle wen dra ine ette ria sa vana lisa nora thea") },
+      A: w("stone wood black white fair grey high north west green hill brook oak thorn river amber ash gold red storm"),
+      B: w("ridge field ford wood brook wall stead worth wick ham haven hill bury well shire crest vale mere gate watch"),
+      cm: w("Aldric Bertram Cedric Darian Edmund Garrick Halvard Jorrin Leofric Marcus Osric Roderic Tobias Wilhelm Aldous Brannon Corwin Dorian Gideon Hadrian Lucan Maxen Percival Soren"),
+      cf: w("Adelyn Brianna Catriona Delia Elara Gwendolyn Isolde Josephine Lysandra Marisol Rosalind Seraphine Tamsin Violet Anwen Celestine Mirabel Rowena Sybil Thalia Verity Winifred Ysolde Clarissa"),
+      cl: w("Ashworth Blackwood Calloway Dunmore Everhart Fairbanks Greystone Hawthorne Ironside Kingsley Lockhart Merriweather Northcott Oakheart Pemberton Ravenscroft Stormfield Thistlewood Valemont Whitlock Wyndham Yarrow Holloway Sterling")
+    },
+    dwarf: {
+      m: { s: w("bor brom dur dwal far gor hal kar mag mor nor thar tor ul bar dag gul rud"), m: w("a o i ur ar"),
+           e: w("grim din rin nar gar ri bur dok thorn mund drak dun mar rik gan") },
+      f: { s: w("bri dag fre gun hild kar mag sig tor thr bel ing run ysa"), m: w("a i e"),
+           e: w("da ga ni dis hild rid a wen lda nhild ra gret vi") },
+      A: w("iron stone gold deep bronze anvil beard rock mountain battle forge coal copper thunder"),
+      B: w("forge beard hammer fist shield delver brew axe helm mantle hand breaker born vault"),
+      cm: w("Bordrin Bromgar Durgrim Falkor Gorak Halgrim Karnoth Magnar Morgan Norgrim Tharik Torvald Ulrik Baldur Dagmar Rurik Brondar Thurgan Haldor Gundrik Orsin Dargan Balgrim Korlin"),
+      cf: w("Brisa Dagny Frida Gunnhild Helga Karina Magda Sigrun Torunn Thrudi Belga Ingrid Runa Ysa Brunhild Hildi Gretta Vigdis Oda Sigrid Hertha Alfhild Dorrit Frey"),
+      cl: w("Anvilmar Barrelbeard Coalbeard Deepdelver Forgefist Goldvein Hammerfall Ironbrow Mountainheart Stonehelm Thunderbrew Axebearer Bronzebeard Copperkettle Rockfist Steelmantle Cragshield Ironvault Stoutbelly Flintbrow")
+    },
+    nightelf: {
+      m: { s: w("ael elu tyr sha lys ela syl mal fae nar ilu thal ven ash cael"), m: w("a e i an el"),
+           e: w("andros anil ael ion dor thas ris wen eth indor ariel iros alor") },
+      f: { s: w("shan ela nai tyr ys lia may ilea syla thae feli ari"), m: w("a e i el"),
+           e: w("dra lia ria nyra sara wyn ael ana elle ienne thea ysa ora") },
+      A: w("moon star night silver whisper dream dusk leaf shadow elder wild glade dawn"),
+      B: w("whisper song glade blade shade bough runner leaf strider bloom watcher arrow dancer"),
+      cm: w("Aelorin Elunor Tyrion Shalor Lysander Faeron Narael Ilumar Thalion Valorian Aeranor Caelum Ashenor Silvanir Eldrin Malorin Sylvain Naroth Thaelor Kaelin Eryndor Faelar Iluvar Orinael"),
+      cf: w("Shanael Elaria Naivara Tyrella Ysalia Lialeth Maiara Ileana Sylvara Thaelia Feliana Ariel Nyssa Elunara Selene Aeriel Lunara Ashira Mirael Celeste Ysera Valeria Eliandra Thessara"),
+      cl: w("Moonwhisper Starfall Nightbreeze Silverleaf Dawnrunner Duskblade Shadowglade Wildbranch Dreamsinger Elderbough Mistwalker Starweaver Stillwater Leafdancer Moonglade Silentbough Dewfall Gladesong Sunshadow Willowbend")
+    },
+    belf: {
+      m: { s: w("kael aran quel sun lor val thal dath ael eri ven syl"), m: w("a e i an el"),
+           e: w("thas ion rius anor dren adar mir oran ael ris eron alor") },
+      f: { s: w("ly sa vel ari ely aly sel ina"), m: w("a e i el"),
+           e: w("ine ana riel ara wyn sia ena ielle ira nora") },
+      A: w("sun gold dawn crimson silver spell star radiant amber ever flame ruby"),
+      B: w("strider blade spire song wind crest weaver spark whisper fire guard bloom shard"),
+      cm: w("Aerendor Kaelith Valenor Quelros Sunadar Lorathis Thalion Dathrius Aelorian Erivane Venadrel Sylmoran Haldorin Lanthir Mirovan Cassiel Dorathan Eliorin Faelwyn Galadris"),
+      cf: w("Lyriel Saphira Velina Arilyn Elyssa Alyndra Selene Inara Vaelira Auriel Melisande Lunessa Caelith Rhiannon Solasia Ilvara Jhaela Tessariel Amariel Neriel Sarielle Lysithea Elaris Corvina"),
+      cl: w("Sunstrider Dawnblade Goldspire Crimsonwing Silversong Starweaver Radiantcrest Amberwind Sparkguard Flamebloom Rubyshard Everbright Spellwhisper Sunshard Goldleaf Dawnspire Lightbrand Suncrest Ambervale Silverspell")
+    },
+    gnome: {
+      m: { s: w("fi gwi pim bim tink nib wim zib zap wiz gim lop fizz gad"), m: w("a o i e"),
+           e: w("bolt blix kin wick nibble dle ly by wiggle pop ton fizz bin") },
+      f: { s: w("pip fizz til nim lum bix gwen zoe mim"), m: w("a i e"),
+           e: w("bell kins wyn fiddle wick ly ette bee dot pin") },
+      A: w("gizmo cog spring wobble clock tinker whirl copper brass giggle sparkle crank wind"),
+      B: w("spring wrench gear whistle tinker bottom fizzle clank bolt sprocket wobble snap"),
+      cm: w("Fizzbolt Gizmo Pimwick Tinkerton Nibbles Wimbly Zapper Wizbin Gimble Lopsy Gadwick Bimbolt Tockley Cogsworth Sprocket Whirlin Pennywhistle Ratchet Bixby Quibble Zippo Twiddle Clinker Doodad"),
+      cf: w("Pipsqueak Fizzwyn Tilly Nimble Lumi Bixie Gwennie Zoella Mimsy Pennywick Tinkabell Dottie Sprocketta Wobbly Clickety Gearlyn Whistlette Cogwen Pinkie Twinkle Buttons Fizzle Gadgetta Clockette"),
+      cl: w("Cogspinner Gearloose Sprocketwheel Tinkertop Wobblesprocket Fizzlewick Brassbottom Clankwhistle Springfoot Boltwrench Gizmosnap Whirlybird Copperkettle Clockwinder Wrenchfizz Cranksmith Sparkplug Gadgetsnap Tickletock Nutsandbolts")
+    },
+    goblin: {
+      m: { s: w("gaz fiz zik bil nix kriz wiz gizz rix snik tix mek"), m: w("a i o e"),
+           e: w("wick wizzle zle bolt cog nik gle tron fuse ix zorp") },
+      f: { s: w("zee ni fi gi tix nik zaz"), m: w("a i e"),
+           e: w("zi la bell ette ssa nix wick fizz") },
+      A: w("gear cog sprocket fuse bolt nickel copper spark rocket gold pip blast"),
+      B: w("wrench gold sprocket spark boom grease pocket bucket fizz rig whistle cash"),
+      cm: w("Gazbolt Fizzwick Zikzak Billibob Nixon Krizzle Wizbang Gizzmo Rixby Snikt Tixton Mekwick Blastoff Sparkle Coggins Fuseli Boomer Nickelby Greaser Pocketz Quickfinger Dealmaker Hustle Scamp"),
+      cf: w("Zeezee Nizzy Fizzbell Gizelle Tixie Nikki Zazzle Cashmira Sparkette Bolta Gearla Fusette Goldie Pocketta Rigby Whistletta Coggie Dealia Penny Nickelle Blastia Wizzy Hustla Coppera"),
+      cl: w("Fastbuck Greasepocket Boomwrench Goldsprocket Quickfuse Rocketwick Copperpot Sparkcog Nickelbolt Blastwhistle Cashgrubber Wheelnix Fizzbucket Rigmaster Fuselock Coinflip Spendmore Hotwire Dealbreaker Grabnstash")
+    },
+    draenei: {
+      m: { s: w("vel aeth mor oro ky tal ner zal iri ark ora ael"), m: w("a e i o"),
+           e: w("ion andor mar an eth rius ael dar von ius oth") },
+      f: { s: w("ael ira sel nyr thal via oru ema"), m: w("a e i"),
+           e: w("ia ana eth ys iel wyn ora isse ala") },
+      A: w("star light crystal dawn vale ever sun holy prism amber sky radiant auric"),
+      B: w("bearer walker seeker song crest born shard keeper shine flame ward bright"),
+      cm: w("Velarion Aethon Moradin Oroneth Kyrian Talivar Nerion Zalorin Irivan Arkelis Oranel Aelwyn Dathrian Elivar Korvan Maladar Nethion Orrilan Tavrian Valorien Zerathis Ilyndor Haranel Soradin"),
+      cf: w("Aeliana Iraveth Selyse Nyrielle Thalaya Viaria Orunya Emalia Auralyn Delaneth Isyrra Kyrelle Maraeth Nelyria Ozalia Sorelle Talwyn Velyssa Yrenia Zilara Aranyth Belianne Cyrene Dalissa"),
+      cl: w("Starbearer Lightwalker Crystalsong Dawnseeker Valecrest Everborn Sunshard Holykeeper Prismshine Amberflame Skyward Radiantbright Auricbloom Stardancer Lightbound Crystalvale Evershine Sunwhisper Vellumcrest Starweaver")
+    },
+    worgen: {
+      m: { s: w("ed hug cyr alf wal pip gil rod byr lud barn clem"), m: w("a e i o"),
+           e: w("ward ert ley mont ington ric win ton by bert ford") },
+      f: { s: w("ag beat con dor flor hen eve hett ophe"), m: w("a e i"),
+           e: w("atha ice ora rietta nella ence lia ella ina") },
+      A: w("gray black wolf moor wick fern hollow crow thorn mist grim dun"),
+      B: w("wood moor bane ham stone ley shire bridge hall ton field croft"),
+      cm: w("Edmund Hugo Cyrus Alfred Walter Pippin Gilbert Roderick Byron Ludwig Barnaby Clement Archibald Ambrose Bartholomew Crispin Desmond Egbert Fitzwilliam Gerald Horatio Ignatius Jasper Lancelot"),
+      cf: w("Agatha Beatrice Constance Dorothea Florence Henrietta Evelyn Hester Ophelia Philippa Rosamund Winifred Adelaide Cordelia Eleanor Georgiana Harriet Imogen Josephine Lavinia Millicent Prudence Theodora Wilhelmina"),
+      cl: w("Greymantle Blackmoor Wolfsbane Hollowhall Thornfield Crowhurst Mistwood Grimsby Dunmore Fernley Moorcroft Wickham Blackthorn Greywick Ravenhall Stonebridge Ashcroft Duskwood Harrowgate Mournfield")
+    },
+    kultiran: {
+      m: { s: w("ed ham gor jos tho wes bar cal nate rog dun fen"), m: w("a e o i"),
+           e: w("ric ton by mer ley win thorne bert wick hardt") },
+      f: { s: w("ann bett cor dor elin hann jan mar pru tess wil"), m: w("a e i"),
+           e: w("ah ia lyn ette ie abel een ina") },
+      A: w("storm salt tide wave gale anchor brine harbor iron drift kelp rope sea"),
+      B: w("wright wind born hull mast bane rider hand sail weather haven cutter lock ward"),
+      cm: w("Edric Hamish Gordon Josiah Thomas Wesley Barnaby Caleb Nathaniel Roger Duncan Fenwick Alistair Bartholomew Cormac Jonas Linus Percy Silas Tobias Ulysses Wallace Absalom Cyrus"),
+      cf: w("Annabel Bettina Cordelia Dorothea Elinor Hannah Janet Marian Prudence Tessa Willa Clementine Edith Fiona Greta Harriet Isobel Juniper Katarina Lorna Matilda Nerissa Ottilie Pippa"),
+      cl: w("Stormwright Saltwind Tideborn Wavecrest Galehaven Anchorhold Brinecutter Harborlight Ironhull Driftwood Kelpwhistle Ropemaker Seafarer Shipwright Weatherby Windlass Barnacle Tidewater Foghorn Saltmarsh")
+    },
+    orc: {
+      m: { s: w("gro dur gar mog thok krag bor zug ug rok grim ort mak gul"), m: w("a o u"),
+           e: w("mash gash tar nak dok gor bash zug mok grul dak rog") },
+      f: { s: w("ur gri sha dra mor ka zu bru"), m: w("a u o"),
+           e: w("ka ga ra sha ta kha gra dra rul") },
+      A: w("blood skull iron bone black dire wolf doom rage fire gore"),
+      B: w("fang hand mask tooth hide axe maul scar claw eye roar"),
+      cm: w("Grommash Durak Garok Mogar Thokrim Kragnar Borzul Zugrak Ugthar Rokgar Grimzul Ortak Makgul Gulrok Dargosh Hurzak Krugaz Morzak Nazgar Ragnok Skarr Throgg Urzoth Vargul"),
+      cf: w("Urga Grisha Drakha Morga Kazula Bruka Shuga Ragna Gurtha Nashka Orgra Thraka Zurga Dagra Hulga Krusha Mogra Rokha Sharga Urzula Varga Yarga Zogga Baruka"),
+      cl: w("Bloodfang Skullcrusher Ironhide Bonegrinder Blackmaul Direclaw Wolfsbane Doomhammer Ragefist Firebrand Goretooth Axebreaker Scarmask Eyegouger Fangbreaker Hellroar Stonefist Warsong Ashblade Grimtotem")
+    },
+    undead: {
+      m: { s: w("mor vic ner cor mal ed gar cyr ger ludw mort ern"), m: w("a e i o"),
+           e: w("mund ius ric mon rok ley ard ick olf win") },
+      f: { s: w("ade bel cor dol ely mor ner ophe sab"), m: w("a e i"),
+           e: w("lia na ra bella wyn ina sia lina") },
+      A: w("grave crypt bone dust grim pale rot mourn ash hollow cold gloom"),
+      B: w("whisper hollow digger bane shade wick fall mourn stone thorn rest keep lurk chime"),
+      cm: w("Mortimer Victor Nerus Cornelius Malachi Edgar Garrick Cyrian Gerhard Ludwig Mortis Ernest Lazarus Sepulchre Ambrose Barnabas Dorian Ezekiel Fenwick Gideon Mordecai Octavian Silas Thaddeus"),
+      cf: w("Adelaide Belladonna Cordelia Dolores Eloise Morwenna Nerissa Ophelia Sabine Lenora Perdita Rosalind Ulrika Vesper Wilhelmina Zerelda Abigail Carmilla Drusilla Evangeline Griselda Isolde Lilith Morgana"),
+      cl: w("Gravewhisper Cryptkeeper Bonedigger Dustwalker Grimhollow Palemourn Rotwick Ashfall Coldstone Gloomthorn Hollowrest Shadechime Mournkeep Lurkwood Duskgrave Nightsoil Ghoulstone Wormwood Cobwebb Ravenscar")
+    },
+    tauren: {
+      m: { s: w("ba cai ha kor mu nah ta ra ok sa ahn mak hol"), m: w("a o u"),
+           e: w("hawk tah wa ru nak mo kah dun kor") },
+      f: { s: w("sha nay ah mi ta ru lo"), m: w("a i"),
+           e: w("ya wa li tha mi ra wen na") },
+      A: w("dawn plain spirit wind sun earth grass red thunder high cloud hill river"),
+      B: w("hoof walker runner horn song mane hide stalker watcher strider whisper totem"),
+      cm: w("Bahawk Cairn Hakota Korak Muhn Nahtu Takoda Rahmo Okuni Sahnu Ahnok Makoma Holnar Tahkaw Bruhn Kaleo Nokoma Ohanzee Rhukoh Sutah Tamaka Utaka Wakahn Yonah"),
+      cf: w("Shaya Nayawa Ahli Mitha Taira Ruwena Lona Anaya Kaya Nahla Oyala Sakina Tawna Winona Alawa Hania Isha Kiona Leyla Maka Nita Pavati Sunni Tala"),
+      cl: w("Dawnstrider Plainswalker Spiritsong Windrunner Sunhoof Earthmother Grasswhisper Redhorn Thunderhoof Highmane Cloudwatcher Hillstalker Rivertotem Sagehide Proudhorn Skychaser Stonehoof Bloodtotem Wildmane Moonhoof")
+    },
+    troll: {
+      m: { s: w("zan vol raz jin thok zek mal rok haz dar vek zar"), m: w("a o u i"),
+           e: w("jin ja tai zar mbo kaya sa tho ru nak roh dun") },
+      f: { s: w("zi ja ka vi nay sha ula"), m: w("a i u"),
+           e: w("ja sa kaya la nai ra tha mi") },
+      A: w("voodoo bone jungle hex spirit drum swamp tusk sun mojo bright tide"),
+      B: w("tusk drum whisper mojo tooth spear caller runner charm hex fang shade"),
+      cm: w("Zanjin Volrak Razmak Jintho Thokar Zekra Malzar Rokmo Hazaru Darjin Vekru Zarok Mbotu Kanja Rokaya Tazuma Vanak Zuldro Hexor Mojak Jakaru Nakoro Sethru Tikaro"),
+      cf: w("Zinja Jasa Kayala Vinai Naysha Shatha Ulami Zulaya Janara Kaiza Mojani Tazi Voshi Zeyna Ziwa Nalaya Sanjira Talaya Umbra Vashi Yasha Zahra Zulima Kishi"),
+      cl: w("Voodoowhisper Bonedrum Junglerunner Hexcaller Spiritshade Drumfang Swamptusk Sunspear Mojotooth Brightcharm Tidecaller Skullcharm Moonhex Ragefang Fireshade Blacktusk Deepjungle Stormdrum Wildmojo Sandspear")
+    },
+    pandaren: {
+      m: { s: w("bao chen fei gang hao jun kai lei ming nuo ping qian rui shan tao wen xiang yun zhen"), m: w("a i u"),
+           e: w("bo lin ming hua xiu yu jing fei zhi long kun shi") },
+      f: { s: w("mei li lan xiu yue ying fang jia ling qing hui"), m: w("a i"),
+           e: w("lin mei hua lan yu xia ling zhen rong yan") },
+      A: w("stout cloud mist bamboo silk jade tea thunder river amber"),
+      B: w("stout brew leaf foot paw step hand whisker breeze song"),
+      cm: w("Baolin Chenwei Feihu Gangmin Haoran Junfeng Kaiwen Leihan Mingyu Nuowen Pingan Qianli Ruihan Shanbo Taoyuan Wenzhi Xiangyu Yunfei Zhenlong Boyu Jinhai Lanzhi Fuxiang Jiahao"),
+      cf: w("Meilin Lixia Lanying Xiuhua Yuelan Yingmei Fangzhi Jiali Lingyu Qingmei Huilan Meihua Ruolan Shuyi Tingting Xiaoyu Yanling Zhenzhen Biyu Chunhua Dandan Fenfang Guilan Haiyan"),
+      cl: w("Zhao Sun Zhou Wu Xu Gao Luo Tang Han Feng Yan Shen Stormstout Cloudsong Mistwalker Bamboopaw Jadefoot Silkbrew Teaweaver Thunderstep Riverleaf Amberwhisker Longpaw Goldenleaf")
+    },
+    vulpera: {
+      m: { s: w("za vi ku ri pip zip nik fen tik mo ruk skit"), m: w("a i o u"),
+           e: w("zi ka ko pip nik ra ssi rik dit fin") },
+      f: { s: w("zi vi ku pi nik fe tik sa"), m: w("a i o"),
+           e: w("zi ka ko pip nik ra ssi ela") },
+      A: w("sand dust sly tail rag scrap dune quick red burr crumb tin"),
+      B: w("tail paw whisker scamp patch snout nose wrapper scurry dash forager glint"),
+      cm: w("Zazzo Fizzit Kurik Ripsy Pipkin Zipzap Nikko Fendit Tikko Moxie Rukka Skitter Zippo Vindo Kuzzi Rikkit Dizzo Fenwick Pibble Scrappo Snazzo Trixel Wiggit Zorrik"),
+      cf: w("Zizzi Vika Kuzu Pippa Nikka Fenna Tikki Sassi Zelka Viska Moxi Rukki Skitz Zinnia Pixel Vixi Nizzi Fizzle Tikka Zori Kiki Rikka Sibi Zuzu"),
+      cl: w("Sandtail Dustwhisker Slypaw Ragwrapper Scrapscurry Duneforager Quicksnout Redglint Burrpatch Crumbnose Tinscamp Sandscurry Dashwhisker Patchtail Glintpaw Sneakwrap Foxwhistle Scrapheap Dunedash Quickpatch")
+    },
+    dracthyr: {
+      m: { s: w("aer dra kyr nyx vae thy zir ixa sae rhy orm vyr"), m: w("a e y o"),
+           e: w("thys rax onyx yth iss ael orn ixa eth vyrn ara") },
+      f: { s: w("aer dra kyr nyx vae thy zir sae rhy"), m: w("a e y"),
+           e: w("thys ixa ael ara eth issa yra una ysa") },
+      A: w("sky ember ash wing scale azure storm gale obsidian ruby emerald dawn"),
+      B: w("wing flight breath scale claw fire soar talon born crest song fang"),
+      cm: w("Aerthys Drakyr Kyrax Nyxoth Vaelor Thyrax Zirael Ixavar Saeron Rhyth Ormyx Vyrneth Azurion Caldrax Dorveth Erythos Fyrnax Gaelorn Havrix Ixion Jaerath Korvyn Naelix Pyrion"),
+      cf: w("Aerixa Drayra Kyrael Nyxara Vaelisa Thyra Zirael Saeryn Rhyssa Auryxa Caelyth Dyraeth Elyxia Faethra Ghyssa Ilyria Jhaela Kaedra Lyrath Myrsa Nyrael Ovaleth Pyrael Syrix"),
+      cl: w("Skywing Emberflight Ashbreath Scalesong Azurefang Stormtalon Galecrest Obsidianclaw Rubyfire Emeraldscale Dawnsoar Cindermaw Wyrmborn Dragonsworn Flameheart Sandbreath Thunderwing Frostscale Sunsong Embergale")
+    },
+    earthen: {
+      m: { s: w("bor dur gran kor mag sten tor ur bas cin flint rok"), m: w("a o i"),
+           e: w("dun grim stone rok gar brik dar slate kor mar thrum") },
+      f: { s: w("ber cla ing ore pyr sil gem opa"), m: w("a i e"),
+           e: w("yl a ite dis na ora mina lith") },
+      A: w("stone granite slate basalt flint gem deep quartz crag cinder marble ore"),
+      B: w("vein heart hammer delver wall shaper born core seeker chisel bound forge"),
+      cm: w("Bordun Durgran Korstone Magrok Stentor Torvald Urgrim Basalt Cinder Flintar Rokmar Granik Obsidian Quartzin Marblon Slatan Geodin Pebbrik Boulderan Cragmar Delvin Schistan Talcum Onyxar"),
+      cf: w("Berylla Clarite Ingrid Oreana Pyrite Silica Gemma Opalyn Agatha Jaspera Garnetta Amberlyn Topaza Zircona Onyxa Fluorina Calcita Micaela Mineria Granita Slatina Rhodona Lapisa Chalcedona"),
+      cl: w("Stoneveil Graniteheart Slatehammer Basaltdelver Flintwall Gemshaper Deepborn Quartzcore Cragseeker Cinderchisel Marblebound Oreforge Veinbreaker Rockwarden Hollowstone Geodeheart Pebblefoot Mountainroot Boulderback Cavernsong")
+    }
+  };
+
+  /* ---------- Lustige Namen ---------- */
+  var funny = {
+    first: w(`Hokus Pokus Fridolin Bernhardiner Hubertus Rüdiger Kunigunde Waldemar Kevin Dieter Gerlinde Heinz Berta Horst Jürgen
+      Mettigel Brotbert Käsefuß Pummelchen Knuddel Keksi Wuschel Schnuffi Mausi Hasenfuß Trödelmax Nudelholz Schnitzel Bratwurst
+      Currywurst Fischstäbchen Pfannkuchen Semmel Brezel Knödel Spätzle Maultasche Dönerbert Zwiebelchen Kartoffel Pantoffel Schlappi
+      Zipfelmütz Krümel Plüschi Murmel Wackelpudding Bommel Flauschi Tapsi Holzkopf Dickerchen Quatschkopf Sockenschuss Kuddelmuddel
+      Rumpelstilz Rotzlöffel Plapperkopf Schnarchi Nörgel Trulla Banane Mampfred Lauch Pfosten Klopsi Zocker Kasimir Eberhard Gundula
+      Hildegunde Adalbert Bärbel Fiffi Gustav Herbert Ignaz Jochen Knut Lothar Marzipan Nepomuk Otto Pumuckel Quentin Rosalinde Sigmund`),
+    last: w(`Schnurrbart Kleinhirn Nasenbär Zipfelklatscher Haudegen Dosenöffner Pfannenwender Eierschaukler Stinkesocke Wackelzahn
+      Knallfrosch Dampfplauderer Grützkopf Müslimann Sofakartoffel Kaffeesatz Schlafmütze Pustekuchen Zauderer Mehlwurm Brummbär
+      Tollpatsch Hosenträger Bierbauch Nudelsieb Gießkanne Laubsäge Bügeleisen Regenschirm Staubwedel Kuchengabel Wurstzipfel
+      Hühnerstall Besenstiel Honigkuchen Sauerkraut Fliegenpilz Schnabeltasse Quasselstrippe Kloßbrühe Pflaumenmus Radieschen Knobi
+      Ölsardine Teekessel Kochlöffel Glückskeks Blechdose Pantoffelheld Zuckerwatte Mettwurst Wollsocke Windbeutel Bratkartoffel
+      Gummistiefel Stolperfalle Kaugummi Löwenzahn Trampeltier Dachschaden Nachtschwärmer Kuchenteller Wackeldackel Hampelmann
+      Plätzchen Schmetterling Wurzelsepp Zaunkönig Butterbrot Kellerassel Pfeffernuss Rührei Marmeladenglas Sonnenschirm`),
+    byClass: {
+      warrior:     { first: w("Haudrauf Kloppi Dosenritter Rüstungsrudi Schildi Brüllhorst Dickschädel Wutbert"),
+                     last: w("Dickfell Blechdose Rammbock Streithammel Kampfkeks Wutbürger Sturschädel Eisenfaust") },
+      paladin:     { first: w("Heilbert Lichtfried Glanzgustav Hammerhelmut Segensreich Strahlemann Goldlocke Gutmut"),
+                     last: w("Heiligenschein Goldkehlchen Glanzpolitur Lichtschalter Hammerzeit Schutzengel Lichtgestalt Blendwerk") },
+      hunter:      { first: w("Pfeilfried Waidmann Bogenbernd Fellfreddy Schnüffler Wildwolfgang Kauzi Fallensteller"),
+                     last: w("Querschläger Fährtenleser Wildschwein Zielwasser Trockenfutter Hundeführer Fellnase Treffsicher") },
+      rogue:       { first: w("Schleichi Taschentom Klaufred Dolchi Leisetreter Mausedieb Nachtschatten Fingerfix"),
+                     last: w("Langfinger Dunkelmunkel Beutelschneider Hinterhalt Taschenspieler Schleichfahrt Meuchelmaus Diebesgut") },
+      priest:      { first: w("Heilgard Betbruder Segnix Gnadenhelga Weihrauchwalter Amen Heilwig Pfarrer"),
+                     last: w("Heilsalbe Gebetsmühle Weihwasser Klingelbeutel Kerzenlicht Wunderheiler Pflasterkleber Vergebung") },
+      deathknight: { first: w("Gruftgerd Knochenkurt Grabgustav Modermax Frostbeule Seuchenfred Rippchen Schaurig"),
+                     last: w("Knochenbrecher Grabbeigabe Totenkopf Modergruft Kühlschrank Eiswürfel Seelenfänger Frostbeule") },
+      shaman:      { first: w("Totemtom Donnerhorst Geisterfrank Blitzbert Wolkenwalter Elementarfred Steckdose Rauchzeichen"),
+                     last: w("Totempfahl Blitzableiter Donnerbalken Regenmacher Wetterfrosch Geisterbahn Steinschlag Windbeutel") },
+      mage:        { first: w("Zauberlehrling Funkelfred Feuerfinn Hokuspokus Eisbert Arkanus Mannabert Schafsfluch"),
+                     last: w("Schafmacher Brandstifter Blinzelblitz Eiswürfel Zauberstab Zaubertrank Feuerzeug Mondscheinhut") },
+      warlock:     { first: w("Fluchfried Dämonika Hexi Schattenhein Seelensammler Wichtelwerner Kürbiskurt Gruselgisela"),
+                     last: w("Seelenspalter Wichtelvater Kürbiskopf Teufelsbraten Fluchbeladen Schwarzmaler Dämonenpapa Hexenschuss") },
+      monk:        { first: w("Bierbernd Fassfried Nebelnick Kungfukalle Tigertatze Teetrinker Zenzorro Faustfix"),
+                     last: w("Braumeister Faustfertig Gleichgewicht Bierfass Zengarten Nudelsuppe Hochprozentig Kranichtritt") },
+      druid:       { first: w("Bärbel Katzenkarl Mondmichel Waldwichtel Blümchen Eichhörnchen Gänseblümchen Wurzelwalter"),
+                     last: w("Baumkuschler Pelzträger Pilzsammler Mooskopf Zweiggestell Gestaltwandler Tierfreund Blumenkind") },
+      demonhunter: { first: w("Augenbinde Blindfred Flügelfritz Hornochse Flattermann Fledermaus Grünauge Schmerzhelm"),
+                     last: w("Blindgänger Hornochse Flügelschlag Fledermaus Grünschnabel Narbengesicht Gleitflug Augenbinde") },
+      evoker:      { first: w("Schuppi Drachenfritz Echsenerwin Flügelflo Schuppenschorsch Zeitreisender Feuerfranz Wyrmwerner"),
+                     last: w("Feuerzeug Schuppenkönig Echsenmann Drachenbrut Zeitmaschine Flügelspannweite Kleinwyrm Feuerspucker") }
+    },
+    byCulture: {
+      human: w("Durchschnitt Mittelmaß Normalo Standardheld Alltagsheld Mustermann"),
+      dwarf: w("Bierbauch Bartwuchs Zwergenaufstand Kurzbein Hopfenstange Humpenheld"),
+      nightelf: w("Katzenjammer Mondschein Nachtschicht Schlafmütze Eulenfreund Ohrenspitz"),
+      belf: w("Glanzparade Eitelkeit Haarspray Spiegelbild Hochglanz Modepüppchen"),
+      gnome: w("Kleinkram Bastelbert Zahnrad Kurzschluss Glühbirne Tüftelkopf"),
+      goblin: w("Kleingeld Münzzähler Pleitegeier Raffzahn Wucherzins Schnäppchenjäger"),
+      draenei: w("Hufschmied Ziegenbock Blauhaut Schwanzwedel Himmelblau Hufspur"),
+      worgen: w("Flohzirkus Hundeblick Mondsüchtig Fellwechsel Vollmond Gassigeher"),
+      kultiran: w("Landratte Seemannsgarn Schiffbruch Kapitänsmütze Rumfass Seekrank"),
+      orc: w("Kopfnuss Grünschnabel Keulenschwinger Brüllaffe Muskelkater Zahnlücke"),
+      undead: w("Leichenschmaus Gruselgerd Grabbeilage Modergeruch Wiedergänger Kellerkind"),
+      tauren: w("Kuhfladen Weidegras Hufeisen Grasfresser Muhmuh Wiederkäuer"),
+      troll: w("Voodoopuppe Schnarchsack Zahnlücke Trommelfell Sumpfhuhn Mojito"),
+      pandaren: w("Bambusbär Nudelkopf Teeparty Reisschüssel Faulpelz Schlafmatte"),
+      vulpera: w("Fuchsschwanz Sandkorn Fuchsbau Schlauberger Hühnerdieb Wüstenfloh"),
+      dracthyr: w("Feuerzeug Echsenbrut Schuppenmeister Flugsaurier Zündschnur Rauchmelder"),
+      earthen: w("Steinbruch Kieselstein Felsbrocken Geröllhalde Betonkopf Schotterweg")
+    }
+  };
+
+  window.CJ_NAMES = { classes: classes, races: races, cultures: cultures, funny: funny };
+})();
+
+</script>
+<script>
+/* ==========================================================
+   Charakter Journal – Namen-Generator (Engine + Oberfläche)
+   Benötigt: js/namegen-data.js (window.CJ_NAMES)
+   Baut seine Oberfläche in das Element #namegen.
+   ========================================================== */
+(function () {
+  "use strict";
+  var D = window.CJ_NAMES;
+  if (!D) return;
+
+  /* ---------- Helfer ---------- */
+  function rnd(n) { return Math.floor(Math.random() * n); }
+  function pick(a) { return a[rnd(a.length)]; }
+  function cap(s) { return s.charAt(0).toUpperCase() + s.slice(1); }
+  function squeeze(s) { return s.replace(/(.)\1{2,}/g, "$1$1"); }
+  function esc(s) {
+    return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
+      return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c];
+    });
+  }
+  function find(list, id) {
+    for (var i = 0; i < list.length; i++) if (list[i].id === id) return list[i];
+    return null;
+  }
+  function ascii(s) {
+    return s.replace(/ä/g, "ae").replace(/ö/g, "oe").replace(/ü/g, "ue").replace(/Ä/g, "Ae").replace(/Ö/g, "Oe").replace(/Ü/g, "Ue").replace(/ß/g, "ss");
+  }
+  function lettersOnly(s) { return /^[A-Za-zÀ-ÿ]+$/.test(s); }
+
+  /* ---------- Namen bilden ---------- */
+  function isVowel(ch) { return "aeiouy".indexOf(ch) >= 0; }
+  /* Silben verbinden, ohne dass zwei Vokale hart aufeinandertreffen (z. B. "ilea" + "elle") */
+  function syllableName(parts) {
+    var best = "";
+    for (var t = 0; t < 14; t++) {
+      var s = pick(parts.s), e = pick(parts.e);
+      var mid = parts.m.length && Math.random() < 0.22 ? pick(parts.m) : "";
+      var clash = (mid ? isVowel(s.charAt(s.length - 1)) && isVowel(mid.charAt(0)) || isVowel(mid.charAt(mid.length - 1)) && isVowel(e.charAt(0))
+                       : isVowel(s.charAt(s.length - 1)) && isVowel(e.charAt(0)));
+      best = squeeze(cap(s + mid + e));
+      if (!clash) return best;
+    }
+    return best;
+  }
+  function compose(a, b) {
+    var x = pick(a), y = pick(b), t = 0;
+    while ((y === x || y.indexOf(x) === 0 || y.charAt(0) === x.charAt(x.length - 1)) && t++ < 12) y = pick(b);
+    return squeeze(cap(x) + y);
+  }
+
+  function realName(race) { return find(D.races, race); }
+
+  function firstName(race, gender) {
+    var c = D.cultures[race.c];
+    var g = gender;
+    for (var t = 0; t < 40; t++) {
+      var n;
+      if (Math.random() < 0.3) n = pick(g === "f" ? c.cf : c.cm);
+      else n = syllableName(g === "f" ? c.f : c.m);
+      if (n.length >= 3 && n.length <= 12) return n;
+    }
+    return pick(g === "f" ? c.cf : c.cm);
+  }
+
+  function lastName(race, cls) {
+    var c = D.cultures[race.c];
+    var A = c.A.concat(race.xA || []), B = c.B.concat(race.xB || []);
+    var r = Math.random();
+    if (r < 0.3) return pick(c.cl);
+    if (r < 0.65) {
+      var mix = Math.random();
+      if (mix < 0.4) return compose(cls.A, cls.B);
+      if (mix < 0.7) return compose(cls.A, B);
+      return compose(A, cls.B);
+    }
+    return compose(A, B);
+  }
+
+  function funnyFirst(race, cls) {
+    var f = D.funny, own = f.byClass[cls.id];
+    return Math.random() < 0.5 ? pick(own.first) : pick(f.first);
+  }
+  function funnyLast(race, cls) {
+    var f = D.funny, r = Math.random();
+    if (r < 0.4) return pick(f.byClass[cls.id].last);
+    if (r < 0.7) return pick(f.byCulture[race.c]);
+    return pick(f.last);
+  }
+
+  /* ---------- Erzeugen ---------- */
+  function generate(o) {
+    var out = [], seen = {}, tries = 0;
+    var count = Math.max(1, Math.min(10, o.count || 5));
+    while (out.length < count && tries++ < 600) {
+      var race = o.race === "random" ? pick(D.races) : find(D.races, o.race);
+      var cls = o.cls === "random" ? pick(D.classes) : find(D.classes, o.cls);
+      var g = o.gender === "x" ? (Math.random() < 0.5 ? "m" : "f") : o.gender;
+      var first = "", last = "";
+      if (o.mode !== "last") first = o.funny ? funnyFirst(race, cls) : firstName(race, g);
+      if (o.mode !== "first") last = o.funny ? funnyLast(race, cls) : lastName(race, cls);
+      if (o.umlauts) { first = ascii(first); last = ascii(last); }
+      var full = (first + " " + last).trim();
+      var key = full.toLowerCase();
+      if (seen[key]) continue;
+      seen[key] = 1;
+      out.push({
+        first: first, last: last, full: full, gender: g, race: race, cls: cls,
+        ingame: first ? (lettersOnly(first) && first.length >= 2 && first.length <= 12) : null
+      });
+    }
+    return out;
+  }
+
+  /* ---------- Größe des Namenspools (nur Anzeige) ---------- */
+  function poolSize(o) {
+    var races = o.race === "random" ? D.races : [find(D.races, o.race)];
+    var classes = o.cls === "random" ? D.classes : [find(D.classes, o.cls)];
+    var cultures = {}, first = 0, last = 0;
+    races.forEach(function (r) {
+      var c = D.cultures[r.c];
+      if (!o.funny) {
+        var g = o.gender === "m" ? ["m"] : o.gender === "f" ? ["f"] : ["m", "f"];
+        g.forEach(function (x) {
+          var p = c[x];
+          first += p.s.length * p.e.length * (1 + p.m.length) + (x === "m" ? c.cm.length : c.cf.length);
+        });
+        if (o.gender === "x") first = Math.round(first);
+        var A = c.A.length + (r.xA || []).length, B = c.B.length + (r.xB || []).length;
+        classes.forEach(function (k) {
+          last += A * B + k.A.length * k.B.length + k.A.length * B + A * k.B.length + c.cl.length;
+        });
+      } else {
+        classes.forEach(function (k) {
+          var own = D.funny.byClass[k.id];
+          first += D.funny.first.length + own.first.length;
+          last += D.funny.last.length + own.last.length + D.funny.byCulture[r.c].length;
+        });
+      }
+    });
+    return { first: first, last: last };
+  }
+  function fmt(n) { return n.toLocaleString("de-DE"); }
+
+  /* ---------- Oberfläche ---------- */
+  var root = document.getElementById("namegen");
+  var API = { generate: generate, poolSize: poolSize, data: D };
+  window.CJ_NameGen = API;
+  if (!root) return;
+
+  var FAV_KEY = "cj_namegen_fav";
+  function loadFav() { try { return JSON.parse(localStorage.getItem(FAV_KEY) || "[]") || []; } catch (e) { return []; } }
+  function saveFav(list) { try { localStorage.setItem(FAV_KEY, JSON.stringify(list)); } catch (e) {} }
+
+  var state = { cls: "random", race: "random", gender: "x", mode: "both", count: 5, funny: false, umlauts: false, results: [], fav: loadFav() };
+
+  function raceOptions() {
+    var groups = [["A", "Allianz"], ["H", "Horde"], ["N", "Neutral"]];
+    return '<option value="random">🎲 Zufälliges Volk</option>' + groups.map(function (g) {
+      return '<optgroup label="' + g[1] + '">' + D.races.filter(function (r) { return r.f === g[0]; }).map(function (r) {
+        return '<option value="' + r.id + '">' + esc(r.de) + "</option>";
+      }).join("") + "</optgroup>";
+    }).join("");
+  }
+  function classOptions() {
+    return '<option value="random">🎲 Zufällige Klasse</option>' + D.classes.map(function (c) {
+      return '<option value="' + c.id + '">' + c.icon + " " + esc(c.de) + "</option>";
+    }).join("");
+  }
+  function seg(name, items, cur) {
+    return '<div class="seg" role="radiogroup" data-seg="' + name + '">' + items.map(function (i) {
+      return '<button type="button" role="radio" aria-checked="' + (i[0] === cur) + '" class="' + (i[0] === cur ? "on" : "") + '" data-val="' + i[0] + '">' + i[1] + "</button>";
+    }).join("") + "</div>";
+  }
+
+  root.innerHTML =
+    '<section class="panel ng-form" aria-label="Einstellungen">' +
+      '<div class="ng-grid">' +
+        '<label class="fld"><span>Klasse</span><select id="ng-cls">' + classOptions() + "</select></label>" +
+        '<label class="fld"><span>Volk</span><select id="ng-race">' + raceOptions() + "</select></label>" +
+        '<div class="fld"><span>Geschlecht</span>' + seg("gender", [["m", "♂ Männlich"], ["f", "♀ Weiblich"], ["x", "Egal"]], state.gender) + "</div>" +
+        '<div class="fld"><span>Was soll erzeugt werden?</span>' + seg("mode", [["first", "Vorname"], ["last", "Nachname"], ["both", "Vor- + Nachname"]], state.mode) + "</div>" +
+        '<label class="fld"><span>Anzahl: <b id="ng-count-out">5</b></span><input type="range" id="ng-count" min="1" max="10" value="5"></label>' +
+        '<div class="fld"><span>Stimmung</span>' +
+          '<label class="switch"><input type="checkbox" id="ng-funny"><span class="track" aria-hidden="true"></span><span class="lbl">🤪 Lustige Namen</span></label>' +
+          '<label class="chk small"><input type="checkbox" id="ng-uml"><span>Umlaute ersetzen (ä → ae)</span></label>' +
+        "</div>" +
+      "</div>" +
+      '<div class="ng-actions"><button type="button" class="btn" id="ng-go">🎲 Namen erzeugen</button>' +
+      '<button type="button" class="btn ghost" id="ng-copyall">Alle kopieren</button></div>' +
+      '<p class="muted ng-pool" id="ng-pool"></p>' +
+    "</section>" +
+    '<section aria-live="polite"><div id="ng-results" class="ng-results"></div></section>' +
+    '<section class="panel ng-favs" id="ng-favs-wrap"><div class="ng-favs-head"><h2>⭐ Gemerkte Namen</h2><button type="button" class="lnk" id="ng-fav-clear">Alle entfernen</button></div>' +
+      '<div id="ng-favs"></div><p class="muted" style="margin:.6rem 0 0;font-size:.9rem">Wird nur in deinem Browser gespeichert.</p></section>' +
+    '<div class="notice"><strong>Gut zu wissen:</strong> Im Spiel besteht ein Charaktername aus <strong>einem Wort mit 2–12 Buchstaben</strong> (ohne Zahlen und Leerzeichen). Der Vorname trägt dann ein ✔-Zeichen, wenn er das erfüllt. Der Nachname ist für deine Geschichte, deine Gilde oder dein Rollenspiel gedacht. Ob eine Klasse-Volk-Kombination im Spiel möglich ist, hängt von der WoW-Version ab. Der Generator lässt bewusst alle Kombinationen zu. Ob ein Name noch frei ist, erfährst du erst beim Erstellen im Spiel.</div>';
+
+  var $ = function (s) { return root.querySelector(s); };
+
+  function copy(text, btn) {
+    function done() {
+      if (!btn) return;
+      var old = btn.textContent; btn.textContent = "✔";
+      setTimeout(function () { btn.textContent = old; }, 1200);
+    }
+    function fallback() {
+      var ta = document.createElement("textarea");
+      ta.value = text; ta.style.cssText = "position:fixed;opacity:0";
+      document.body.appendChild(ta); ta.select();
+      try { document.execCommand("copy"); done(); } catch (e) {}
+      document.body.removeChild(ta);
+    }
+    if (navigator.clipboard && navigator.clipboard.writeText) navigator.clipboard.writeText(text).then(done, fallback);
+    else fallback();
+  }
+
+  function isFav(full) { return state.fav.some(function (f) { return f.full === full; }); }
+
+  function renderResults() {
+    var box = $("#ng-results");
+    box.innerHTML = state.results.map(function (r, i) {
+      var meta = [r.race.de, r.cls.de, r.gender === "f" ? "♀" : "♂"].join(" · ");
+      var badge = r.ingame === null ? "" : (r.ingame
+        ? '<span class="ok" title="Als Charaktername im Spiel geeignet (2–12 Buchstaben)">✔ spieltauglich</span>'
+        : '<span class="warn" title="Im Spiel nur 2–12 Buchstaben, keine Sonderzeichen">⚠ nicht spieltauglich</span>');
+      var name = r.first && r.last ? esc(r.first) + ' <span class="ln">' + esc(r.last) + "</span>" : esc(r.full);
+      return '<article class="ng-card" style="--cc:' + r.cls.color + '"><div class="ng-name">' + name + "</div>" +
+        '<div class="ng-meta">' + esc(meta) + " " + badge + "</div>" +
+        '<div class="ng-btns"><button type="button" class="icon-btn" data-copy="' + i + '" title="Kopieren" aria-label="Kopieren">📋</button>' +
+        '<button type="button" class="icon-btn' + (isFav(r.full) ? " on" : "") + '" data-fav="' + i + '" title="Merken" aria-label="Merken">' + (isFav(r.full) ? "★" : "☆") + "</button></div></article>";
+    }).join("");
+  }
+  function renderFavs() {
+    var wrap = $("#ng-favs-wrap");
+    wrap.hidden = !state.fav.length;
+    $("#ng-favs").innerHTML = state.fav.map(function (f, i) {
+      return '<div class="ng-fav"><span><strong>' + esc(f.full) + '</strong> <span class="muted">' + esc(f.meta) + '</span></span>' +
+        '<span class="ng-btns"><button type="button" class="icon-btn" data-fcopy="' + i + '" aria-label="Kopieren">📋</button>' +
+        '<button type="button" class="icon-btn" data-fdel="' + i + '" aria-label="Entfernen">✕</button></span></div>';
+    }).join("");
+  }
+  function renderPool() {
+    var p = poolSize(state);
+    var txt = state.mode === "first" ? fmt(p.first) + " mögliche Vornamen"
+      : state.mode === "last" ? fmt(p.last) + " mögliche Nachnamen"
+      : fmt(p.first) + " Vornamen · " + fmt(p.last) + " Nachnamen";
+    $("#ng-pool").textContent = "Namenspool für diese Auswahl: " + txt + (state.mode === "both" ? " (" + fmt(p.first * p.last) + " Kombinationen)" : "") + ".";
+  }
+  function run() {
+    state.results = generate(state);
+    renderResults(); renderPool();
+  }
+
+  /* ---------- Ereignisse ---------- */
+  $("#ng-cls").addEventListener("change", function (e) { state.cls = e.target.value; run(); });
+  $("#ng-race").addEventListener("change", function (e) { state.race = e.target.value; run(); });
+  $("#ng-count").addEventListener("input", function (e) { state.count = parseInt(e.target.value, 10); $("#ng-count-out").textContent = state.count; run(); });
+  $("#ng-funny").addEventListener("change", function (e) { state.funny = e.target.checked; run(); });
+  $("#ng-uml").addEventListener("change", function (e) { state.umlauts = e.target.checked; run(); });
+  $("#ng-go").addEventListener("click", run);
+  $("#ng-copyall").addEventListener("click", function (e) {
+    copy(state.results.map(function (r) { return r.full; }).join("\n"), e.currentTarget);
+  });
+  root.addEventListener("click", function (e) {
+    var t = e.target.closest("button");
+    if (!t) return;
+    var seg = t.parentNode.getAttribute && t.parentNode.getAttribute("data-seg");
+    if (seg) {
+      state[seg] = t.getAttribute("data-val");
+      Array.prototype.forEach.call(t.parentNode.children, function (b) {
+        var on = b === t; b.classList.toggle("on", on); b.setAttribute("aria-checked", on);
+      });
+      run(); return;
+    }
+    if (t.hasAttribute("data-copy")) { copy(state.results[+t.getAttribute("data-copy")].full, t); return; }
+    if (t.hasAttribute("data-fav")) {
+      var r = state.results[+t.getAttribute("data-fav")];
+      if (isFav(r.full)) state.fav = state.fav.filter(function (f) { return f.full !== r.full; });
+      else state.fav.unshift({ full: r.full, meta: r.race.de + " · " + r.cls.de });
+      saveFav(state.fav); renderResults(); renderFavs(); return;
+    }
+    if (t.hasAttribute("data-fcopy")) { copy(state.fav[+t.getAttribute("data-fcopy")].full, t); return; }
+    if (t.hasAttribute("data-fdel")) { state.fav.splice(+t.getAttribute("data-fdel"), 1); saveFav(state.fav); renderResults(); renderFavs(); return; }
+    if (t.id === "ng-fav-clear") { state.fav = []; saveFav(state.fav); renderResults(); renderFavs(); }
+  });
+
+  run(); renderFavs();
+})();
+
+</script>
+</body>
+</html>

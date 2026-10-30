@@ -51,3 +51,10 @@ Mit dem Dashboard pflegst du die Website ohne Code: Download-ZIPs per Drag & Dro
 - ZIP-Dateien bis ca. 90 MB funktionieren direkt. Größere bitte über GitHub Releases verteilen.
 - Geschichten in der Story-Galerie erscheinen nur, wenn „Einverständnis des Verfassers“ angehakt ist.
 - Die KI-Seite (`ais` in `js/config.js`) und die Seitentexte werden weiterhin von Hand in den Dateien gepflegt.
+
+## Namen-Generator
+
+- **Online:** `namen-generator.html` (im Menü unter „Namen“).
+- **Offline-Download:** `downloads/CharakterJournal-Namensgenerator.html` ist eine einzelne Datei, die ohne Internet per Doppelklick im Browser läuft.
+- **Namen ergänzen:** Alle Listen stehen in `js/namegen-data.js` (Wörter, durch Leerzeichen getrennt, Erklärung am Dateianfang). Neue Völker oder Klassen ergänzt du dort ebenfalls.
+- **Nach jeder Änderung an den Namenslisten** die Offline-Datei neu bauen: `python3 tools/build_namegen_offline.py` (nur Python 3 nötig). Ohne diesen Schritt bleibt die Download-Version auf dem alten Stand.

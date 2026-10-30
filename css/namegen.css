@@ -1,0 +1,78 @@
+/* ==========================================================
+   Charakter Journal – Namen-Generator (Styles)
+   ========================================================== */
+#namegen { display: grid; gap: 1.4rem; }
+.ng-grid { display: grid; gap: .4rem 1.4rem; grid-template-columns: repeat(auto-fit, minmax(250px, 1fr)); }
+#namegen .fld { display: flex; flex-direction: column; gap: .35rem; margin-bottom: .9rem; }
+#namegen .fld > span:first-child {
+  font-family: var(--display); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-hi);
+}
+#namegen select {
+  width: 100%; font: inherit; font-size: 1rem; color: var(--text); background: rgba(0, 0, 0, .45);
+  border: 1px solid var(--gold-lo); border-radius: 6px; padding: .6rem .75rem;
+}
+#namegen select option, #namegen select optgroup { background: #12151f; color: var(--text); }
+#namegen select:focus, #namegen input:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 1px; }
+#namegen input[type="range"] { width: 100%; accent-color: var(--gold); margin-top: .3rem; }
+
+/* Segment-Schalter */
+.seg { display: flex; border: 1px solid var(--gold-lo); border-radius: 8px; overflow: hidden; background: rgba(0, 0, 0, .35); }
+.seg button {
+  flex: 1; font: inherit; font-size: .92rem; color: var(--text); background: transparent; border: 0; padding: .6rem .5rem;
+  cursor: pointer; border-right: 1px solid rgba(212, 168, 67, .25);
+}
+.seg button:last-child { border-right: 0; }
+.seg button:hover { background: rgba(212, 168, 67, .1); }
+.seg button.on { background: linear-gradient(180deg, #f6d77f, #b4872b); color: #2a1a05; font-weight: 700; }
+
+/* Ein/Aus-Schalter */
+.switch { display: inline-flex; align-items: center; gap: .7rem; cursor: pointer; }
+.switch input { position: absolute; opacity: 0; width: 0; height: 0; }
+.switch .track { position: relative; width: 52px; height: 28px; flex: none; border-radius: 999px; background: #1b2030; border: 1px solid var(--gold-lo); transition: .2s; }
+.switch .track::after {
+  content: ""; position: absolute; left: 3px; top: 3px; width: 20px; height: 20px; border-radius: 50%;
+  background: var(--muted); transition: .2s;
+}
+.switch input:checked + .track { background: rgba(212, 168, 67, .3); border-color: var(--gold-hi); }
+.switch input:checked + .track::after { transform: translateX(24px); background: var(--gold-hi); box-shadow: 0 0 10px rgba(243, 210, 122, .7); }
+.switch input:focus-visible + .track { outline: 2px solid var(--gold-hi); outline-offset: 2px; }
+.switch .lbl { font-family: var(--display); font-weight: 700; color: #fff; }
+.chk.small { display: flex; gap: .5rem; align-items: center; margin-top: .6rem; font-size: .9rem; color: var(--muted); cursor: pointer; }
+.chk.small input { width: 16px; height: 16px; accent-color: var(--gold); }
+
+.ng-actions { display: flex; flex-wrap: wrap; gap: .8rem; margin-top: .4rem; }
+.ng-pool { margin: .9rem 0 0; font-size: .92rem; }
+
+/* Ergebnisse */
+.ng-results { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
+.ng-card {
+  position: relative; display: grid; grid-template-columns: 1fr auto; gap: .2rem .8rem; align-items: center;
+  padding: 1rem 1.1rem 1rem 1.3rem; border-radius: var(--radius); border: 1px solid var(--gold-lo);
+  background: linear-gradient(180deg, rgba(32, 37, 54, .95), rgba(20, 23, 34, .95));
+  box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+}
+.ng-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; border-radius: var(--radius) 0 0 var(--radius); background: var(--cc, var(--gold)); }
+.ng-name { font-family: var(--display); font-size: 1.35rem; font-weight: 700; color: var(--cc, var(--gold-hi)); text-shadow: 0 2px 8px rgba(0, 0, 0, .6); line-height: 1.25; word-break: break-word; }
+.ng-name .ln { color: #fff; }
+.ng-meta { grid-column: 1; color: var(--muted); font-size: .86rem; }
+.ng-meta .ok { color: #8fd49b; margin-left: .4rem; }
+.ng-meta .warn { color: #f0c27a; margin-left: .4rem; }
+.ng-btns { display: flex; gap: .4rem; grid-column: 2; grid-row: 1 / span 2; }
+#namegen .icon-btn {
+  background: rgba(0, 0, 0, .35); color: var(--gold-hi); border: 1px solid var(--gold-lo); border-radius: 6px;
+  padding: .35rem .6rem; cursor: pointer; font-size: 1rem; line-height: 1.2;
+}
+#namegen .icon-btn:hover { background: rgba(212, 168, 67, .18); }
+#namegen .icon-btn.on { background: rgba(212, 168, 67, .3); color: #fff; }
+
+.ng-favs-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
+.ng-favs-head h2 { font-size: 1.25rem; margin: 0 0 .6rem; }
+.ng-fav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .5rem 0; border-bottom: 1px solid rgba(212, 168, 67, .2); }
+.ng-fav:last-child { border-bottom: 0; }
+#namegen .lnk { background: none; border: 0; color: var(--gold-hi); text-decoration: underline; cursor: pointer; font: inherit; padding: 0; }
+#namegen [hidden] { display: none !important; }
+
+@media (max-width: 560px) {
+  .seg button { font-size: .82rem; padding: .6rem .3rem; }
+  .ng-results { grid-template-columns: 1fr; }
+}

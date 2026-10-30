@@ -27,6 +27,7 @@
     { href: "downloads.html",    label: "Downloads" },
     { href: "anleitung.html",    label: "Anleitung" },
     { href: "ki-geschichten.html", label: "KI-Geschichten" },
+    { href: "namen-generator.html", label: "Namen" },
     { href: "roadmap.html",      label: "Roadmap" },
     { href: "timeline.html",     label: "Timeline" },
     { href: "community.html",    label: "Community" },

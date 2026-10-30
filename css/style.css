@@ -366,7 +366,7 @@ details > div { padding: 0 1.1rem 1rem; color: #d9d3bf; }
   .footer-grid { grid-template-columns: 1fr; }
   .footer-links { justify-content: flex-start; }
 }
-@media (max-width: 1080px) {
+@media (max-width: 1240px) {
   .nav-toggle { display: block; }
   .nav { flex-wrap: wrap; }
   .nav-links { display: none; width: 100%; flex-direction: column; padding-bottom: .6rem; }
@@ -448,3 +448,6 @@ details > div { padding: 0 1.1rem 1rem; color: #d9d3bf; }
 .story details { background: rgba(90, 52, 24, .08); border-color: #6b4a1c; }
 .story summary { color: #5b3a12; }
 .story details > div { color: var(--ink); }
+
+/* breitere Kopfzeile, damit alle Menüpunkte in eine Zeile passen */
+.site-header .wrap { width: min(1320px, 100% - 2rem); }

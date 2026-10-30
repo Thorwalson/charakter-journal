@@ -352,7 +352,7 @@
       LINKS.map(function (l) { return inp("links", null, l[0], l[1], { ph: l[2] }); }).join("") + "</div></section>";
   }
 
-  var PV_PAGES = [["index.html", "Startseite"], ["downloads.html", "Downloads"], ["roadmap.html", "Roadmap"], ["timeline.html", "Timeline"], ["community.html", "Community"], ["unterstuetzen.html", "Unterstützen"], ["ki-geschichten.html", "KI-Geschichten"]];
+  var PV_PAGES = [["index.html", "Startseite"], ["downloads.html", "Downloads"], ["roadmap.html", "Roadmap"], ["timeline.html", "Timeline"], ["community.html", "Community"], ["unterstuetzen.html", "Unterstützen"], ["ki-geschichten.html", "KI-Geschichten"], ["namen-generator.html", "Namen-Generator"]];
   function tabPreview() {
     return head("Vorschau", "So sieht die Website mit deinen aktuellen (noch unveröffentlichten) Änderungen aus.") +
       '<div class="btn-row" style="margin-bottom:1rem"><select id="pv-page" style="max-width:260px">' +

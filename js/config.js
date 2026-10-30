@@ -186,6 +186,7 @@ window.CJ = {
     { status: "planned", title: "Bosse, Dungeons & Raids", text: "Legendäre Momente deiner Reise festhalten.", tag: "Addon" },
     { status: "planned", title: "Mehr Sprachen", text: "Deutsch und Englisch zuerst, weitere nach Bedarf.", tag: "Addon + Website" },
 
+    { status: "done", title: "Namen-Generator", text: "Namen für alle Klassen und Völker, auch lustige. Online und als Offline-Datei.", tag: "Website" },
     { status: "done", title: "KI-Seite mit Gratis-Optionen", text: "Übersicht kostenloser KI-Assistenten und Prompt-Vorlagen für zusammenhängende Geschichten.", tag: "Website" },
     { status: "done", title: "Projektstart", text: "Idee, Name und Logo stehen.", tag: "Projekt" }
   ],
