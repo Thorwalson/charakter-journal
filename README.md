@@ -58,3 +58,15 @@ Mit dem Dashboard pflegst du die Website ohne Code: Download-ZIPs per Drag & Dro
 - **Offline-Download:** `downloads/CharakterJournal-Namensgenerator.html` ist eine einzelne Datei, die ohne Internet per Doppelklick im Browser läuft.
 - **Namen ergänzen:** Alle Listen stehen in `js/namegen-data.js` (Wörter, durch Leerzeichen getrennt, Erklärung am Dateianfang). Neue Völker oder Klassen ergänzt du dort ebenfalls.
 - **Nach jeder Änderung an den Namenslisten** die Offline-Datei neu bauen: `python3 tools/build_namegen_offline.py` (nur Python 3 nötig). Ohne diesen Schritt bleibt die Download-Version auf dem alten Stand.
+
+## Namen-Generator für WoW Forever
+
+Ein zweiter, eigenständiger Generator speziell für den privaten Server „WoW Forever“: nur die dort tatsächlich spielbaren Völker/Klassen-Kombinationen, plus **Beinamen** (Titel wie „der Drachentöter“ oder Spitznamen wie „Eisenfaust“, beides wählbar).
+
+- **Online:** `namen-generator-wow-forever.html` (im Menü unter „Forever-Namen“).
+- **Offline-Download:** `downloads/CharakterJournal-Namensgenerator-Forever.html` – eine einzelne Datei, läuft ohne Internet per Doppelklick im Browser.
+- **Daten/Regeln bearbeiten:** alles steht in `js/namegen-data-forever.js` (Erklärung am Dateianfang):
+  - Welches Volk welche Klasse spielen darf → Bereich „1) ALLOW-TABELLE“.
+  - Titel und Spitznamen → Bereich „2) BEINAMEN“, einfach Wörter/Phrasen ergänzen.
+  - Namens-„Klang“ der Himmelsgeborenen (Silben, Vor-/Nachnamen) → `D.cultures.skyborne` ganz oben in derselben Datei.
+- **Nach jeder Änderung** die Offline-Datei neu bauen: `python3 tools/build_namegen_offline_forever.py`.
