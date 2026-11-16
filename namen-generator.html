@@ -27,17 +27,27 @@
   <header id="site-header"></header>
 
   <main>
-    <section class="page-hero wrap">
-      <h1>Name-Gen</h1>
-      <div class="rule"></div>
-      <p>Unser kompletter Namen-Generator: Retail/Classic und WoW Forever an einem Ort. Wähle oben deine Version, dann Klasse und Volk – der Generator würfelt dir passende Namen.</p>
+    <div class="wrap" style="display:flex;justify-content:center;padding-top:1.4rem">
       <div class="gen-switch" role="tablist" aria-label="Spielversion wählen">
-        <button type="button" id="tab-btn-forever" class="btn small" data-tab="forever" role="tab" aria-selected="true">WoW Forever</button>
-        <button type="button" id="tab-btn-retail" class="btn small ghost" data-tab="retail" role="tab" aria-selected="false">Retail &amp; Classic</button>
+        <button type="button" id="tab-btn-forever" class="btn small" data-tab="forever" role="tab" aria-selected="true">Forever</button>
+        <button type="button" id="tab-btn-retail" class="btn small ghost" data-tab="retail" role="tab" aria-selected="false">Retail</button>
       </div>
-    </section>
+    </div>
 
     <div id="panel-forever" class="gen-panel" role="tabpanel" aria-labelledby="tab-btn-forever">
+      <section class="hero" style="padding-bottom:0">
+        <div class="wrap hero-grid">
+          <div class="hero-text">
+            <span class="badge">Für WoW Forever</span>
+            <h1>Namen-Generator<br><span>für WoW Forever</span></h1>
+            <p class="lead">Passend zu den echten Völkern und Klassen von WoW Forever, mit den richtigen Volk-Klassen-Regeln. Dazu <strong>Beinamen</strong>: ein Titel wie „der Drachentöter" oder ein Spitzname wie „Eisenfaust".</p>
+          </div>
+          <div class="hero-logo">
+            <img src="assets/logo.png" alt="Logo von Charakter Journal: ein Lederbuch mit goldenem CJ-Siegel, Schreibfeder und Burg im Hintergrund" width="320" height="320"
+                 onerror="this.outerHTML='&lt;span class=&quot;logo-fallback&quot;&gt;CJ&lt;/span&gt;'">
+          </div>
+        </div>
+      </section>
       <section class="section" style="padding-top:1.5rem">
         <div class="wrap">
           <div id="namegen-forever"><noscript>Der Namen-Generator benötigt JavaScript.</noscript></div>
@@ -54,6 +64,11 @@
     </div>
 
     <div id="panel-retail" class="gen-panel" role="tabpanel" aria-labelledby="tab-btn-retail" hidden>
+      <section class="page-hero wrap">
+        <h1>Namen-Generator</h1>
+        <div class="rule"></div>
+        <p>Wähle Klasse und Volk, und der Generator würfelt dir passende Namen. Für deinen Charakter, deine Geschichte oder einfach zum Spaß.</p>
+      </section>
       <section class="section" style="padding-top:1.5rem">
         <div class="wrap">
           <div id="namegen"><noscript>Der Namen-Generator benötigt JavaScript.</noscript></div>
