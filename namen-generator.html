@@ -3,10 +3,10 @@
 <head>
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Namen-Generator – Charakter Journal</title>
-  <meta name="description" content="Kostenloser WoW-Namen-Generator: Namen passend zu Klasse und Volk, Vor- und Nachnamen, bis zu 10 gleichzeitig, auch als lustige Namen. Mit Offline-Download.">
-  <meta property="og:title" content="WoW-Namen-Generator – Charakter Journal">
-  <meta property="og:description" content="Passende Namen für alle Klassen und Völker, auch lustige. Online und zum Download.">
+  <title>Name-Gen – Namen-Generator für WoW &amp; WoW Forever – Charakter Journal</title>
+  <meta name="description" content="Kostenloser WoW-Namen-Generator in einer Seite: Retail/Classic (13 Klassen, 25 Völker) und WoW Forever (eigene Völker, Klassen-Regeln, Beinamen). Bis zu 10 Namen gleichzeitig, auch lustige Namen. Mit Offline-Download.">
+  <meta property="og:title" content="Name-Gen – WoW-Namen-Generator – Charakter Journal">
+  <meta property="og:description" content="Passende Namen für Retail/Classic und WoW Forever an einem Ort. Online und zum Download.">
   <meta property="og:image" content="assets/social-preview.png">
   <meta name="theme-color" content="#0b0d14">
   <link rel="icon" type="image/png" href="assets/favicon.png">
@@ -16,46 +16,92 @@
   <script src="js/content.js"></script>
   <script src="js/main.js" defer></script>
   <script src="js/namegen-data.js" defer></script>
+  <script src="js/namegen-data-en.js" defer></script>
+  <script src="js/namegen-class-icons.js" defer></script>
+  <script src="js/namegen-icons-extra.js" defer></script>
   <script src="js/namegen.js" defer></script>
+  <script src="js/namegen-data-forever.js" defer></script>
+  <script src="js/namegen-forever.js" defer></script>
 </head>
 <body>
   <header id="site-header"></header>
 
   <main>
     <section class="page-hero wrap">
-      <h1>Namen-Generator</h1>
+      <h1>Name-Gen</h1>
       <div class="rule"></div>
-      <p>Wähle Klasse und Volk, und der Generator würfelt dir passende Namen. Für deinen Charakter, deine Geschichte oder einfach zum Spaß.</p>
-    </section>
-
-    <section class="section" style="padding-top:1.5rem">
-      <div class="wrap">
-        <div id="namegen"><noscript>Der Namen-Generator benötigt JavaScript.</noscript></div>
-
-        <div class="panel center" style="margin-top:2rem">
-          <h2>Spielst du auf WoW Forever?</h2>
-          <p class="muted">Dort gelten eigene Völker und Klassen-Regeln, und es gibt Beinamen (Titel oder Spitzname) dazu.</p>
-          <a class="btn ghost" href="namen-generator-wow-forever.html">Zum WoW-Forever-Generator</a>
-        </div>
-
-        <div class="panel parchment" style="margin-top:2rem">
-          <h2>Offline-Version zum Herunterladen</h2>
-          <p>Der Generator als <strong>einzelne Datei</strong>. Einfach herunterladen und per Doppelklick im Browser öffnen. Sie funktioniert ohne Internet, ohne Installation und ohne Konto.</p>
-          <div class="btn-row">
-            <a class="btn" href="downloads/CharakterJournal-Namensgenerator.html" download="CharakterJournal-Namensgenerator.html">⬇ Offline-Version herunterladen (.html)</a>
-          </div>
-          <p class="muted" style="margin:.8rem 0 0;font-size:.92rem;color:#5b3a12">Tipp: Du kannst die Datei auch an Freunde und deine Gilde weitergeben.</p>
-        </div>
-
-        <div class="grid cols-3" style="margin-top:2rem">
-          <article class="panel feature"><div class="icon">🎭</div><h3>Passend zu Klasse &amp; Volk</h3><p>13 Klassen und 25 Völker: Nachnamen greifen Themen deiner Klasse und deines Volkes auf, z. B. „Ironbeard“ für den Zwergenkrieger oder „Moonwhisper“ für die Nachtelfen-Druidin.</p></article>
-          <article class="panel feature"><div class="icon">🎲</div><h3>Riesige Auswahl</h3><p>Tausende Kombinationen aus Silben und handverlesenen Namen. Bis zu 10 Namen pro Klick, mit Anzeige der Pool-Größe.</p></article>
-          <article class="panel feature"><div class="icon">🤪</div><h3>Lustige Namen</h3><p>Ein Schalter genügt: Dann gibt es Namen wie „Heilbert Strahlemann“ oder „Eisbert Schafmacher“ für Leute mit Humor.</p></article>
-        </div>
+      <p>Unser kompletter Namen-Generator: Retail/Classic und WoW Forever an einem Ort. Wähle oben deine Version, dann Klasse und Volk – der Generator würfelt dir passende Namen.</p>
+      <div class="gen-switch" role="tablist" aria-label="Spielversion wählen">
+        <button type="button" id="tab-btn-forever" class="btn small" data-tab="forever" role="tab" aria-selected="true">WoW Forever</button>
+        <button type="button" id="tab-btn-retail" class="btn small ghost" data-tab="retail" role="tab" aria-selected="false">Retail &amp; Classic</button>
       </div>
     </section>
+
+    <div id="panel-forever" class="gen-panel" role="tabpanel" aria-labelledby="tab-btn-forever">
+      <section class="section" style="padding-top:1.5rem">
+        <div class="wrap">
+          <div id="namegen-forever"><noscript>Der Namen-Generator benötigt JavaScript.</noscript></div>
+
+          <div class="panel parchment" style="margin-top:2rem">
+            <h2>Offline-Version zum Herunterladen</h2>
+            <p>Dieser Generator als <strong>einzelne Datei</strong>. Einfach herunterladen und per Doppelklick im Browser öffnen, ganz ohne Internet.</p>
+            <div class="btn-row">
+              <a class="btn" href="downloads/CharakterJournal-Namensgenerator-Forever.html" download="CharakterJournal-Namensgenerator-Forever.html">⬇ Offline-Version herunterladen (.html)</a>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+
+    <div id="panel-retail" class="gen-panel" role="tabpanel" aria-labelledby="tab-btn-retail" hidden>
+      <section class="section" style="padding-top:1.5rem">
+        <div class="wrap">
+          <div id="namegen"><noscript>Der Namen-Generator benötigt JavaScript.</noscript></div>
+
+          <div class="panel parchment" style="margin-top:2rem">
+            <h2>Offline-Version zum Herunterladen</h2>
+            <p>Der Generator als <strong>einzelne Datei</strong>. Einfach herunterladen und per Doppelklick im Browser öffnen. Sie funktioniert ohne Internet, ohne Installation und ohne Konto.</p>
+            <div class="btn-row">
+              <a class="btn" href="downloads/CharakterJournal-Namensgenerator.html" download="CharakterJournal-Namensgenerator.html">⬇ Offline-Version herunterladen (.html)</a>
+            </div>
+            <p class="muted" style="margin:.8rem 0 0;font-size:.92rem;color:#5b3a12">Tipp: Du kannst die Datei auch an Freunde und deine Gilde weitergeben.</p>
+          </div>
+
+          <div class="grid cols-3" style="margin-top:2rem">
+            <article class="panel feature"><div class="icon">🎭</div><h3>Passend zu Klasse &amp; Volk</h3><p>13 Klassen und 25 Völker: Nachnamen greifen Themen deiner Klasse und deines Volkes auf, z. B. „Ironbeard" für den Zwergenkrieger oder „Moonwhisper" für die Nachtelfen-Druidin.</p></article>
+            <article class="panel feature"><div class="icon">🎲</div><h3>Riesige Auswahl</h3><p>Tausende Kombinationen aus Silben und handverlesenen Namen. Bis zu 10 Namen pro Klick, mit Anzeige der Pool-Größe.</p></article>
+            <article class="panel feature"><div class="icon">🤪</div><h3>Lustige Namen</h3><p>Ein Schalter genügt: Dann gibt es Namen wie „Heilbert Strahlemann" oder „Eisbert Schafmacher" für Leute mit Humor.</p></article>
+          </div>
+        </div>
+      </section>
+    </div>
   </main>
 
   <footer id="site-footer"></footer>
+
+  <script>
+  (function () {
+    var panels = { retail: document.getElementById('panel-retail'), forever: document.getElementById('panel-forever') };
+    var buttons = { retail: document.getElementById('tab-btn-retail'), forever: document.getElementById('tab-btn-forever') };
+
+    function show(tab) {
+      if (!panels[tab]) tab = 'forever';
+      Object.keys(panels).forEach(function (key) {
+        var active = key === tab;
+        panels[key].hidden = !active;
+        buttons[key].classList.toggle('ghost', !active);
+        buttons[key].setAttribute('aria-selected', active ? 'true' : 'false');
+      });
+      try { localStorage.setItem('cj-namegen-tab', tab); } catch (e) { /* ignorieren */ }
+    }
+
+    buttons.retail.addEventListener('click', function () { show('retail'); });
+    buttons.forever.addEventListener('click', function () { show('forever'); });
+
+    var saved = null;
+    try { saved = localStorage.getItem('cj-namegen-tab'); } catch (e) { /* ignorieren */ }
+    show(saved === 'retail' ? 'retail' : 'forever');
+  })();
+  </script>
 </body>
 </html>

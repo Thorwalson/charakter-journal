@@ -7,13 +7,76 @@
 #namegen .fld > span:first-child {
   font-family: var(--display); font-size: .78rem; letter-spacing: .06em; text-transform: uppercase; color: var(--gold-hi);
 }
-#namegen select {
+#namegen select, #namegen-forever select {
   width: 100%; font: inherit; font-size: 1rem; color: var(--text); background: rgba(0, 0, 0, .45);
   border: 1px solid var(--gold-lo); border-radius: 6px; padding: .6rem .75rem;
 }
-#namegen select option, #namegen select optgroup { background: #12151f; color: var(--text); }
-#namegen select:focus, #namegen input:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 1px; }
-#namegen input[type="range"] { width: 100%; accent-color: var(--gold); margin-top: .3rem; }
+#namegen select option, #namegen select optgroup,
+#namegen-forever select option, #namegen-forever select optgroup { background: #12151f; color: var(--text); }
+#namegen select:focus, #namegen input:focus-visible,
+#namegen-forever select:focus, #namegen-forever input:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 1px; }
+#namegen input[type="range"], #namegen-forever input[type="range"] { width: 100%; accent-color: var(--gold); margin-top: .3rem; }
+
+/* ---------- Eigenes Dropdown (ersetzt native <select>, zeigt Klassen-Icons) ---------- */
+.ng-dd { position: relative; width: 100%; }
+.ng-dd-btn {
+  display: flex; align-items: center; gap: .55rem; width: 100%; font: inherit; font-size: 1rem; text-align: left;
+  color: var(--text); background: linear-gradient(180deg, rgba(40, 45, 64, .9), rgba(18, 21, 31, .9));
+  border: 1px solid var(--gold-lo); border-radius: 8px; padding: .55rem .75rem; cursor: pointer;
+  transition: border-color .18s, box-shadow .18s, transform .12s;
+}
+.ng-dd-btn:hover { border-color: var(--gold-hi); box-shadow: 0 0 0 1px rgba(212, 168, 67, .25), 0 4px 14px rgba(0, 0, 0, .35); }
+.ng-dd-btn:active { transform: scale(.985); }
+.ng-dd-btn:focus-visible { outline: 2px solid var(--gold-hi); outline-offset: 1px; }
+.ng-dd[data-value] .ng-dd-btn[aria-expanded="true"] { border-color: var(--gold-hi); box-shadow: 0 0 0 1px rgba(212, 168, 67, .35); }
+.ng-dd-cur { flex: 1; display: flex; align-items: center; gap: .55rem; min-width: 0; }
+.ng-dd-cur span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ng-dd-caret { flex: none; color: var(--gold-hi); font-size: .75rem; transition: transform .2s ease; }
+.ng-dd-btn[aria-expanded="true"] .ng-dd-caret { transform: rotate(180deg); }
+.ng-dd-list {
+  position: absolute; z-index: 20; top: calc(100% + 6px); left: 0; right: 0; max-height: min(17rem, 60vh); overflow-y: auto;
+  margin: 0; padding: .35rem; list-style: none; border-radius: 8px; border: 1px solid var(--gold-lo);
+  background: linear-gradient(180deg, #1b1f2d, #10121b); box-shadow: 0 14px 34px rgba(0, 0, 0, .55), inset 0 1px 0 rgba(255, 255, 255, .04);
+  transform-origin: top center; animation: ngDdOpen .16s cubic-bezier(.2, .9, .3, 1.2) both;
+}
+/* Reicht der Platz nach unten nicht (z. B. Karte weiter unten auf der
+   Seite, besonders am Handy), klappt die Liste stattdessen nach oben auf –
+   siehe .ng-dd-list.flip-up weiter unten / ddBind() in namegen.js. */
+.ng-dd-list.flip-up { top: auto; bottom: calc(100% + 6px); transform-origin: bottom center; }
+.ng-dd-group {
+  display: flex; align-items: center; padding: .4rem .6rem .25rem; font-family: var(--display); font-size: .72rem;
+  letter-spacing: .08em; text-transform: uppercase; color: var(--muted);
+}
+.ng-dd-group .ng-ficon-dd { margin-right: .4rem; vertical-align: -1px; }
+.ng-dd-opt {
+  display: flex; align-items: center; gap: .55rem; padding: .5rem .6rem; border-radius: 6px; cursor: pointer;
+  transition: background .12s, color .12s;
+}
+.ng-dd-opt:hover, .ng-dd-opt:focus { background: rgba(212, 168, 67, .14); outline: none; }
+.ng-dd-opt.on { background: rgba(212, 168, 67, .22); color: var(--gold-hi); font-weight: 700; }
+.ng-dd-opt span:last-child { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+
+/* Klassen-Icon: echtes Bild (rund, wie die Klassen-Embleme) oder Emoji-Fallback */
+.ng-cicon { display: inline-flex; align-items: center; justify-content: center; flex: none; line-height: 1; }
+.ng-cicon img { display: block; width: 100%; height: 100%; object-fit: cover; border-radius: 50%; }
+.ng-cicon-emoji { font-size: 1.1em; }
+.ng-dd-cur .ng-cicon, .ng-dd-opt .ng-cicon.ng-cicon-dd { width: 22px; height: 22px; }
+.ng-dd-cur .ng-cicon img, .ng-dd-opt .ng-cicon-dd img { border: 1px solid var(--gold-lo); }
+.ng-cicon-meta { width: 16px; height: 16px; margin: 0 .3rem 0 .15rem; vertical-align: -3px; }
+.ng-cicon-meta img { border: 1px solid rgba(212, 168, 67, .4); }
+
+/* Fraktions-Wappen (Allianz/Horde) und Geschlecht-Icons: echte, freigestellte
+   Grafiken ohne Kreis-/Badge-Rahmen (passend zur jeweiligen Symbolform). */
+.ng-ficon, .ng-gicon { display: inline-block; vertical-align: -4px; object-fit: contain; }
+.ng-ficon-dd { width: 16px; height: 20px; margin-right: .45rem; }
+.ng-ficon-meta { width: 12px; height: 15px; margin: 0 .35rem 0 0; vertical-align: -2px; }
+.ng-gicon-meta { width: 11px; height: 14px; margin-left: .25rem; vertical-align: -2px; }
+.ng-gicon-seg { width: 12px; height: 15px; margin-right: .3rem; vertical-align: -2px; }
+
+@keyframes ngDdOpen {
+  from { opacity: 0; transform: translateY(-4px) scaleY(.92); }
+  to { opacity: 1; transform: translateY(0) scaleY(1); }
+}
 
 /* Segment-Schalter */
 .seg { display: flex; border: 1px solid var(--gold-lo); border-radius: 8px; overflow: hidden; background: rgba(0, 0, 0, .35); }
@@ -23,7 +86,9 @@
 }
 .seg button:last-child { border-right: 0; }
 .seg button:hover { background: rgba(212, 168, 67, .1); }
-.seg button.on { background: linear-gradient(180deg, #f6d77f, #b4872b); color: #2a1a05; font-weight: 700; }
+.seg button.on { background: linear-gradient(180deg, #f6d77f, #b4872b); color: #2a1a05; font-weight: 700; animation: ngPop .22s ease; }
+.seg button { transition: background .15s, transform .1s; }
+.seg button:active { transform: scale(.95); }
 
 /* Ein/Aus-Schalter */
 .switch { display: inline-flex; align-items: center; gap: .7rem; cursor: pointer; }
@@ -46,31 +111,108 @@
 /* Ergebnisse */
 .ng-results { display: grid; gap: .9rem; grid-template-columns: repeat(auto-fill, minmax(300px, 1fr)); }
 .ng-card {
-  position: relative; display: grid; grid-template-columns: 1fr auto; gap: .2rem .8rem; align-items: center;
+  position: relative; overflow: hidden; display: grid; grid-template-columns: 1fr auto; gap: .2rem .8rem; align-items: center;
   padding: 1rem 1.1rem 1rem 1.3rem; border-radius: var(--radius); border: 1px solid var(--gold-lo);
   background: linear-gradient(180deg, rgba(32, 37, 54, .95), rgba(20, 23, 34, .95));
   box-shadow: 0 8px 24px rgba(0, 0, 0, .4);
+  transition: transform .18s ease, box-shadow .18s ease, border-color .18s ease, background .25s ease;
 }
-.ng-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; border-radius: var(--radius) 0 0 var(--radius); background: var(--cc, var(--gold)); }
+.ng-card:hover { transform: translateY(-3px); border-color: var(--gold-hi); box-shadow: 0 14px 30px rgba(0, 0, 0, .5); }
+/* Im Bearbeiten-Modus dürfen die Volk-/Klassen-Dropdowns über den
+   Standard/Fraktion-Umschalter und den unteren Kartenrand hinausragen,
+   statt dort abgeschnitten zu werden – daher hier kein overflow:hidden.
+   z-index sorgt dafür, dass die aufgeklappte Liste über später folgenden
+   Karten im Raster liegt, nicht dahinter. */
+.ng-card.editing { overflow: visible; z-index: 6; }
+.ng-card::before { content: ""; position: absolute; left: 0; top: 0; bottom: 0; width: 5px; border-radius: var(--radius) 0 0 var(--radius); background: var(--cc, var(--gold)); z-index: 1; }
+.ng-name, .ng-meta, .ng-meta-edit, .ng-btns { position: relative; z-index: 1; }
+
+/* ---------- Kartendesign: Standard / Fraktion ----------
+   "Fraktion": Farbverlauf von rechts (Fraktionsfarbe) nach links (normale
+   Kartenfarbe) + großes, halbtransparentes Wappen rechts; neutrale Völker
+   (kein Wappen vorhanden) bekommen nur einen warmen Gold-Ton, ohne Logo. */
+.ng-card-fac-logo {
+  position: absolute; z-index: 0; right: -10px; top: 50%; transform: translateY(-50%);
+  width: 46%; max-width: 150px; height: auto; opacity: 0; pointer-events: none;
+  filter: drop-shadow(0 6px 14px rgba(0, 0, 0, .55));
+  transition: opacity .3s ease;
+}
+.ng-card.ng-style-faction .ng-card-fac-logo { opacity: .5; }
+.ng-card.ng-style-faction.ng-fac-h { background-image: linear-gradient(to left, rgba(196, 30, 58, .55), rgba(196, 30, 58, 0) 62%), linear-gradient(180deg, rgba(32, 37, 54, .95), rgba(20, 23, 34, .95)); }
+.ng-card.ng-style-faction.ng-fac-a { background-image: linear-gradient(to left, rgba(29, 99, 181, .55), rgba(29, 99, 181, 0) 62%), linear-gradient(180deg, rgba(32, 37, 54, .95), rgba(20, 23, 34, .95)); }
+.ng-card.ng-style-faction.ng-fac-n { background-image: linear-gradient(to left, rgba(184, 140, 46, .4), rgba(184, 140, 46, 0) 62%), linear-gradient(180deg, rgba(32, 37, 54, .95), rgba(20, 23, 34, .95)); }
+/* Standard/Fraktion-Umschalter: zwei kleine Icon-Buttons, rechts UNTER den
+   restlichen Karten-Aktionen gestapelt (nicht mehr als eigene volle Zeile
+   unter dem Namen – das drängte beim Bearbeiten das Dropdown nach unten und
+   schnitt es am Kartenrand ab). */
+.ng-style-col { display: flex; flex-direction: column; gap: .4rem; }
+.ng-ficon-btn { width: 14px; height: 18px; display: block; margin: 0 auto; }
+.ng-card-in { animation: ngCardIn .45s cubic-bezier(.17, .84, .44, 1) both; animation-delay: var(--d, 0s); }
+@media (prefers-reduced-motion: reduce) {
+  .ng-card-in, .ng-dd-list, .seg button.on { animation: none; }
+  .ng-card, .ng-dd-btn, .seg button, #namegen .icon-btn, #namegen-forever .icon-btn { transition: none; }
+}
+@keyframes ngCardIn {
+  from { opacity: 0; transform: translateY(14px) scale(.97); }
+  to { opacity: 1; transform: translateY(0) scale(1); }
+}
+@keyframes ngPop {
+  0% { transform: scale(.9); }
+  60% { transform: scale(1.05); }
+  100% { transform: scale(1); }
+}
 .ng-name { font-family: var(--display); font-size: 1.35rem; font-weight: 700; color: var(--cc, var(--gold-hi)); text-shadow: 0 2px 8px rgba(0, 0, 0, .6); line-height: 1.25; word-break: break-word; }
 .ng-name .ln { color: #fff; }
+.ng-fn, .ng-ln, .ng-name[contenteditable] { outline: none; border-radius: 4px; }
+.ng-card.editing .ng-fn, .ng-card.editing .ng-ln, .ng-card.editing .ng-name[contenteditable="true"] {
+  background: rgba(212, 168, 67, .14); box-shadow: 0 0 0 1px var(--gold-lo); padding: 0 .25rem; cursor: text;
+}
+.ng-card.editing .ng-fn:focus, .ng-card.editing .ng-ln:focus, .ng-card.editing .ng-name[contenteditable="true"]:focus {
+  box-shadow: 0 0 0 2px var(--gold-hi);
+}
+.ng-card.editing .ng-fn:empty::before { content: "Vorname"; opacity: .4; font-style: italic; }
+.ng-card.editing .ng-ln:empty::before { content: "Nachname"; opacity: .4; font-style: italic; }
+.ng-card.editing .ng-name[contenteditable="true"]:empty::before { content: "Name eingeben…"; opacity: .4; font-style: italic; }
+[data-lang="en"] .ng-card.editing .ng-fn:empty::before { content: "First name"; }
+[data-lang="en"] .ng-card.editing .ng-ln:empty::before { content: "Last name"; }
+[data-lang="en"] .ng-card.editing .ng-name[contenteditable="true"]:empty::before { content: "Enter name…"; }
+.ng-ln:not(:empty)::before { content: " "; }
 .ng-meta { grid-column: 1; color: var(--muted); font-size: .86rem; }
 .ng-meta .ok { color: #8fd49b; margin-left: .4rem; }
 .ng-meta .warn { color: #f0c27a; margin-left: .4rem; }
-.ng-btns { display: flex; gap: .4rem; grid-column: 2; grid-row: 1 / span 2; }
-#namegen .icon-btn {
+
+/* Bearbeiten-Modus: Volk-/Klassen-Dropdowns + Geschlecht-Umschalter an
+   Stelle der Meta-Textzeile (gleiche Grid-Zelle, nur eins von beiden sichtbar). */
+.ng-meta-edit { display: none; grid-column: 1; flex-wrap: wrap; gap: .45rem; align-items: center; }
+.ng-card.editing .ng-meta-edit { display: flex; }
+.ng-card.editing .ng-meta { display: none; }
+.ng-meta-edit .ng-dd { width: auto; flex: 1 1 140px; min-width: 120px; }
+.ng-meta-edit .ng-dd-btn { font-size: .84rem; padding: .4rem .55rem; }
+.ng-gseg { display: flex; flex: none; border: 1px solid var(--gold-lo); border-radius: 8px; overflow: hidden; }
+.ng-gseg button { background: rgba(0, 0, 0, .35); border: 0; padding: .4rem .6rem; cursor: pointer; display: flex; align-items: center; transition: background .15s; }
+.ng-gseg button:hover { background: rgba(212, 168, 67, .14); }
+.ng-gseg button.on { background: linear-gradient(180deg, #f6d77f, #b4872b); }
+.ng-gseg button .ng-gicon-seg { margin: 0; }
+.ng-btns { display: flex; flex-wrap: wrap; justify-content: flex-end; gap: .4rem; grid-column: 2; grid-row: 1 / -1; max-width: 92px; align-self: start; }
+#namegen .icon-btn, #namegen-forever .icon-btn {
   background: rgba(0, 0, 0, .35); color: var(--gold-hi); border: 1px solid var(--gold-lo); border-radius: 6px;
   padding: .35rem .6rem; cursor: pointer; font-size: 1rem; line-height: 1.2;
+  transition: background .15s, transform .12s, border-color .15s;
 }
-#namegen .icon-btn:hover { background: rgba(212, 168, 67, .18); }
-#namegen .icon-btn.on { background: rgba(212, 168, 67, .3); color: #fff; }
+#namegen .icon-btn:hover, #namegen-forever .icon-btn:hover { background: rgba(212, 168, 67, .18); border-color: var(--gold-hi); transform: translateY(-1px); }
+#namegen .icon-btn:active, #namegen-forever .icon-btn:active { transform: scale(.92); }
+#namegen .icon-btn.on, #namegen-forever .icon-btn.on { background: rgba(212, 168, 67, .3); color: #fff; animation: ngPop .25s ease; }
 
 .ng-favs-head { display: flex; justify-content: space-between; align-items: baseline; gap: 1rem; }
 .ng-favs-head h2 { font-size: 1.25rem; margin: 0 0 .6rem; }
 .ng-fav { display: flex; justify-content: space-between; align-items: center; gap: 1rem; padding: .5rem 0; border-bottom: 1px solid rgba(212, 168, 67, .2); }
 .ng-fav:last-child { border-bottom: 0; }
-#namegen .lnk { background: none; border: 0; color: var(--gold-hi); text-decoration: underline; cursor: pointer; font: inherit; padding: 0; }
-#namegen [hidden] { display: none !important; }
+#namegen .lnk, #namegen-forever .lnk { background: none; border: 0; color: var(--gold-hi); text-decoration: underline; cursor: pointer; font: inherit; padding: 0; }
+#namegen [hidden], #namegen-forever [hidden] { display: none !important; }
+
+.gen-switch { display: flex; gap: .5rem; align-items: center; flex-wrap: wrap; margin-top: 1.2rem; }
+.gen-switch .btn { padding: .55rem 1.1rem; }
+.gen-panel[hidden] { display: none !important; }
 
 @media (max-width: 560px) {
   .seg button { font-size: .82rem; padding: .6rem .3rem; }
