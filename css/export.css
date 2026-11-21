@@ -1,0 +1,74 @@
+/* ==========================================================
+   Charakter Journal – Journal-Export (Styles)
+   ========================================================== */
+.export-wrap { max-width: 760px; }
+
+.panel .num {
+  display: inline-grid; place-items: center; width: 26px; height: 26px; margin-right: .5rem;
+  border-radius: 50%; font-family: var(--display); font-weight: 900; font-size: .85rem; color: #2a1a05;
+  background: linear-gradient(180deg, #f6d77f, #b4872b); border: 1px solid #6b4a1c; vertical-align: -.35em;
+}
+
+.panel h2 { margin-top: 0; }
+
+.hint { color: var(--muted); font-size: .92rem; }
+.parchment .hint { color: #6b4a1c; }
+
+/* ---------- Drop-Zone ---------- */
+.export-drop {
+  border: 2px dashed var(--gold-lo); border-radius: var(--radius);
+  padding: 1.8rem 1rem; text-align: center; background: rgba(0, 0, 0, .18);
+  transition: background .15s, border-color .15s;
+}
+.export-drop.over { background: rgba(212, 168, 67, .14); border-color: var(--gold-hi); }
+.export-drop .big { font-family: var(--display); font-weight: 700; font-size: 1.15rem; color: var(--gold-hi); margin-bottom: .4rem; }
+.export-drop .hint { margin: .5rem auto 0; max-width: 32rem; }
+
+/* ---------- Charakter-Liste ---------- */
+.char {
+  display: flex; gap: .9rem; align-items: center; padding: .7rem .9rem; margin: .6rem 0;
+  border: 1px solid var(--gold-lo); border-radius: 8px;
+  background: linear-gradient(180deg, rgba(32, 37, 54, .9), rgba(20, 23, 34, .9));
+  cursor: pointer;
+}
+.char input { width: 18px; height: 18px; accent-color: var(--gold); flex: none; }
+.char > div { flex: 1; }
+.char b { color: var(--gold-hi); }
+.char .dim { color: var(--muted); font-size: .9rem; }
+.char .x { background: none; border: 0; color: var(--muted); cursor: pointer; font-size: 1.1rem; line-height: 1; padding: .2rem; }
+.char .x:hover { color: var(--red); }
+
+/* ---------- Optionen (Checkboxen) ---------- */
+.export-opts { display: flex; gap: 1.3rem; flex-wrap: wrap; }
+.export-opts label { display: flex; gap: .5rem; align-items: center; cursor: pointer; }
+.export-opts input { width: 17px; height: 17px; accent-color: var(--gold); }
+
+.btn.primary { font-size: 1rem; padding: .95rem 2rem; }
+.btn:disabled, .btn.primary:disabled { opacity: .4; cursor: not-allowed; filter: grayscale(.5); transform: none !important; box-shadow: none !important; }
+
+.export-status { min-height: 1.4rem; color: var(--muted); margin-top: .8rem; text-align: center; }
+
+/* ---------- Ergebnisse ---------- */
+#resultsCard .res { padding: .6rem 0; border-bottom: 1px solid rgba(90, 52, 24, .25); }
+#resultsCard .res:last-of-type { border-bottom: 0; }
+#resultsCard .res a { color: #7a3a10; font-weight: 700; margin: 0 .6rem; }
+#resultsCard .res .btn { text-decoration: none; }
+#resultsCard .res .dim { color: #8a6a3a; font-size: .88rem; }
+#resultsCard h3 { margin: 0 0 .6rem; }
+
+details summary { color: var(--gold-hi); cursor: pointer; }
+.export-steps { margin: .6rem 0 0; padding-left: 1.3rem; display: grid; gap: .5rem; color: var(--muted); }
+.export-steps code { word-break: break-word; }
+
+/* ---------- Toast ---------- */
+.toast {
+  position: fixed; left: 50%; bottom: 1.4rem; transform: translateX(-50%);
+  background: #14100b; border: 1px solid var(--gold-lo); color: var(--text);
+  padding: .7rem 1.2rem; border-radius: 9px; max-width: 90vw; display: none; z-index: 60;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, .5);
+  font-size: .92rem;
+}
+
+@media (max-width: 560px) {
+  .export-opts { gap: .9rem; }
+}

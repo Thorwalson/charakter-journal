@@ -27,7 +27,12 @@
     { href: "downloads.html",    label: "Downloads" },
     { href: "anleitung.html",    label: "Anleitung" },
     { href: "ki-geschichten.html", label: "KI-Geschichten" },
-    { href: "namen-generator.html", label: "Name-Gen" },
+    { label: "Tools", items: [
+        { href: "namen-generator.html", label: "Name-Gen" },
+        { href: "export.html",          label: "Journal-Export" },
+        { label: "Buch-Designer", soon: true }
+      ]
+    },
     { href: "roadmap.html",      label: "Roadmap" },
     { href: "timeline.html",     label: "Timeline" },
     { href: "community.html",    label: "Community" },
@@ -46,13 +51,32 @@
   }
 
   /* ---------- Header ---------- */
+  function navItemHtml(p, cur) {
+    if (p.items) {
+      var childActive = p.items.some(function (c) { return c.href === cur; });
+      var sub = p.items.map(function (c) {
+        if (c.soon || !c.href) {
+          return '<span class="is-disabled" aria-disabled="true" title="Bald verfügbar">' + esc(c.label) + "</span>";
+        }
+        return '<a href="' + c.href + '"' + (c.href === cur ? ' aria-current="page"' : "") + ">" + esc(c.label) + "</a>";
+      }).join("");
+      return (
+        '<div class="nav-drop' + (childActive ? " is-active" : "") + '">' +
+          '<button type="button" class="nav-drop-btn" aria-haspopup="true" aria-expanded="false">' +
+            esc(p.label) + '<span class="nav-drop-caret" aria-hidden="true">▾</span>' +
+          "</button>" +
+          '<div class="nav-drop-menu">' + sub + "</div>" +
+        "</div>"
+      );
+    }
+    return '<a href="' + p.href + '"' + (p.href === cur ? ' aria-current="page"' : "") + ">" + esc(p.label) + "</a>";
+  }
+
   function buildHeader() {
     var host = document.getElementById("site-header");
     if (!host) return;
     var cur = current();
-    var links = PAGES.map(function (p) {
-      return '<a href="' + p.href + '"' + (p.href === cur ? ' aria-current="page"' : "") + ">" + p.label + "</a>";
-    }).join("");
+    var links = PAGES.map(function (p) { return navItemHtml(p, cur); }).join("");
     host.className = "site-header";
     host.innerHTML =
       '<div class="wrap nav">' +
@@ -70,6 +94,29 @@
       var open = nav.classList.toggle("open");
       btn.setAttribute("aria-expanded", open ? "true" : "false");
     });
+
+    /* Dropdown(s): Klick zum Öffnen/Schließen, Klick außerhalb oder Escape schließt */
+    var drops = host.querySelectorAll(".nav-drop");
+    function closeAll(except) {
+      for (var i = 0; i < drops.length; i++) {
+        if (drops[i] === except) continue;
+        drops[i].classList.remove("open");
+        drops[i].querySelector(".nav-drop-btn").setAttribute("aria-expanded", "false");
+      }
+    }
+    for (var i = 0; i < drops.length; i++) {
+      (function (drop) {
+        var dbtn = drop.querySelector(".nav-drop-btn");
+        dbtn.addEventListener("click", function (e) {
+          e.stopPropagation();
+          var open = drop.classList.toggle("open");
+          dbtn.setAttribute("aria-expanded", open ? "true" : "false");
+          if (open) closeAll(drop);
+        });
+      })(drops[i]);
+    }
+    document.addEventListener("click", function () { closeAll(); });
+    document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAll(); });
   }
 
   /* ---------- Footer ---------- */
