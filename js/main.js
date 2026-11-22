@@ -30,7 +30,7 @@
     { label: "Tools", items: [
         { href: "namen-generator.html", label: "Name-Gen" },
         { href: "export.html",          label: "Journal-Export" },
-        { label: "Buch-Designer", soon: true }
+        { href: "buch-designer.html",   label: "Buch-Designer" }
       ]
     },
     { href: "roadmap.html",      label: "Roadmap" },
