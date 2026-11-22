@@ -39,6 +39,16 @@ button,input,select,textarea{font:inherit;color:inherit}
 .btn.danger{background:linear-gradient(180deg,#e9a3a3,#d9636f);color:#2a0c0f;border-color:#d9636f}
 .btn.danger:hover{background:linear-gradient(180deg,#f0bcbc,#e37d87);border-color:var(--ui-red)}
 .btn:disabled{opacity:.45;cursor:not-allowed;filter:grayscale(.3)}
+#cropRect{border:2px solid var(--ui-gold);box-shadow:0 0 0 2000px rgba(0,0,0,.55);cursor:move}
+#cropRect .ch{position:absolute;width:14px;height:14px;background:var(--ui-gold);border:1px solid #241705;border-radius:3px;z-index:2}
+#cropRect .ch[data-h=nw]{left:-8px;top:-8px;cursor:nwse-resize}
+#cropRect .ch[data-h=ne]{right:-8px;top:-8px;cursor:nesw-resize}
+#cropRect .ch[data-h=sw]{left:-8px;bottom:-8px;cursor:nesw-resize}
+#cropRect .ch[data-h=se]{right:-8px;bottom:-8px;cursor:nwse-resize}
+#cropRect .ch[data-h=n]{left:calc(50% - 7px);top:-8px;cursor:ns-resize}
+#cropRect .ch[data-h=s]{left:calc(50% - 7px);bottom:-8px;cursor:ns-resize}
+#cropRect .ch[data-h=w]{left:-8px;top:calc(50% - 7px);cursor:ew-resize}
+#cropRect .ch[data-h=e]{right:-8px;top:calc(50% - 7px);cursor:ew-resize}
 .side{overflow:auto;background:var(--ui-panel);border-right:1px solid var(--ui-line);padding:8px 10px 40px}
 details{border:1px solid var(--ui-line);border-radius:8px;margin:8px 0;background:var(--ui-bg)}
 summary{cursor:pointer;padding:9px 12px;font-weight:600;color:var(--ui-gold);list-style:none}
@@ -400,21 +410,24 @@ dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:14px 
 
 <dialog id="dCrop">
   <h3>Bild zuschneiden &amp; skalieren</h3>
-  <div class="hint" style="margin-bottom:8px">Ziehe das Bild mit der Maus, um den Ausschnitt zu verschieben. Mit dem Regler zoomst du rein oder raus.</div>
-  <div class="row2" id="cropAspects" style="margin-bottom:8px;flex-wrap:wrap">
+  <div class="hint" style="margin-bottom:8px">Ziehe den Rahmen an den Ecken oder Kanten, um ihn frei zu verändern, oder verschiebe ihn bei gedrückter Maustaste in der Mitte. Die Knöpfe setzen ein festes Seitenverhältnis.</div>
+  <div id="cropAspects" style="display:flex;flex-wrap:wrap;gap:6px;margin-bottom:8px">
+    <button type="button" class="btn small primary" data-ar="free">Frei</button>
     <button type="button" class="btn small" data-ar="orig">Original</button>
     <button type="button" class="btn small" data-ar="1">Quadratisch</button>
     <button type="button" class="btn small" data-ar="1.3333">4∶3</button>
     <button type="button" class="btn small" data-ar="0.75">3∶4 (hoch)</button>
     <button type="button" class="btn small" data-ar="1.7778">16∶9</button>
   </div>
-  <div id="cropBox" style="position:relative;overflow:hidden;background:#000;border:1px solid var(--ui-line);border-radius:6px;margin:0 auto;touch-action:none;cursor:grab">
-    <img id="cropImg" alt="" draggable="false" style="position:absolute;left:0;top:0;transform-origin:0 0;user-select:none;pointer-events:none">
+  <div id="cropStage" style="position:relative;overflow:hidden;background:#111;border:1px solid var(--ui-line);border-radius:6px;margin:0 auto;touch-action:none">
+    <img id="cropImg" alt="" draggable="false" style="position:absolute;left:0;top:0;user-select:none;pointer-events:none">
+    <div id="cropRect" style="position:absolute">
+      <div class="ch" data-h="nw"></div><div class="ch" data-h="n"></div><div class="ch" data-h="ne"></div>
+      <div class="ch" data-h="w"></div><div class="ch" data-h="e"></div>
+      <div class="ch" data-h="sw"></div><div class="ch" data-h="s"></div><div class="ch" data-h="se"></div>
+    </div>
   </div>
-  <div style="display:flex;align-items:center;gap:10px;margin-top:10px">
-    <span class="hint" style="flex:none">Zoom</span>
-    <input type="range" id="cropZoom" min="100" max="400" value="100" style="flex:1">
-  </div>
+  <div class="hint" id="cropInfo" style="margin-top:8px;text-align:center"></div>
   <menu><button class="btn" id="cropCancel">Abbrechen</button><button class="btn primary" id="cropOk">Übernehmen</button></menu>
 </dialog>
 
@@ -1002,39 +1015,47 @@ $('#exlist').addEventListener('click', e => {
 });
 $('#exlist').addEventListener('input', e => { if (e.target.dataset.excap != null) { cur().extras[+e.target.dataset.excap].caption = e.target.value; scheduleRender(); } if (e.target.dataset.exsub != null) { cur().extras[+e.target.dataset.exsub].sub = e.target.value; scheduleRender(); } });
 
-/* ---------- Bild zuschneiden & skalieren ---------- */
+/* ---------- Bild zuschneiden & skalieren (freier Rahmen) ---------- */
 let cropState = null;
-function cropBaseScale() { return Math.max(cropState.boxW / cropState.natW, cropState.boxH / cropState.natH); }
-function cropClamp() {
-  const s = cropBaseScale() * cropState.zoom;
-  const dispW = cropState.natW * s, dispH = cropState.natH * s;
-  cropState.tx = Math.min(0, Math.max(cropState.boxW - dispW, cropState.tx));
-  cropState.ty = Math.min(0, Math.max(cropState.boxH - dispH, cropState.ty));
+function cropUpdateRectEl() {
+  const r = $('#cropRect');
+  r.style.left = cropState.rx + 'px'; r.style.top = cropState.ry + 'px';
+  r.style.width = cropState.rw + 'px'; r.style.height = cropState.rh + 'px';
+  const natW = Math.round(cropState.rw / cropState.scale), natH = Math.round(cropState.rh / cropState.scale);
+  $('#cropInfo').textContent = natW + ' × ' + natH + ' px';
 }
-function cropApplyTransform() {
-  const s = cropBaseScale() * cropState.zoom;
-  const img = $('#cropImg');
-  img.style.width = cropState.natW + 'px'; img.style.height = cropState.natH + 'px';
-  img.style.transform = 'translate(' + cropState.tx + 'px,' + cropState.ty + 'px) scale(' + s + ')';
+function cropClampRect() {
+  let { rx, ry, rw, rh, stageW, stageH } = cropState;
+  const min = 24;
+  rw = Math.max(min, Math.min(rw, stageW)); rh = Math.max(min, Math.min(rh, stageH));
+  rx = Math.max(0, Math.min(rx, stageW - rw)); ry = Math.max(0, Math.min(ry, stageH - rh));
+  Object.assign(cropState, { rx, ry, rw, rh });
 }
-function cropSetAspect(ar) {
-  cropState.aspect = ar === 'orig' ? cropState.natW / cropState.natH : ar;
-  const boxW = Math.min(440, Math.round(($('#dCrop').clientWidth || 480) - 8));
-  const boxH = Math.max(80, Math.round(boxW / cropState.aspect));
-  const box = $('#cropBox'); box.style.width = boxW + 'px'; box.style.height = boxH + 'px';
-  cropState.boxW = boxW; cropState.boxH = boxH; cropState.zoom = 1;
-  $('#cropZoom').value = 100;
-  const s = cropBaseScale();
-  cropState.tx = (boxW - cropState.natW * s) / 2;
-  cropState.ty = (boxH - cropState.natH * s) / 2;
-  cropClamp(); cropApplyTransform();
+function cropSetAspect(mode) {
+  cropState.lock = mode === 'free' ? null : (mode === 'orig' ? cropState.natW / cropState.natH : mode);
+  if (cropState.lock) {
+    const { stageW, stageH } = cropState;
+    let w = stageW * .86, h = w / cropState.lock;
+    if (h > stageH * .86) { h = stageH * .86; w = h * cropState.lock; }
+    cropState.rw = w; cropState.rh = h;
+    cropState.rx = (stageW - w) / 2; cropState.ry = (stageH - h) / 2;
+    cropClampRect(); cropUpdateRectEl();
+  }
 }
 function openCropper(src, onApply) {
   const img = $('#cropImg');
   img.onload = () => {
-    cropState = { natW: img.naturalWidth, natH: img.naturalHeight, zoom: 1, tx: 0, ty: 0, onApply };
-    document.querySelectorAll('#cropAspects button').forEach(b => b.classList.toggle('primary', b.dataset.ar === 'orig'));
-    cropSetAspect('orig');
+    const maxW = Math.min(520, (document.querySelector('#dCrop').clientWidth || 560) - 4), maxH = 420;
+    const scale = Math.min(maxW / img.naturalWidth, maxH / img.naturalHeight);
+    const stageW = Math.round(img.naturalWidth * scale), stageH = Math.round(img.naturalHeight * scale);
+    const stage = $('#cropStage'); stage.style.width = stageW + 'px'; stage.style.height = stageH + 'px';
+    img.style.width = stageW + 'px'; img.style.height = stageH + 'px';
+    cropState = {
+      natW: img.naturalWidth, natH: img.naturalHeight, scale, stageW, stageH,
+      rx: stageW * .07, ry: stageH * .07, rw: stageW * .86, rh: stageH * .86, lock: null, onApply
+    };
+    cropClampRect(); cropUpdateRectEl();
+    document.querySelectorAll('#cropAspects button').forEach(b => b.classList.toggle('primary', b.dataset.ar === 'free'));
     $('#dCrop').showModal();
   };
   img.src = src;
@@ -1043,39 +1064,60 @@ $('#cropAspects').addEventListener('click', e => {
   const b = e.target.closest('button[data-ar]'); if (!b || !cropState) return;
   document.querySelectorAll('#cropAspects button').forEach(x => x.classList.remove('primary'));
   b.classList.add('primary');
-  cropSetAspect(b.dataset.ar === 'orig' ? 'orig' : parseFloat(b.dataset.ar));
-});
-$('#cropZoom').addEventListener('input', e => {
-  if (!cropState) return;
-  cropState.zoom = +e.target.value / 100;
-  cropClamp(); cropApplyTransform();
+  cropSetAspect(b.dataset.ar === 'free' || b.dataset.ar === 'orig' ? b.dataset.ar : parseFloat(b.dataset.ar));
 });
 (function () {
-  const box = $('#cropBox');
-  let dragging = false, sx = 0, sy = 0, stx = 0, sty = 0;
-  box.addEventListener('pointerdown', e => {
+  const stage = $('#cropStage'), rect = $('#cropRect');
+  let mode = null, handle = null, sx = 0, sy = 0, start = null;
+  function begin(e, m, h) {
     if (!cropState) return;
-    dragging = true; box.setPointerCapture(e.pointerId);
-    sx = e.clientX; sy = e.clientY; stx = cropState.tx; sty = cropState.ty;
-    box.style.cursor = 'grabbing';
+    mode = m; handle = h; sx = e.clientX; sy = e.clientY;
+    start = { rx: cropState.rx, ry: cropState.ry, rw: cropState.rw, rh: cropState.rh };
+    (e.target).setPointerCapture?.(e.pointerId);
+    e.preventDefault(); e.stopPropagation();
+  }
+  rect.addEventListener('pointerdown', e => {
+    const h = e.target.closest('.ch');
+    begin(e, h ? 'resize' : 'move', h ? h.dataset.h : null);
   });
-  box.addEventListener('pointermove', e => {
-    if (!dragging) return;
-    cropState.tx = stx + (e.clientX - sx); cropState.ty = sty + (e.clientY - sy);
-    cropClamp(); cropApplyTransform();
+  stage.addEventListener('pointermove', e => {
+    if (!mode || !cropState) return;
+    const dx = e.clientX - sx, dy = e.clientY - sy;
+    if (mode === 'move') {
+      cropState.rx = start.rx + dx; cropState.ry = start.ry + dy;
+    } else {
+      let { rx: x, ry: y, rw: w, rh: h } = start;
+      let nx = x, ny = y, nw = w, nh = h;
+      if (handle.includes('e')) nw = w + dx;
+      if (handle.includes('w')) { nx = x + dx; nw = w - dx; }
+      if (handle.includes('s')) nh = h + dy;
+      if (handle.includes('n')) { ny = y + dy; nh = h - dy; }
+      if (cropState.lock) {
+        if (handle === 'n' || handle === 's') { nw = nh * cropState.lock; nx = x + (w - nw) / 2; }
+        else if (handle === 'e' || handle === 'w') { nh = nw / cropState.lock; ny = y + (h - nh) / 2; }
+        else {
+          const anchorX = handle.includes('w') ? x + w : x, anchorY = handle.includes('n') ? y + h : y;
+          nh = Math.max(24, nw) / cropState.lock;
+          nx = handle.includes('w') ? anchorX - nw : anchorX;
+          ny = handle.includes('n') ? anchorY - nh : anchorY;
+        }
+      }
+      if (nw < 0) { nx += nw; nw = -nw; } if (nh < 0) { ny += nh; nh = -nh; }
+      Object.assign(cropState, { rx: nx, ry: ny, rw: nw, rh: nh });
+    }
+    cropClampRect(); cropUpdateRectEl();
   });
-  function up() { dragging = false; box.style.cursor = 'grab'; }
-  box.addEventListener('pointerup', up);
-  box.addEventListener('pointerleave', up);
+  function end() { mode = null; handle = null; }
+  stage.addEventListener('pointerup', end);
+  stage.addEventListener('pointerleave', end);
 })();
 $('#cropCancel').onclick = e => { e.preventDefault(); cropState = null; $('#dCrop').close(); };
 $('#cropOk').onclick = () => {
   if (!cropState) return;
-  const s = cropBaseScale() * cropState.zoom;
-  const sx = -cropState.tx / s, sy = -cropState.ty / s;
-  const sw = cropState.boxW / s, sh = cropState.boxH / s;
+  const sx = cropState.rx / cropState.scale, sy = cropState.ry / cropState.scale;
+  const sw = cropState.rw / cropState.scale, sh = cropState.rh / cropState.scale;
   const outW = Math.min(1600, Math.round(sw));
-  const outH = Math.max(1, Math.round(outW * (cropState.boxH / cropState.boxW)));
+  const outH = Math.max(1, Math.round(outW * (sh / sw)));
   const c = document.createElement('canvas'); c.width = outW; c.height = outH;
   const g = c.getContext('2d');
   g.drawImage($('#cropImg'), sx, sy, sw, sh, 0, 0, outW, outH);
