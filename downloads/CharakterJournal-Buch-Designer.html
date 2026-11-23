@@ -232,6 +232,8 @@ dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:14px 
       <button class="btn small" id="bAddCh">+ Kapitel hinzufügen</button>
       <div id="chedit" style="display:none;border-top:1px solid var(--ui-line);padding-top:10px;display:none;gap:9px">
         <label class="f">Kapiteltitel<input type="text" id="chTitle" placeholder="z. B. Der erste Wolf"></label>
+        <label class="chk"><input type="checkbox" id="chUnnumbered"> Kein nummeriertes Kapitel (z. B. Vorgeschichte – zählt nicht mit)</label>
+        <label class="f" id="chKickerWrap" style="display:none">Eigene Beschriftung über dem Titel (leer lassen = keine Beschriftung)<input type="text" id="chKicker" placeholder="z. B. Vorgeschichte"></label>
         <label class="f">Text des Kapitels<textarea id="chText" style="min-height:170px"></textarea></label>
         <div class="hint">Leerzeile = neuer Absatz. <b>*kursiv*</b> und <b>**fett**</b> sind möglich. Eine Zeile mit <b>***</b> setzt einen Szenenwechsel.</div>
         <div style="border-top:1px dashed var(--ui-line);padding-top:8px">
@@ -252,6 +254,14 @@ dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:14px 
           <div class="chlist" id="exlist" style="margin:6px 0"></div>
           <button class="btn small" id="bExtra">+ Bildseite nach dem Kapitel</button>
           <input type="file" id="fExtra" accept="image/*" hidden>
+        </div>
+        <div style="border-top:1px dashed var(--ui-line);padding-top:8px">
+          <b style="font-size:13px">Audio zum Kapitel (z. B. Vorlesung, Hörprobe)</b>
+          <div class="thumb" style="margin:6px 0"><div class="imgrow" style="flex:1"><span class="nm" id="audioName">kein Audio</span>
+            <button class="btn small" id="bAudio">Audio wählen</button><button class="btn small danger" id="bAudioX" style="display:none">✕</button></div></div>
+          <input type="file" id="fAudio" accept="audio/*" hidden>
+          <audio id="audioPreview" controls style="width:100%;display:none;margin-top:6px"></audio>
+          <div class="hint">MP3 oder WAV. Erscheint als kleiner Abspiel-Knopf neben dem Kapitel in der Liste links.</div>
         </div>
       </div>
     </div></details>
@@ -698,7 +708,16 @@ function newPage(kind, o = {}) {
 }
 const over = b => b.scrollHeight > b.clientHeight + 1;
 const ornHTML = () => divSrc() ? '<div class="orn divimg"></div>' : (S.style.orn !== 'none' ? '<div class="orn">' + ORN[S.style.orn] + '</div>' : '<div style="height:.8em"></div>');
-const chapterLabel = i => 'Kapitel ' + roman(i + 1);
+function chapterNumber(i) {
+  let n = 0;
+  for (let j = 0; j <= i && j < S.chapters.length; j++) if (!S.chapters[j].unnumbered) n++;
+  return n;
+}
+function chapterLabel(i) {
+  const c = S.chapters[i];
+  if (c && c.unnumbered) return c.kicker || '';
+  return 'Kapitel ' + roman(chapterNumber(i));
+}
 
 function coverPage() {
   const p = newPage('cover');
@@ -735,7 +754,7 @@ function fillToc(p) {
   let h = '<h3>Inhalt</h3>' + ornHTML();
   S.chapters.forEach((c, i) => {
     const pg = chapterAt[i];
-    h += '<div class="row"><span class="k">' + chapterLabel(i) + '</span><span class="t">' + esc(c.title || '') + '</span><span class="l"></span><span class="n">' + (pg != null ? pages[pg].num : '') + '</span></div>';
+    h += '<div class="row"><span class="k">' + esc(chapterLabel(i)) + '</span><span class="t">' + esc(c.title || '') + '</span><span class="l"></span><span class="n">' + (pg != null ? pages[pg].num : '') + '</span></div>';
   });
   p.body.innerHTML = h;
 }
@@ -757,8 +776,8 @@ function imagePage(src, caption, fit, sub) {
   return p;
 }
 function openerBlock(ci) {
-  const c = S.chapters[ci];
-  return '<div class="kicker">' + chapterLabel(ci) + '</div>' + (c.title ? '<div class="ctitle">' + esc(c.title) + '</div>' : '') + ornHTML();
+  const c = S.chapters[ci], lab = chapterLabel(ci);
+  return (lab ? '<div class="kicker">' + esc(lab) + '</div>' : '') + (c.title ? '<div class="ctitle">' + esc(c.title) + '</div>' : '') + ornHTML();
 }
 
 function addPara(page, toks, cls, startCont) {
@@ -940,8 +959,9 @@ const cur = () => S.chapters[S.sel];
 function renderChapterList() {
   const L = $('#chlist');
   L.innerHTML = S.chapters.map((c, i) =>
-    '<div class="chitem' + (i === S.sel ? ' on' : '') + '" data-i="' + i + '"><span class="ic">' + roman(i + 1) + '</span><span class="n">' + esc(c.title || '(ohne Titel)') + '</span>' +
+    '<div class="chitem' + (i === S.sel ? ' on' : '') + '" data-i="' + i + '"><span class="ic">' + (c.unnumbered ? '–' : roman(chapterNumber(i))) + '</span><span class="n">' + esc(c.title || '(ohne Titel)') + '</span>' +
     (c.shot ? '<span class="ic" title="Screenshot">🖼</span>' : '') +
+    (c.audio ? '<button data-play="' + i + '" title="' + (chAudioPlayingIdx === i ? 'Pausieren' : 'Hörprobe abspielen') + '">' + (chAudioPlayingIdx === i ? '⏸' : '▶') + '</button>' : '') +
     '<button data-up="' + i + '" title="nach oben">▲</button><button data-dn="' + i + '" title="nach unten">▼</button><button data-del="' + i + '" title="löschen">✕</button></div>').join('') ||
     '<div class="hint">Noch kein Kapitel. Lade Textdateien oder füge einen Gesamttext ein.</div>';
   const ed = $('#chedit'); const c = cur();
@@ -950,17 +970,36 @@ function renderChapterList() {
 function fillEditor() {
   const c = cur(); if (!c) return;
   $('#chTitle').value = c.title || ''; $('#chText').value = c.text || '';
+  $('#chUnnumbered').checked = !!c.unnumbered;
+  $('#chKickerWrap').style.display = c.unnumbered ? '' : 'none';
+  $('#chKicker').value = c.kicker || '';
   $('#chShotPos').value = c.shotPos; $('#chShotFit').value = c.shotFit; $('#chShotCap').value = c.shotCaption || ''; $('#chShotSub').value = c.shotSub || '';
   const th = $('#shotThumb'); th.style.display = c.shot ? '' : 'none'; if (c.shot) th.src = c.shot;
   $('#shotName').textContent = c.shot ? 'Screenshot gewählt' : 'kein Bild';
   $('#bShotCrop').style.display = c.shot ? '' : 'none';
   $('#exlist').innerHTML = (c.extras || []).map((x, i) =>
     '<div class="thumb"><img src="' + x.src + '" alt=""><div style="flex:1;display:grid;gap:4px"><input type="text" data-excap="' + i + '" value="' + esc(x.caption || '') + '" placeholder="Bildunterschrift"><input type="text" data-exsub="' + i + '" value="' + esc(x.sub || '') + '" placeholder="Bilduntertitel (klein, kursiv)"></div><button class="btn small" data-exedit="' + i + '" title="Zuschneiden &amp; skalieren">✂</button><button class="btn small danger" data-exdel="' + i + '">✕</button></div>').join('');
+  $('#audioName').textContent = c.audioName ? c.audioName : 'kein Audio';
+  $('#bAudioX').style.display = c.audio ? '' : 'none';
+  const ap = $('#audioPreview');
+  if (c.audio) { ap.src = c.audio; ap.style.display = ''; } else { ap.removeAttribute('src'); ap.style.display = 'none'; }
 }
-const newChapter = (title = '', text = '') => ({ id: uid(), title, text, shot: null, shotPos: 'before', shotFit: 'frame', shotCaption: '', shotSub: '', extras: [] });
+const newChapter = (title = '', text = '') => ({ id: uid(), title, text, shot: null, shotPos: 'before', shotFit: 'frame', shotCaption: '', shotSub: '', extras: [], unnumbered: false, kicker: '', audio: null, audioName: '' });
 
+let chAudioPlayer = new Audio();
+let chAudioPlayingIdx = null;
+chAudioPlayer.addEventListener('ended', () => { chAudioPlayingIdx = null; renderChapterList(); });
 $('#chlist').addEventListener('click', e => {
-  const t = e.target, i = +(t.dataset.up ?? t.dataset.dn ?? t.dataset.del ?? t.closest('.chitem')?.dataset.i ?? -1);
+  const t = e.target;
+  if (t.dataset.play != null) {
+    const idx = +t.dataset.play, c = S.chapters[idx];
+    if (!c || !c.audio) return;
+    if (chAudioPlayingIdx === idx) { chAudioPlayer.pause(); chAudioPlayingIdx = null; }
+    else { chAudioPlayer.src = c.audio; chAudioPlayer.currentTime = 0; chAudioPlayer.play().catch(() => {}); chAudioPlayingIdx = idx; }
+    renderChapterList();
+    return;
+  }
+  const i = +(t.dataset.up ?? t.dataset.dn ?? t.dataset.del ?? t.closest('.chitem')?.dataset.i ?? -1);
   if (i < 0 || isNaN(i)) return;
   if (t.dataset.up != null && i > 0) { [S.chapters[i - 1], S.chapters[i]] = [S.chapters[i], S.chapters[i - 1]]; S.sel = i - 1; }
   else if (t.dataset.dn != null && i < S.chapters.length - 1) { [S.chapters[i + 1], S.chapters[i]] = [S.chapters[i], S.chapters[i + 1]]; S.sel = i + 1; }
@@ -974,6 +1013,8 @@ function jumpTo(i) {
 }
 $('#bAddCh').onclick = () => { S.chapters.push(newChapter('Neues Kapitel', '')); S.sel = S.chapters.length - 1; fillEditor(); render(); };
 $('#chTitle').oninput = e => { cur().title = e.target.value; scheduleRender(); };
+$('#chUnnumbered').onchange = e => { cur().unnumbered = e.target.checked; fillEditor(); render(); scheduleSave(); };
+$('#chKicker').oninput = e => { cur().kicker = e.target.value; scheduleRender(); };
 $('#chText').oninput = e => { cur().text = e.target.value; scheduleRender(500); };
 $('#chShotPos').onchange = e => { cur().shotPos = e.target.value; scheduleRender(10); };
 $('#chShotFit').onchange = e => { cur().shotFit = e.target.value; scheduleRender(10); };
@@ -982,11 +1023,30 @@ $('#chShotSub').oninput = e => { cur().shotSub = e.target.value; scheduleRender(
 $('#bShot').onclick = async () => {
   const f = await pickFile($('#fShot')); if (!f) return;
   try { cur().shot = await loadImage(f, { max: 2400, q: .92 }); } catch (e) { return toast('Bild nicht lesbar'); }
-  if (!cur().shotCaption) cur().shotCaption = chapterLabel(S.sel) + (cur().title ? ' · ' + cur().title : '');
+  if (!cur().shotCaption) { const lab = chapterLabel(S.sel); cur().shotCaption = lab && cur().title ? lab + ' · ' + cur().title : (lab || cur().title || ''); }
   fillEditor(); render(); scheduleSave();
 };
 $('#bShotX').onclick = () => { cur().shot = null; fillEditor(); render(); };
 $('#bShotCrop').onclick = () => { if (!cur().shot) return; openCropper(cur().shot, out => { cur().shot = out; fillEditor(); render(); scheduleSave(); }); };
+function loadAudio(file) {
+  return new Promise((resolve, reject) => {
+    const r = new FileReader();
+    r.onload = () => resolve(r.result);
+    r.onerror = reject;
+    r.readAsDataURL(file);
+  });
+}
+$('#bAudio').onclick = async () => {
+  const f = await pickFile($('#fAudio')); if (!f) return;
+  if (f.size > 20 * 1024 * 1024 && !confirm('Die Audiodatei ist ' + Math.round(f.size / 1024 / 1024) + ' MB groß und wird im Projekt gespeichert – das Projekt wird dadurch deutlich größer. Trotzdem verwenden?')) return;
+  try { cur().audio = await loadAudio(f); cur().audioName = f.name; } catch (e) { return toast('Audio nicht lesbar'); }
+  if (chAudioPlayingIdx === S.sel) { chAudioPlayer.pause(); chAudioPlayingIdx = null; }
+  fillEditor(); render(); scheduleSave();
+};
+$('#bAudioX').onclick = () => {
+  if (chAudioPlayingIdx === S.sel) { chAudioPlayer.pause(); chAudioPlayingIdx = null; }
+  cur().audio = null; cur().audioName = ''; fillEditor(); render(); scheduleSave();
+};
 $('#bExtra').onclick = async () => {
   const f = await pickFile($('#fExtra')); if (!f) return;
   try { cur().extras.push({ src: await loadImage(f, { max: 2400 }), caption: '', sub: '', fit: 'frame' }); } catch (e) { return toast('Bild nicht lesbar'); }
@@ -1383,8 +1443,9 @@ h2{text-align:center;font-size:1.15em;color:${st.accent};margin:1.2em 0 .4em;pag
     };
     for (let ci = 0; ci < S.chapters.length; ci++) {
       const c = S.chapters[ci], lab = chapterLabel(ci);
-      if (c.shot && c.shotPos === 'before') figPage(c.shot, c.shotCaption, c.shotSub, 'shot' + ci + 'a.xhtml', lab + ' · Charakterbogen');
-      let body = '<header class="ch"><p class="kicker">' + lab + '</p>' + (c.title ? '<h1>' + xe(c.title) + '</h1>' : '') + (ornBytes ? ornTag : '') + '</header>';
+      const shotTitle = (lab ? lab + ' · ' : '') + 'Charakterbogen';
+      if (c.shot && c.shotPos === 'before') figPage(c.shot, c.shotCaption, c.shotSub, 'shot' + ci + 'a.xhtml', shotTitle);
+      let body = '<header class="ch">' + (lab ? '<p class="kicker">' + xe(lab) + '</p>' : '') + (c.title ? '<h1>' + xe(c.title) + '</h1>' : '') + (ornBytes ? ornTag : '') + '</header>';
       let first = true, after = false;
       for (const b of parseBlocks(c.text)) {
         if (b.t === 'br') { body += brkTag; after = true; continue; }
@@ -1392,9 +1453,11 @@ h2{text-align:center;font-size:1.15em;color:${st.accent};margin:1.2em 0 .4em;pag
         body += '<p class="' + ((first ? 'first ' : '') + (after ? 'after' : '')).trim() + '">' + xmlClean(html(b.k, 0, b.k.length)) + '</p>';
         first = false; after = false;
       }
-      const id = page('ch' + ci + '.xhtml', lab + (c.title ? ': ' + c.title : ''), body, 'ch');
-      toc.push({ href: 'ch' + ci + '.xhtml', label: lab + (c.title ? ' · ' + c.title : '') });
-      if (c.shot && c.shotPos === 'after') figPage(c.shot, c.shotCaption, c.shotSub, 'shot' + ci + 'b.xhtml', lab + ' · Charakterbogen');
+      const pageTitle = lab && c.title ? lab + ': ' + c.title : (lab || c.title || 'Kapitel');
+      const tocLabel = lab && c.title ? lab + ' · ' + c.title : (lab || c.title || '');
+      const id = page('ch' + ci + '.xhtml', pageTitle, body, 'ch');
+      toc.push({ href: 'ch' + ci + '.xhtml', label: tocLabel });
+      if (c.shot && c.shotPos === 'after') figPage(c.shot, c.shotCaption, c.shotSub, 'shot' + ci + 'b.xhtml', shotTitle);
       (c.extras || []).forEach((ex, k) => figPage(ex.src, ex.caption, ex.sub, 'ex' + ci + '_' + k + '.xhtml', 'Bild'));
     }
     if (S.pages.end) page('end.xhtml', 'Ende', '<div class="end"><p>' + xe(S.pages.endText || 'Ende') + '</p></div>', 'end');
