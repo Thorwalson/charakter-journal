@@ -169,23 +169,35 @@ dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:14px 
 .cover .orn{color:var(--gold)}
 .cover.plain .ctext{justify-content:center;gap:1.6em}
 .cover::after{content:"";position:absolute;inset:calc(var(--pw) * .05);border:.9mm double var(--gold);pointer-events:none}
+.cover.noframe::after{display:none}
 .backcover{background:var(--cover);color:#f4ead2}
 .backcover::after{content:"";position:absolute;inset:calc(var(--pw) * .05);border:.9mm double var(--gold);pointer-events:none}
+.backcover.noframe::after{display:none}
+.backcover .cimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
+.backcover .shade{position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.05),rgba(0,0,0,.05) 45%,rgba(0,0,0,.72))}
 .backcover .clogo{position:absolute;left:50%;top:calc(var(--clY) * 1%);width:calc(var(--clS) * 1%);transform:translate(-50%,-50%);opacity:var(--clO);pointer-events:none}
 .backcover .clogo.mono{aspect-ratio:var(--clR);background:var(--clC);-webkit-mask:var(--clM) center/contain no-repeat;mask:var(--clM) center/contain no-repeat}
 .backcover .clogo.orig{height:auto}
+.clogo.custom{object-fit:contain;height:auto}
 .backcover .bcwrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.3em;padding:calc(var(--pw) * .15) calc(var(--pw) * .12);text-align:center}
 .backcover .bcquote{font-style:italic;color:var(--gold);font-size:1.08em;line-height:1.5}
 .backcover .bcblurb{font-size:.98em;line-height:1.6;color:#f4ead2;max-width:94%}
 .backcover .ca{letter-spacing:.3em;text-transform:uppercase;font-size:.85em;color:var(--gold);font-family:var(--ftitle)}
 .spinePrev{position:relative;height:var(--ph);width:12mm;flex:none;background:var(--spbg,var(--cover));border:.6mm solid var(--gold);box-shadow:0 2px 10px rgba(0,0,0,.35);overflow:hidden}
-.spinePrev .splogo{position:absolute;left:50%;top:8%;width:60%;transform:translateX(-50%);opacity:.8}
+.spinePrev .splogo{position:absolute;left:50%;top:8%;width:60%;transform:translateX(-50%);opacity:.8;object-fit:contain}
 .spinePrev .splogo.mono{aspect-ratio:var(--clR);background:var(--spfg,var(--gold));-webkit-mask:var(--clM) center/contain no-repeat;mask:var(--clM) center/contain no-repeat}
 .spinePrev .splogo.orig{height:auto}
+.freeimg{position:absolute;object-fit:contain;cursor:grab;border:.25mm solid var(--gold);box-shadow:0 2px 10px rgba(0,0,0,.4);background:var(--paper)}
+.freeimg.drag{cursor:grabbing;opacity:.85}
 .spinePrev .sptext{position:absolute;left:50%;top:50%;white-space:nowrap;font:600 1em var(--ftitle);color:var(--spfg,#f4ead2);transform-origin:center}
 .spinePrev .sptext.up{transform:translate(-50%,-50%) rotate(-90deg)}
 .spinePrev .sptext.down{transform:translate(-50%,-50%) rotate(90deg)}
 .spineWrap{display:flex;align-items:center;gap:10px;margin:.5rem 0}
+.cvTabs{display:flex;gap:4px;margin-bottom:10px;border-bottom:1px solid var(--ui-line)}
+.cvTabs button{flex:1;background:none;border:none;color:var(--ui-dim);font:inherit;font-size:13px;padding:7px 4px;cursor:pointer;border-bottom:2px solid transparent}
+.cvTabs button.on{color:var(--ui-gold2);border-bottom-color:var(--ui-gold)}
+.cvPanel{display:none}
+.cvPanel.on{display:block}
 .tp .body{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .tp .logo{width:calc(var(--lgs) * 1%);max-height:42%;object-fit:contain;margin-bottom:1.2em;transform:translate(calc(var(--lgx) * 1mm),calc(var(--lgy) * 1mm))}
 .tp .ct{font:600 2.2em/1.15 var(--ftitle)}
@@ -289,6 +301,13 @@ dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:14px 
           <input type="file" id="fExtra" accept="image/*" hidden>
         </div>
         <div style="border-top:1px dashed var(--ui-line);padding-top:8px">
+          <b style="font-size:13px">Bilder frei neben dem Text platzieren</b>
+          <div class="hint">Erscheinen auf der ersten Seite dieses Kapitels. In der Vorschau rechts mit der Maus verschieben, Breite unten einstellen.</div>
+          <div class="chlist" id="freeimglist" style="margin:6px 0"></div>
+          <button class="btn small" id="bFreeImgAdd">+ Bild(er) hinzufügen</button>
+          <input type="file" id="fFreeImg" accept="image/*" multiple hidden>
+        </div>
+        <div style="border-top:1px dashed var(--ui-line);padding-top:8px">
           <b style="font-size:13px">Audio zum Kapitel (z. B. Vorlesung, Hörprobe)</b>
           <div class="thumb" style="margin:6px 0"><div class="imgrow" style="flex:1"><span class="nm" id="audioName">kein Audio</span>
             <div class="imgbtns"><button class="btn small" id="bAudio">Audio wählen</button><button class="btn small danger" id="bAudioX" style="display:none">✕</button></div></div></div>
@@ -356,19 +375,8 @@ dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:14px 
         <div class="hint">Die Einstellungen gelten für alle Seiten. Die anderen Ecken werden automatisch gespiegelt.</div>
       </div>
       <div class="placebox">
-        <b>Logo im Cover-Hintergrund</b>
-        <label class="f">Logo<select data-bind="style.clogo"><option value="none">keins</option><option value="allianz">Allianz (Löwe)</option><option value="horde">Horde</option></select></label>
-        <label class="f">Darstellung<select data-bind="style.clogoMode"><option value="gold">einfarbig, Goldton</option><option value="dark">einfarbig, dunkel</option><option value="light">einfarbig, hell</option><option value="orig">Original (farbig)</option></select></label>
-        <label class="f">Deckkraft: <span id="vClO"></span><input type="range" min="0.05" max="1" step="0.05" data-bind="style.clogoOp" data-out="vClO"></label>
-        <label class="f">Größe (% der Seitenbreite): <span id="vClS"></span><input type="range" min="20" max="130" step="1" data-bind="style.clogoSize" data-out="vClS"></label>
-        <label class="f">Höhe auf dem Cover (%): <span id="vClY"></span><input type="range" min="10" max="90" step="1" data-bind="style.clogoY" data-out="vClY"></label>
-      </div>
-      <div class="placebox">
         <b>Eigene Bilder positionieren</b>
-        <div class="hint">Gilt jeweils für das ganze Buch. Das Titelbild kannst du auch direkt im Cover mit der Maus verschieben.</div>
-        <label class="f">Titelbild: Zoom <span id="vCz"></span><input type="range" min="1" max="3" step="0.05" data-bind="style.cvz" data-out="vCz"></label>
-        <label class="f">Titelbild: waagerecht (%) <span id="vCx"></span><input type="range" min="0" max="100" step="1" data-bind="style.cvx" data-out="vCx"></label>
-        <label class="f">Titelbild: senkrecht (%) <span id="vCy"></span><input type="range" min="0" max="100" step="1" data-bind="style.cvy" data-out="vCy"></label>
+        <div class="hint">Gilt jeweils für das ganze Buch.</div>
         <label class="f">Logo/Siegel: Größe (%) <span id="vLs"></span><input type="range" min="10" max="90" step="1" data-bind="style.lgs" data-out="vLs"></label>
         <label class="f">Logo/Siegel: nach rechts (mm) <span id="vLx"></span><input type="range" min="-40" max="40" step="1" data-bind="style.lgx" data-out="vLx"></label>
         <label class="f">Logo/Siegel: nach unten (mm) <span id="vLy"></span><input type="range" min="-40" max="40" step="1" data-bind="style.lgy" data-out="vLy"></label>
@@ -378,41 +386,63 @@ dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:14px 
         <button class="btn small" id="bPlaceReset">Positionen zurücksetzen</button>
       </div>
       <label class="f">Deckkraft des Hintergrunds: <span id="vBo"></span><input type="range" min="0.05" max="1" step="0.05" data-bind="style.bgOpacity" data-out="vBo"></label>
-      <label class="chk"><input type="checkbox" data-bind="coverFull"> Titelbild füllt das ganze Cover</label>
-      <div class="placebox">
-        <b>Eigene Cover-Beschriftung</b>
-        <div class="hint">Titel, Untertitel und Autor auf dem Cover frei anordnen – oder ganz ausblenden für ein Cover, das nur aus deinem Bild besteht.</div>
-        <label class="chk"><input type="checkbox" id="chCtOn" data-bind="style.ctOn"> Titel/Autor-Text auf dem Cover anzeigen</label>
-        <div id="ctOptions">
-          <label class="f">Ausrichtung<select data-bind="style.ctAlign"><option value="left">links</option><option value="center">mittig</option><option value="right">rechts</option></select></label>
-          <div class="row2">
-            <label class="f">waagerecht verschieben (%) <span id="vCtX"></span><input type="range" min="-30" max="30" step="1" data-bind="style.ctX" data-out="vCtX"></label>
-            <label class="f">senkrecht verschieben (%) <span id="vCtY"></span><input type="range" min="-30" max="30" step="1" data-bind="style.ctY" data-out="vCtY"></label>
-          </div>
-          <label class="f">Schrift-Effekt (damit sich der Text besser vom Bild abhebt)<select data-bind="style.ctFx"><option value="shadow">Schatten</option><option value="outline">Umrandung</option><option value="none">kein Effekt</option></select></label>
-          <label class="f">Stärke des Effekts: <span id="vCtFxS"></span><input type="range" min="0.1" max="1" step="0.05" data-bind="style.ctFxStrength" data-out="vCtFxS"></label>
-        </div>
-      </div>
     </div></details>
 
-    <details><summary>5 · Seiten &amp; Zahlen</summary><div class="sec">
-      <label class="chk"><input type="checkbox" data-bind="pages.titlePage"> Titelseite</label>
-      <label class="chk"><input type="checkbox" data-bind="pages.dedication"> Widmungsseite</label>
-      <label class="chk"><input type="checkbox" data-bind="pages.toc"> Inhaltsverzeichnis</label>
-      <label class="chk"><input type="checkbox" data-bind="pages.end"> Schlussseite</label>
-      <label class="f">Text der Schlussseite<input type="text" data-bind="pages.endText"></label>
-      <div class="placebox">
-        <b>Buchrückseite (für den Druck)</b>
+    <details><summary>4b · Umschlag (Cover, Rückseite, Rücken)</summary><div class="sec">
+      <div class="cvTabs" id="cvTabs">
+        <button type="button" class="on" data-cvtab="front">Cover</button>
+        <button type="button" data-cvtab="back">Rückseite</button>
+        <button type="button" data-cvtab="spine">Rücken</button>
+      </div>
+
+      <div class="cvPanel on" data-cvpanel="front">
+        <label class="chk"><input type="checkbox" data-bind="coverFull"> Titelbild füllt das ganze Cover</label>
+        <label class="chk"><input type="checkbox" data-bind="style.coverFrame"> Goldenen Rahmen auf dem Cover anzeigen</label>
+        <div class="hint">Ausschalten, wenn nur dein Bild zu sehen sein soll, ohne den dekorativen Rahmen.</div>
+        <b style="font-size:13px">Titelbild</b>
+        <div id="imgsCoverFront"></div>
+        <label class="f">Titelbild: Zoom <span id="vCz"></span><input type="range" min="1" max="3" step="0.05" data-bind="style.cvz" data-out="vCz"></label>
+        <label class="f">Titelbild: waagerecht (%) <span id="vCx"></span><input type="range" min="0" max="100" step="1" data-bind="style.cvx" data-out="vCx"></label>
+        <label class="f">Titelbild: senkrecht (%) <span id="vCy"></span><input type="range" min="0" max="100" step="1" data-bind="style.cvy" data-out="vCy"></label>
+        <div class="hint">Das Titelbild kannst du auch direkt im Cover mit der Maus verschieben.</div>
+        <div class="placebox">
+          <b>Logo im Cover-Hintergrund</b>
+          <label class="f">Logo<select data-bind="style.clogo"><option value="none">keins</option><option value="allianz">Allianz (Löwe)</option><option value="horde">Horde</option></select></label>
+          <label class="f">Darstellung<select data-bind="style.clogoMode"><option value="gold">einfarbig, Goldton</option><option value="dark">einfarbig, dunkel</option><option value="light">einfarbig, hell</option><option value="orig">Original (farbig)</option></select></label>
+          <label class="f">Deckkraft: <span id="vClO"></span><input type="range" min="0.05" max="1" step="0.05" data-bind="style.clogoOp" data-out="vClO"></label>
+          <label class="f">Größe (% der Seitenbreite): <span id="vClS"></span><input type="range" min="20" max="130" step="1" data-bind="style.clogoSize" data-out="vClS"></label>
+          <label class="f">Höhe auf dem Cover (%): <span id="vClY"></span><input type="range" min="10" max="90" step="1" data-bind="style.clogoY" data-out="vClY"></label>
+        </div>
+        <div class="placebox">
+          <b>Eigene Cover-Beschriftung</b>
+          <div class="hint">Titel, Untertitel und Autor auf dem Cover frei anordnen – oder ganz ausblenden für ein Cover, das nur aus deinem Bild besteht.</div>
+          <label class="chk"><input type="checkbox" id="chCtOn" data-bind="style.ctOn"> Titel/Autor-Text auf dem Cover anzeigen</label>
+          <div id="ctOptions">
+            <label class="f">Ausrichtung<select data-bind="style.ctAlign"><option value="left">links</option><option value="center">mittig</option><option value="right">rechts</option></select></label>
+            <div class="row2">
+              <label class="f">waagerecht verschieben (%) <span id="vCtX"></span><input type="range" min="-30" max="30" step="1" data-bind="style.ctX" data-out="vCtX"></label>
+              <label class="f">senkrecht verschieben (%) <span id="vCtY"></span><input type="range" min="-30" max="30" step="1" data-bind="style.ctY" data-out="vCtY"></label>
+            </div>
+            <label class="f">Schrift-Effekt (damit sich der Text besser vom Bild abhebt)<select data-bind="style.ctFx"><option value="shadow">Schatten</option><option value="outline">Umrandung</option><option value="none">kein Effekt</option></select></label>
+            <label class="f">Stärke des Effekts: <span id="vCtFxS"></span><input type="range" min="0.1" max="1" step="0.05" data-bind="style.ctFxStrength" data-out="vCtFxS"></label>
+          </div>
+        </div>
+      </div>
+
+      <div class="cvPanel" data-cvpanel="back">
         <div class="hint">Praktisch, wenn du dein Buch selbst ausdrucken oder drucken lassen möchtest: eine letzte, cover-artige Seite mit Klappentext – wie bei einem gekauften Buch.</div>
         <label class="chk"><input type="checkbox" id="chBackCover" data-bind="pages.backCover"> Buchrückseite hinzufügen</label>
         <div id="backCoverOptions">
+          <b style="font-size:13px">Eigenes Bild für die Rückseite (optional)</b>
+          <div class="hint">Ohne eigenes Bild bleibt die Rückseite einfarbig wie das Cover.</div>
+          <div id="imgsCoverBack"></div>
           <label class="f">Zitat/Teaser (optional, kursiv hervorgehoben)<input type="text" data-bind="backQuote" maxlength="160"></label>
           <label class="f">Klappentext<textarea data-bind="backText" rows="5" placeholder="Kurzer Teaser-Text zu deiner Geschichte …"></textarea></label>
-          <div class="hint">Nutzt automatisch Autor:in, Rücken-/Deckfarbe und Logo aus den Cover-Einstellungen oben.</div>
+          <div class="hint">Nutzt automatisch Autor:in, Rücken-/Deckfarbe und Logo aus den Cover-Einstellungen.</div>
         </div>
       </div>
-      <div class="placebox">
-        <b>Buchrücken (für Hardcover/Druck)</b>
+
+      <div class="cvPanel" data-cvpanel="spine">
         <div class="hint">Gestalte den Buchrücken separat – Text, Logo und Farben – und drucke ihn als eigenes Blatt für die Herstellung eines Hardcovers. Die genaue Breite hängt von Seitenzahl und Papier ab; am besten bei der Druckerei erfragen oder grob schätzen lassen.</div>
         <label class="chk"><input type="checkbox" id="chSpineOn" data-bind="spine.on"> Buchrücken gestalten</label>
         <div id="spineOptions">
@@ -427,13 +457,23 @@ dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:14px 
             <label class="f">Textfarbe<input type="color" data-bind="spine.fg"></label>
           </div>
           <label class="chk"><input type="checkbox" data-bind="spine.logo"> Logo/Siegel auf dem Rücken anzeigen</label>
-          <div class="hint">Verwendet die Titelschrift des Buches (siehe Abschnitt „Schrift“).</div>
+          <b style="font-size:13px">Eigenes Logo für den Rücken (optional)</b>
+          <div class="hint">Ohne eigenes Logo wird – falls oben ausgewählt – das Allianz-/Horde-Siegel aus den Cover-Einstellungen verwendet.</div>
+          <div id="imgsSpine"></div>
           <div class="spineWrap">
             <div class="spinePrev" id="spinePrev"></div>
             <button class="btn small" id="bSpinePrint">Buchrücken drucken / als PDF</button>
           </div>
         </div>
       </div>
+    </div></details>
+
+    <details><summary>5 · Seiten &amp; Zahlen</summary><div class="sec">
+      <label class="chk"><input type="checkbox" data-bind="pages.titlePage"> Titelseite</label>
+      <label class="chk"><input type="checkbox" data-bind="pages.dedication"> Widmungsseite</label>
+      <label class="chk"><input type="checkbox" data-bind="pages.toc"> Inhaltsverzeichnis</label>
+      <label class="chk"><input type="checkbox" data-bind="pages.end"> Schlussseite</label>
+      <label class="f">Text der Schlussseite<input type="text" data-bind="pages.endText"></label>
       <label class="f">Seitenzahl unten
         <select data-bind="style.pn"><option value="plain">12</option><option value="dash">– 12 –</option><option value="dots">· 12 ·</option><option value="seite">Seite 12</option><option value="none">keine</option></select>
       </label>
@@ -608,12 +648,15 @@ const bgSrc   = () => S.img.bg || (libGet('bg', S.style.bgSel) || {}).src || nul
 const divSrc  = () => S.img.divider || (libGet('div', S.style.divSel) || {}).src || null;
 const logoSrc = () => S.img.logo || (libGet('logo', S.style.logoSel) || {}).src || null;
 const IMGS = [
-  ['cover',   'Titelbild (Cover)',        'jpeg'],
-  ['logo',    'Logo / Siegel (Titelseite)','png'],
-  ['corner',  'Eck-Ornament (eigenes Bild)', 'png'],
-  ['divider', 'Trenner / Banner',          'png'],
-  ['bg',      'Seitenhintergrund',         'jpeg']
+  ['cover',     'Titelbild (Cover)',          'jpeg'],
+  ['backCover', 'Eigenes Bild für die Rückseite', 'jpeg'],
+  ['spineLogo', 'Eigenes Logo für den Rücken',  'png'],
+  ['logo',      'Logo / Siegel (Titelseite)', 'png'],
+  ['corner',    'Eck-Ornament (eigenes Bild)', 'png'],
+  ['divider',   'Trenner / Banner',           'png'],
+  ['bg',        'Seitenhintergrund',          'jpeg']
 ];
+const COVER_IMG_KEYS = ['cover', 'backCover', 'spineLogo'];
 
 const uid = () => Math.random().toString(36).slice(2, 9);
 const roman = n => { const m=[[1000,'M'],[900,'CM'],[500,'D'],[400,'CD'],[100,'C'],[90,'XC'],[50,'L'],[40,'XL'],[10,'X'],[9,'IX'],[5,'V'],[4,'IV'],[1,'I']]; let s=''; for(const [v,r] of m) while(n>=v){s+=r;n-=v} return s; };
@@ -627,6 +670,7 @@ const defState = () => ({
   format: 'A5', coverFull: true,
   style: { theme:'pergament', ...THEMES.pergament, ftext:'georgia', ftitle:'georgia', size:10.5, lh:1.45,
            justify:true, indent:true, dropcap:true, pn:'plain', pnShot:true, header:true, frame:'line', orn:'flourish',
+           coverFrame:true,
            cornerMode:'chapter', cornerSize:22, bgOpacity:.35, openerPage:false, rightStart:false,
            oTLx:0, oTLy:0, oTRx:0, oTRy:0, oBLx:0, oBLy:0, oBRx:0, oBRy:0, cornerShape:'none', cornerLayout:'all', cTL:true, cTR:true, cBL:true, cBR:true, cornerSrc:'tl', cornerInset:4.5,
            fdrop:'title', pnDecor:'none', bgSel:'', divSel:'', logoSel:'', cornerSel:'',
@@ -636,7 +680,7 @@ const defState = () => ({
            lgs:40, lgx:0, lgy:0,
            dvw:46, dvh:3, dvy:0 },
   pages: { titlePage:true, dedication:true, toc:true, end:true, endText:'Ende', backCover:false },
-  img: { cover:null, logo:null, corner:null, divider:null, bg:null },
+  img: { cover:null, logo:null, corner:null, divider:null, bg:null, backCover:null, spineLogo:null },
   fonts: { text:null, title:null },
   chapters: [],
   sel: 0
@@ -720,6 +764,7 @@ function parseBlocks(text) {
    ==================================================================== */
 let pages = [];           // { el, body, foot, kind, num }
 let chapterAt = [];       // Seitenindex je Kapitel (für Inhaltsverzeichnis)
+let textStartAt = [];     // Seitenindex der ersten TEXTSEITE je Kapitel (für frei platzierte Bilder)
 let work;
 
 function coverColor(hex) {
@@ -779,7 +824,8 @@ function renderSpinePreview() {
   el.style.width = (sp.mm || 14) + 'mm';
   let h = '';
   const lg = LOGOS[S.style.clogo];
-  if (sp.logo && lg) h += (S.style.clogoMode === 'orig' ? '<img class="splogo orig" src="' + lg.o + '" alt="">' : '<div class="splogo mono"></div>');
+  if (sp.logo && S.img.spineLogo) h += '<img class="splogo custom" src="' + S.img.spineLogo + '" alt="">';
+  else if (sp.logo && lg) h += (S.style.clogoMode === 'orig' ? '<img class="splogo orig" src="' + lg.o + '" alt="">' : '<div class="splogo mono"></div>');
   h += '<div class="sptext ' + (sp.dir === 'down' ? 'down' : 'up') + '">' + esc((sp.text || '').trim() || S.title) + '</div>';
   el.innerHTML = h;
 }
@@ -790,7 +836,9 @@ function printSpine() {
   const fam = (document.documentElement.style.getPropertyValue('--ftitle') || 'Georgia, serif');
   const text = esc((sp.text || '').trim() || S.title);
   let logoHtml = '';
-  if (sp.logo && lg) {
+  if (sp.logo && S.img.spineLogo) {
+    logoHtml = '<img src="' + S.img.spineLogo + '" style="position:absolute;left:50%;top:8%;width:62%;object-fit:contain;transform:translateX(-50%)">';
+  } else if (sp.logo && lg) {
     if (S.style.clogoMode === 'orig') logoHtml = '<img src="' + lg.o + '" style="position:absolute;left:50%;top:8%;width:62%;transform:translateX(-50%)">';
     else {
       const color = S.style.clogoMode === 'dark' ? '#140d06' : S.style.clogoMode === 'light' ? '#f4ead2' : (sp.fg || '#f4ead2');
@@ -866,6 +914,7 @@ function coverPage() {
   const showText = S.style.ctOn !== false;
   p.el.classList.add(full ? 'full' : 'plain');
   if (!showText) p.el.classList.add('notext');
+  if (S.style.coverFrame === false) p.el.classList.add('noframe');
   let h = '';
   if (full) h += '<img class="cimg" src="' + S.img.cover + '" alt="">' + (showText ? '<div class="shade"></div>' : '');
   const lg = LOGOS[S.style.clogo];
@@ -912,9 +961,15 @@ function endPage() {
 }
 function backCoverPage() {
   const p = newPage('backcover'); p.numbered = false;
+  const full = !!S.img.backCover;
+  p.el.classList.add(full ? 'full' : 'plain');
+  if (S.style.coverFrame === false) p.el.classList.add('noframe');
   let h = '';
+  if (full) h += '<img class="cimg" src="' + S.img.backCover + '" alt=""><div class="shade"></div>';
+  const lgCustom = S.img.spineLogo;
   const lg = LOGOS[S.style.clogo];
-  if (lg) h += S.style.clogoMode === 'orig' ? '<img class="clogo orig" src="' + lg.o + '" alt="">' : '<div class="clogo mono"></div>';
+  if (lgCustom) h += '<img class="clogo custom" src="' + lgCustom + '" alt="">';
+  else if (lg) h += S.style.clogoMode === 'orig' ? '<img class="clogo orig" src="' + lg.o + '" alt="">' : '<div class="clogo mono"></div>';
   h += '<div class="bcwrap">';
   if (S.backQuote.trim()) h += '<div class="bcquote">„' + esc(S.backQuote) + '“</div>';
   if (S.backText.trim()) h += '<div class="bcblurb">' + esc(S.backText).replace(/\n/g, '<br>') + '</div>';
@@ -983,6 +1038,7 @@ function flowChapter(ci) {
     page.body.innerHTML = openerBlock(ci);
     chapterAt[ci] = pages.indexOf(page);
   }
+  textStartAt[ci] = pages.indexOf(page);
   if (c.shot && c.shotPos === 'before') chapterAt[ci] = startIdx;
   const blocks = parseBlocks(c.text);
   let firstPara = true, afterBreak = false;
@@ -1008,6 +1064,21 @@ function flowChapter(ci) {
   for (const ex of (c.extras || [])) imagePage(ex.src, ex.caption, ex.fit || 'frame', ex.sub);
 }
 
+function renderFreeImages(c, ci, pageIdx) {
+  if (pageIdx == null || !pages[pageIdx] || !(c.images && c.images.length)) return;
+  const el = pages[pageIdx].el;
+  c.images.forEach((im, fi) => {
+    const img = document.createElement('img');
+    img.className = 'freeimg';
+    img.src = im.src; img.alt = '';
+    img.style.left = (im.x != null ? im.x : 60) + '%';
+    img.style.top = (im.y != null ? im.y : 8) + '%';
+    img.style.width = (im.w != null ? im.w : 30) + '%';
+    img.dataset.ci = String(ci); img.dataset.fi = String(fi);
+    el.appendChild(img);
+  });
+}
+
 function numberText(n) {
   switch (S.style.pn) {
     case 'dash': return '– ' + n + ' –';
@@ -1029,13 +1100,14 @@ function scheduleRender(ms = 220) { clearTimeout(renderTimer); renderTimer = set
 function render() {
   const t0 = performance.now();
   applyVars();
-  work = $('#work'); work.innerHTML = ''; pages = []; chapterAt = [];
+  work = $('#work'); work.innerHTML = ''; pages = []; chapterAt = []; textStartAt = [];
   coverPage();
   if (S.pages.titlePage) titlePage();
   if (S.pages.dedication && S.dedication.trim()) dedicationPage();
   let toc = null;
   if (S.pages.toc && S.chapters.length) toc = tocPage();
   S.chapters.forEach((_, i) => flowChapter(i));
+  S.chapters.forEach((c, i) => renderFreeImages(c, i, textStartAt[i]));
   if (S.pages.end) endPage();
   if (S.pages.backCover) backCoverPage();
   renderSpinePreview();
@@ -1105,21 +1177,32 @@ function bindInputs() {
     syncBinds(); scheduleRender(10);
   });
 }
-function renderImgs() {
-  $('#imgs').innerHTML = IMGS.map(([k, label]) =>
+function renderImgList(sel, keys) {
+  const host = $(sel); if (!host) return;
+  host.innerHTML = IMGS.filter(([k]) => keys.includes(k)).map(([k, label]) =>
     '<div class="imgrow" style="margin:6px 0">' + (S.img[k] ? '<img src="' + S.img[k] + '" style="width:34px;height:34px;object-fit:contain;background:#555;border-radius:3px">' : '') +
     '<span class="nm">' + label + '</span><button class="btn small" data-img="' + k + '">' + (S.img[k] ? 'ändern' : 'wählen') + '</button>' +
     (S.img[k] ? '<button class="btn small danger" data-imgx="' + k + '">✕</button>' : '') + '</div>').join('');
 }
-$('#imgs').addEventListener('click', async e => {
-  const k = e.target.dataset.img, x = e.target.dataset.imgx;
-  if (x) { S.img[x] = null; syncBinds(); scheduleRender(10); return; }
-  if (!k) return;
-  const f = await pickFile($('#fExtra')); if (!f) return;
-  const kind = IMGS.find(i => i[0] === k)[2];
-  try { S.img[k] = await loadImage(f, kind === 'png' ? { max: 1400, type: 'image/png' } : { max: 2200 }); } catch (err) { return toast('Bild nicht lesbar'); }
-  syncBinds(); scheduleRender(10);
-});
+function renderImgs() {
+  renderImgList('#imgs', IMGS.map(i => i[0]).filter(k => !COVER_IMG_KEYS.includes(k)));
+  renderImgList('#imgsCoverFront', ['cover']);
+  renderImgList('#imgsCoverBack', ['backCover']);
+  renderImgList('#imgsSpine', ['spineLogo']);
+}
+function wireImgList(sel) {
+  const host = $(sel); if (!host) return;
+  host.addEventListener('click', async e => {
+    const k = e.target.dataset.img, x = e.target.dataset.imgx;
+    if (x) { S.img[x] = null; syncBinds(); scheduleRender(10); return; }
+    if (!k) return;
+    const f = await pickFile($('#fExtra')); if (!f) return;
+    const kind = IMGS.find(i => i[0] === k)[2];
+    try { S.img[k] = await loadImage(f, kind === 'png' ? { max: 1400, type: 'image/png' } : { max: 2200 }); } catch (err) { return toast('Bild nicht lesbar'); }
+    syncBinds(); scheduleRender(10);
+  });
+}
+['#imgs', '#imgsCoverFront', '#imgsCoverBack', '#imgsSpine'].forEach(wireImgList);
 
 /* ---------- Kapitel ---------- */
 const cur = () => S.chapters[S.sel];
@@ -1150,8 +1233,20 @@ function fillEditor() {
   $('#bAudioX').style.display = c.audio ? '' : 'none';
   const ap = $('#audioPreview');
   if (c.audio) { ap.src = c.audio; ap.style.display = ''; } else { ap.removeAttribute('src'); ap.style.display = 'none'; }
+  renderFreeImgList();
 }
-const newChapter = (title = '', text = '') => ({ id: uid(), title, text, shot: null, shotPos: 'before', shotFit: 'frame', shotCaption: '', shotSub: '', extras: [], unnumbered: false, kicker: '', audio: null, audioName: '' });
+function renderFreeImgList() {
+  const host = $('#freeimglist'); if (!host) return;
+  const c = cur();
+  const list = (c && c.images) || [];
+  host.innerHTML = list.map((im, i) =>
+    '<div class="imgrow" style="margin:6px 0"><img src="' + im.src + '" style="width:34px;height:34px;object-fit:contain;background:#555;border-radius:3px">' +
+    '<span class="nm">Bild ' + (i + 1) + '</span>' +
+    '<input type="range" min="10" max="70" step="1" value="' + (im.w != null ? im.w : 30) + '" data-wfi="' + i + '" style="width:70px" title="Breite">' +
+    '<button class="btn small danger" data-rmfi="' + i + '">✕</button></div>').join('') ||
+    '<div class="hint">Noch keine Bilder in diesem Kapitel.</div>';
+}
+const newChapter = (title = '', text = '') => ({ id: uid(), title, text, shot: null, shotPos: 'before', shotFit: 'frame', shotCaption: '', shotSub: '', extras: [], unnumbered: false, kicker: '', audio: null, audioName: '', images: [] });
 
 let chAudioPlayer = new Audio();
 let chAudioPlayingIdx = null;
@@ -1227,6 +1322,27 @@ $('#exlist').addEventListener('click', e => {
   }
 });
 $('#exlist').addEventListener('input', e => { if (e.target.dataset.excap != null) { cur().extras[+e.target.dataset.excap].caption = e.target.value; scheduleRender(); } if (e.target.dataset.exsub != null) { cur().extras[+e.target.dataset.exsub].sub = e.target.value; scheduleRender(); } });
+$('#bFreeImgAdd').onclick = () => { $('#fFreeImg').value = ''; $('#fFreeImg').click(); };
+$('#fFreeImg').addEventListener('change', async () => {
+  const c = cur(); if (!c) return;
+  c.images = c.images || [];
+  const files = Array.from($('#fFreeImg').files || []);
+  for (const f of files) {
+    try {
+      const src = await loadImage(f, { max: 1600 });
+      c.images.push({ src, x: 60, y: 8 + (c.images.length * 14) % 50, w: 30 });
+    } catch (e) { toast('Bild nicht lesbar'); }
+  }
+  renderFreeImgList(); render(); scheduleSave();
+});
+$('#freeimglist').addEventListener('click', e => {
+  const rm = e.target.dataset.rmfi; if (rm == null) return;
+  cur().images.splice(+rm, 1); renderFreeImgList(); render(); scheduleSave();
+});
+$('#freeimglist').addEventListener('input', e => {
+  const wi = e.target.dataset.wfi; if (wi == null) return;
+  cur().images[+wi].w = parseFloat(e.target.value); scheduleRender(120);
+});
 
 /* ---------- Bild zuschneiden & skalieren (freier Rahmen) ---------- */
 let cropState = null;
@@ -1954,6 +2070,11 @@ $('#chBackCover').addEventListener('change', e => { $('#backCoverOptions').style
 $('#chSpineOn').addEventListener('change', e => { $('#spineOptions').style.display = e.target.checked ? '' : 'none'; renderSpinePreview(); });
 $('#bSpineAuto').onclick = () => { S.spine.mm = estimateSpineMm(); syncBinds(); scheduleRender(10); };
 $('#bSpinePrint').onclick = () => printSpine();
+$('#cvTabs').addEventListener('click', e => {
+  const t = e.target.closest('[data-cvtab]'); if (!t) return;
+  $$('#cvTabs [data-cvtab]').forEach(b => b.classList.toggle('on', b === t));
+  $$('.cvPanel').forEach(p => p.classList.toggle('on', p.dataset.cvpanel === t.dataset.cvtab));
+});
 (() => {
   let drag = null;
   $('#sheet').addEventListener('pointerdown', e => {
@@ -1970,6 +2091,28 @@ $('#bSpinePrint').onclick = () => printSpine();
     document.documentElement.style.setProperty('--cvx', S.style.cvx); document.documentElement.style.setProperty('--cvy', S.style.cvy);
   });
   const end = () => { if (!drag) return; drag.pg.classList.remove('drag'); drag = null; syncBinds(); scheduleSave(); };
+  $('#sheet').addEventListener('pointerup', end); $('#sheet').addEventListener('pointercancel', end);
+})();
+(() => {
+  let drag = null;
+  $('#sheet').addEventListener('pointerdown', e => {
+    const img = e.target.closest('.freeimg'); if (!img) return;
+    const page = img.closest('.page'); if (!page) return;
+    const ci = +img.dataset.ci, fi = +img.dataset.fi;
+    const im = (S.chapters[ci] || {}).images && S.chapters[ci].images[fi];
+    if (!im) return;
+    drag = { img, ci, fi, x: e.clientX, y: e.clientY, vx: im.x || 0, vy: im.y || 0, r: page.getBoundingClientRect() };
+    img.classList.add('drag'); img.setPointerCapture(e.pointerId); e.preventDefault(); e.stopPropagation();
+  });
+  $('#sheet').addEventListener('pointermove', e => {
+    if (!drag) return;
+    const cl = v => Math.max(0, Math.min(94, v));
+    const im = S.chapters[drag.ci].images[drag.fi];
+    im.x = Math.round(cl(drag.vx + (e.clientX - drag.x) / drag.r.width * 100) * 10) / 10;
+    im.y = Math.round(cl(drag.vy + (e.clientY - drag.y) / drag.r.height * 100) * 10) / 10;
+    drag.img.style.left = im.x + '%'; drag.img.style.top = im.y + '%';
+  });
+  const end = () => { if (!drag) return; drag.img.classList.remove('drag'); drag = null; scheduleSave(); };
   $('#sheet').addEventListener('pointerup', end); $('#sheet').addEventListener('pointercancel', end);
 })();
 

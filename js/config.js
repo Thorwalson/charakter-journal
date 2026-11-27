@@ -23,15 +23,23 @@ window.CJ = {
   links: {
     github:      "#",   // z. B. https://github.com/DEIN-NAME/charakter-journal
     githubIssues:"#",   // z. B. https://github.com/DEIN-NAME/charakter-journal/issues
-    discussions: "#",   // z. B. https://github.com/DEIN-NAME/charakter-journal/discussions
-    discord:     "#",   // Einladungslink eures Discord-Servers
+    discord:     "https://discord.gg/2z7APn3wnQ",   // Einladungslink eures Discord-Servers
     kofi:        "#",   // z. B. https://ko-fi.com/DEIN-NAME
     paypal:      "#",   // z. B. https://paypal.me/DEIN-NAME
     curseforge:  "#",   // Projektseite auf CurseForge
     wago:        "#",   // Projektseite auf Wago Addons
-    storyForm:   "#",   // Formular zum Einsenden von Geschichten (Tally / Google Forms)
-    ideaForm:    "#",   // Formular für Ideen (optional, sonst Discussions)
     email:       ""     // Kontakt-E-Mail (optional)
+  },
+
+  /* ---------- Discord – Live-Ansicht (optional) ----------
+     Wer gerade online ist, kann nur angezeigt werden, wenn im Discord-
+     Server unter Servereinstellungen → Widget → "Server-Widget aktivieren"
+     eingeschaltet ist. Die Server-ID unten gehört zu eurem Invite-Code
+     und muss nur bei einem ANDEREN Server geändert werden.
+     Ist das Widget nicht aktiviert, wird die Live-Ansicht automatisch
+     ausgeblendet – es erscheint kein Fehler. */
+  discordWidget: {
+    guildId: "1563907812961026189"
   },
 
   /* ---------- Kommentare & Chroniken (Supabase) ----------
@@ -48,8 +56,8 @@ window.CJ = {
      Ohne eingetragene Werte bleiben Kommentare und Chroniken ausgeblendet
      und zeigen stattdessen einen Hinweis "noch nicht eingerichtet". */
   supabase: {
-    url: "",      // z. B. https://xxxxxxxx.supabase.co
-    anonKey: ""   // der lange "anon public"-Schlüssel aus den Projekteinstellungen
+    url: "https://pyagnifhinfiawntgajr.supabase.co",
+    anonKey: "sb_publishable_dTslNVwPy1CFyt6shNAFJg_v8yvhVAa"   // öffentlicher "publishable"-Schlüssel (ersetzt den alten "anon public"-Schlüssel bei neuen Supabase-Projekten)
   },
 
   /* ---------- Spamschutz (Cloudflare Turnstile) ----------
@@ -57,7 +65,7 @@ window.CJ = {
      anlegen, eine neue Website eintragen (Typ "Managed"), dann den
      "Site Key" hier eintragen. Ohne Site Key wird kein Captcha angezeigt
      und Kommentare/Einsendungen sind ungeschützt möglich. */
-  turnstileSiteKey: "",
+  turnstileSiteKey: "0x4AAAAAAGWBgaHaniUqYs75",
 
   /* ---------- Filter-Kategorien "Chroniken von Azeroth" ----------
      Wer eine Geschichte einreicht, wählt aus diesen Listen. Hier

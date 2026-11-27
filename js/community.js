@@ -102,6 +102,59 @@
     } catch (e) { return ""; }
   }
 
+  /* ================= Discord – Live-Ansicht (community.html) =================
+     Nutzt Discords öffentliches widget.json (kein Login, keine Zugangsdaten
+     nötig). Das funktioniert nur, wenn im Discord-Server unter
+     Servereinstellungen → Widget → "Server-Widget aktivieren" eingeschaltet
+     ist. Ist das nicht der Fall (oder schlägt die Anfrage fehl), bleibt der
+     Block einfach ausgeblendet – es gibt keinen Fehlerhinweis auf der Seite. */
+  function initDiscordWidget() {
+    var box = document.getElementById("discord-live");
+    var body = document.getElementById("discord-live-body");
+    var guildId = ((C.discordWidget || {}).guildId || "").trim();
+    if (!box || !body || !guildId) return;
+    fetch("https://discord.com/api/guilds/" + encodeURIComponent(guildId) + "/widget.json")
+      .then(function (res) { if (!res.ok) throw new Error("widget disabled"); return res.json(); })
+      .then(function (data) {
+        var members = data.members || [];
+        var voiceChannels = {};
+        var idle = [];
+        members.forEach(function (m) {
+          if (m.channel_id) {
+            (voiceChannels[m.channel_id] = voiceChannels[m.channel_id] || []).push(m);
+          } else {
+            idle.push(m);
+          }
+        });
+        var channelName = {};
+        (data.channels || []).forEach(function (c) { channelName[c.id] = c.name; });
+
+        function avatarRow(list) {
+          return '<div class="discord-members">' + list.map(function (m) {
+            var img = m.avatar_url ? '<img src="' + esc(m.avatar_url) + '" alt="" loading="lazy">' : "";
+            return '<span class="discord-member" title="' + esc(m.username) + ' (' + esc(m.status) + ')">' + img +
+              '<span class="discord-member-name">' + esc(m.username) + "</span></span>";
+          }).join("") + "</div>";
+        }
+
+        var html = '<p class="discord-online-count"><strong>' + members.length + "</strong> gerade online" +
+          (data.presence_count != null ? " · " + data.presence_count + " auf dem Server" : "") + "</p>";
+
+        Object.keys(voiceChannels).forEach(function (cid) {
+          html += '<div class="discord-channel"><span class="discord-channel-name">🔊 ' +
+            esc(channelName[cid] || "Sprachkanal") + "</span>" + avatarRow(voiceChannels[cid]) + "</div>";
+        });
+        if (idle.length) html += avatarRow(idle);
+
+        if (!members.length) {
+          html = '<p class="muted">Gerade ist niemand online.</p>';
+        }
+        body.innerHTML = html;
+        box.hidden = false;
+      })
+      .catch(function () { /* Widget nicht aktiviert oder nicht erreichbar – Block bleibt ausgeblendet */ });
+  }
+
   /* ================= Kommentare (community.html) ================= */
   function initComments() {
     wireCommentForm(document.getElementById("cj-comment-form"));
@@ -385,6 +438,7 @@
   }
 
   document.addEventListener("DOMContentLoaded", function () {
+    initDiscordWidget();
     initComments();
     initChronicles();
   });

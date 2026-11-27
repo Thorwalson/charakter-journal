@@ -163,6 +163,22 @@ create policy "chronicles_storage_public_read" on storage.objects
 create policy "chronicles_storage_public_upload" on storage.objects
   for insert with check (bucket_id = 'chronicles' and (metadata->>'size')::bigint < 25000000);
 
+-- ---------- Zugriffsrechte für die öffentliche API ----------
+-- RLS-Policies allein reichen nicht: Postgres prüft zuerst die normalen
+-- GRANT-Rechte, erst danach die Policies. Ohne diese Zeilen bekommt jede
+-- Anfrage über den öffentlichen ("anon") Schlüssel "permission denied".
+grant usage on schema public to anon, authenticated;
+
+grant select on public.comments_public to anon, authenticated;
+grant insert on public.comments to anon, authenticated;
+
+grant select, insert on public.comment_likes to anon, authenticated;
+
+grant select on public.chronicles_public to anon, authenticated;
+grant insert on public.chronicles to anon, authenticated;
+
+grant select, insert, update on public.chronicle_votes to anon, authenticated;
+
 -- ==========================================================
 -- Wichtig zur Admin-Moderation:
 -- Hervorheben/Löschen von Kommentaren und Freigeben/Löschen von
