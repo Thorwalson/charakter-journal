@@ -123,6 +123,10 @@
 .pill.ok { color: #8fd49b; border-color: var(--green); }
 .table-wrap td code { font-size: .8rem; }
 
+.btn.danger { border-color: #c0506a; color: #ffb3c2; }
+.btn.danger:hover { background: rgba(192, 80, 106, .15); }
+.adm-card.is-hidden { opacity: .55; }
+
 @media (max-width: 860px) {
   .adm-shell { grid-template-columns: 1fr; padding-top: 1rem; }
   .adm-nav { position: static; flex-direction: row; overflow-x: auto; padding-bottom: .4rem; }

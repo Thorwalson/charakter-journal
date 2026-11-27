@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Chroniken von Azeroth – Charakter Journal</title>
+  <meta name="description" content="Die Story-Bibliothek der Community: Geschichten aus Charakter Journal direkt im Browser lesen, herunterladen und bewerten.">
+  <meta name="theme-color" content="#0b0d14">
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="stylesheet" href="css/style.css">
+  <script src="js/config.js"></script>
+  <script src="js/content.js"></script>
+  <script src="js/main.js" defer></script>
+</head>
+<body>
+  <header id="site-header"></header>
+
+  <main>
+    <section class="page-hero wrap">
+      <h1>Chroniken von Azeroth</h1>
+      <div class="rule"></div>
+      <p>Geschichten aus der Community – direkt im Browser lesen, herunterladen und bewerten. Erstellt mit dem <a href="buch-designer.html">Buch-Designer</a>.</p>
+    </section>
+
+    <!-- Bibliothek -->
+    <section class="section">
+      <div class="wrap">
+        <div class="chron-toolbar">
+          <input type="search" id="cj-chron-search" placeholder="Titel, Pseudonym oder Charakter suchen …" aria-label="Chroniken durchsuchen">
+          <select id="cj-chron-filter" aria-label="Nach Schreibstil filtern">
+            <option value="">Alle Schreibstile</option>
+          </select>
+        </div>
+        <div id="cj-chronicles"></div>
+      </div>
+    </section>
+
+    <!-- Einreichen -->
+    <section class="section" id="einreichen">
+      <div class="wrap prose">
+        <div class="section-head">
+          <h2>Eigene Chronik einreichen</h2>
+          <div class="rule"></div>
+          <p>Exportiere deine Geschichte im <a href="buch-designer.html">Buch-Designer</a> als <strong>„Interaktives HTML-Buch“</strong> (mit eingebundener Hörprobe, falls gewünscht) und reiche die Datei hier ein. Nach kurzer Prüfung erscheint sie in der Bibliothek oben.</p>
+        </div>
+
+        <form id="cj-chron-form" class="cj-form" novalidate>
+          <div class="cj-field">
+            <label for="cc-title">Titel der Geschichte</label>
+            <input type="text" id="cc-title" name="title" maxlength="160" required>
+          </div>
+          <div class="cj-row2">
+            <div class="cj-field">
+              <label for="cc-author">Dein Pseudonym</label>
+              <input type="text" id="cc-author" name="author" maxlength="80" required>
+            </div>
+            <div class="cj-field">
+              <label for="cc-character">Charaktername</label>
+              <input type="text" id="cc-character" name="character_name" maxlength="80" required>
+            </div>
+          </div>
+          <div class="cj-row2">
+            <div class="cj-field">
+              <label for="cc-style">Schreibstil</label>
+              <select id="cc-style" name="writing_style"></select>
+            </div>
+            <div class="cj-field">
+              <label for="cc-email">Deine E-Mail (nicht öffentlich, nur für Rückfragen)</label>
+              <input type="email" id="cc-email" name="submitter_email" maxlength="200" required>
+            </div>
+          </div>
+          <div class="cj-field">
+            <label for="cc-summary">Kurzbeschreibung (optional, erscheint auf der Karte)</label>
+            <textarea id="cc-summary" name="summary" maxlength="400"></textarea>
+          </div>
+          <div class="cj-row2">
+            <div class="cj-field">
+              <label for="cc-book">HTML-Buchdatei (aus dem Buch-Designer)</label>
+              <input type="file" id="cc-book" name="book_file" accept=".html" required>
+            </div>
+            <div class="cj-field">
+              <label for="cc-cover">Buchcover (optional, Bild)</label>
+              <input type="file" id="cc-cover" name="cover_file" accept="image/*">
+            </div>
+          </div>
+          <div class="cj-captcha"></div>
+          <button type="submit" class="btn">Chronik einreichen</button>
+          <p class="cj-form-status" role="status"></p>
+        </form>
+
+        <div class="notice">
+          <strong>Gut zu wissen:</strong>
+          <ul style="margin:.5rem 0 0">
+            <li>Jede Einsendung wird vor der Veröffentlichung kurz geprüft.</li>
+            <li>Bitte reiche nur eigene Geschichten ein, keine Inhalte anderer Personen.</li>
+            <li>Beleidigende, diskriminierende oder rechtswidrige Inhalte veröffentlichen wir nicht.</li>
+          </ul>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <footer id="site-footer"></footer>
+  <script src="js/community.js" defer></script>
+</body>
+</html>

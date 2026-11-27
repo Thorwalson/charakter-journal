@@ -28,6 +28,8 @@
     ["timeline", "⏳", "Timeline"],
     ["screenshots", "🖼️", "Screenshots"],
     ["gallery", "📖", "Story-Galerie"],
+    ["comments", "💬", "Kommentare"],
+    ["chronicles", "📚", "Chroniken"],
     ["links", "🔗", "Links & Allgemein"],
     ["preview", "👁️", "Vorschau"],
     ["publish", "🚀", "Veröffentlichen"]
@@ -79,7 +81,10 @@
   }
 
   /* ---------- Zustand ---------- */
-  var S = { cfg: loadCfg(), data: null, files: {}, tab: "start", snapshot: "", connected: false, publishing: false, lastResult: "" };
+  var S = {
+    cfg: loadCfg(), data: null, files: {}, tab: "start", snapshot: "", connected: false, publishing: false, lastResult: "",
+    sb: loadSbCfg(), sbComments: null, sbChronicles: null, sbBusy: false, sbErr: ""
+  };
 
   function loadCfg() {
     var c = { owner: "", repo: "", branch: "main", token: "", remember: true };
@@ -100,6 +105,128 @@
       if (!c.remember) c.token = "";
       localStorage.setItem("cj_admin_cfg", JSON.stringify(c));
     } catch (e) {}
+  }
+
+  /* ---------- Supabase (Kommentare & Chroniken moderieren) ----------
+     Komplett unabhängig von der GitHub-Veröffentlichung oben: Aktionen
+     hier (hervorheben, löschen, freigeben) wirken SOFORT in der Supabase-
+     Datenbank, ohne "Veröffentlichen" zu drücken. Der service_role-
+     Schlüssel bleibt ausschließlich in diesem Browser gespeichert. */
+  function loadSbCfg() {
+    var c = { url: (window.CJ && window.CJ.supabase && window.CJ.supabase.url) || "", serviceKey: "", remember: true };
+    try {
+      var j = JSON.parse(localStorage.getItem("cj_admin_sb") || "null");
+      if (j) for (var k in j) c[k] = j[k];
+    } catch (e) {}
+    return c;
+  }
+  function saveSbCfg() {
+    try {
+      var c = clone(S.sb);
+      if (!c.remember) c.serviceKey = "";
+      localStorage.setItem("cj_admin_sb", JSON.stringify(c));
+    } catch (e) {}
+  }
+  function sbAdmin(path, opts) {
+    opts = opts || {};
+    var headers = { "apikey": S.sb.serviceKey, "Authorization": "Bearer " + S.sb.serviceKey, "Content-Type": "application/json" };
+    if (opts.prefer) headers["Prefer"] = opts.prefer;
+    return fetch(S.sb.url.replace(/\/+$/, "") + path, {
+      method: opts.method || "GET", headers: headers, body: opts.body ? JSON.stringify(opts.body) : undefined
+    }).then(function (res) {
+      if (!res.ok) return res.text().then(function (t) { throw new Error(t || res.statusText); });
+      var ct = res.headers.get("content-type") || "";
+      return ct.indexOf("json") > -1 ? res.json() : res.text();
+    });
+  }
+  function sbConnect() {
+    S.sb.url = $("#sb-url").value.trim();
+    S.sb.serviceKey = $("#sb-key").value.trim();
+    S.sb.remember = !!$("#sb-remember").checked;
+    saveSbCfg();
+    S.sbComments = null; S.sbChronicles = null;
+    toast("Supabase-Zugang gespeichert.", "ok");
+    render();
+    loadSbTab();
+  }
+  function sbForget() {
+    S.sb.serviceKey = ""; S.sbComments = null; S.sbChronicles = null;
+    saveSbCfg(); render();
+    toast("Service-Key auf diesem Gerät gelöscht.", "ok");
+  }
+  function sbReady() { return !!(S.sb.url && S.sb.serviceKey); }
+  function loadSbTab() {
+    if (!sbReady() || S.sbBusy) return;
+    if (S.tab === "comments" && S.sbComments == null) {
+      S.sbBusy = true; S.sbErr = "";
+      sbAdmin("/rest/v1/comments?select=*&order=created_at.desc").then(function (rows) {
+        S.sbComments = rows || []; S.sbBusy = false; render();
+      }).catch(function (err) { S.sbBusy = false; S.sbErr = err.message || "Fehler"; render(); });
+    }
+    if (S.tab === "chronicles" && S.sbChronicles == null) {
+      S.sbBusy = true; S.sbErr = "";
+      sbAdmin("/rest/v1/chronicles?select=*&order=created_at.desc").then(function (rows) {
+        S.sbChronicles = rows || []; S.sbBusy = false; render();
+      }).catch(function (err) { S.sbBusy = false; S.sbErr = err.message || "Fehler"; render(); });
+    }
+  }
+  function sbConnectForm(title, hint) {
+    return head(title, hint) +
+      '<section class="panel adm-card"><h3>Mit Supabase verbinden</h3><div class="adm-grid">' +
+      '<label class="fld"><span>Supabase-Projekt-URL</span><input type="text" id="sb-url" value="' + esc(S.sb.url) + '" placeholder="https://xxxxxxxx.supabase.co"></label>' +
+      '<label class="fld"><span>service_role-Schlüssel</span><input type="password" id="sb-key" value="' + esc(S.sb.serviceKey) + '" placeholder="eyJ…" autocomplete="off"></label></div>' +
+      '<label class="chk"><input type="checkbox" id="sb-remember"' + (S.sb.remember ? " checked" : "") + '><span>Schlüssel auf diesem Gerät merken <span class="muted">(nur auf deinem eigenen Computer ankreuzen)</span></span></label>' +
+      '<div class="btn-row" style="margin-top:.8rem"><button type="button" class="btn" data-act="sb-connect">Verbinden</button>' +
+      '<button type="button" class="btn ghost" data-act="sb-forget">Schlüssel vergessen</button></div></section>' +
+      '<div class="notice"><strong>Wo finde ich das?</strong> Supabase-Projekt → <strong>Project Settings → API</strong>. Dort stehen „Project URL“ und, weiter unten unter „Project API keys“, der <strong>service_role</strong>-Schlüssel (nicht der „anon“-Schlüssel!). Dieser Schlüssel umgeht alle Schutzregeln – niemals in <code>js/config.js</code> oder sonst auf der öffentlichen Website eintragen, er gehört ausschließlich hierher.</div>';
+  }
+
+  function tabComments() {
+    if (!sbReady()) return sbConnectForm("Kommentare moderieren", "Kommentare hervorheben, verbergen oder löschen – wirkt sofort, ganz ohne „Veröffentlichen“.");
+    loadSbTab();
+    if (S.sbComments == null) return head("Kommentare moderieren", "Wird geladen …") + (S.sbErr ? '<div class="notice">' + esc(S.sbErr) + "</div>" : "");
+    var rows = S.sbComments;
+    if (!rows.length) return head("Kommentare moderieren", "Noch keine Kommentare vorhanden.");
+    var byId = {}; rows.forEach(function (r) { byId[r.id] = r; });
+    return head("Kommentare moderieren (" + rows.length + ")", "Kommentare hervorheben, verbergen oder endgültig löschen – wirkt sofort auf der Website.") +
+      '<div class="btn-row" style="margin-bottom:1rem"><button type="button" class="btn ghost small" data-act="cm-reload">↻ Neu laden</button></div>' +
+      rows.map(function (c) {
+        var parent = c.parent_id ? byId[c.parent_id] : null;
+        return '<section class="panel adm-card' + (c.hidden ? " is-hidden" : "") + '">' +
+          '<div class="adm-card-head"><h3>' + esc(c.name) + (c.highlighted ? ' <span class="tag">📌 hervorgehoben</span>' : "") + (c.hidden ? ' <span class="tag pre">verborgen</span>' : "") + "</h3>" +
+          '<span class="muted">' + esc(new Date(c.created_at).toLocaleString("de-DE")) + "</span></div>" +
+          (parent ? '<p class="muted">Antwort auf: „' + esc((parent.message || "").slice(0, 80)) + '…“</p>' : "") +
+          "<p>" + esc(c.message).replace(/\n/g, "<br>") + "</p>" +
+          '<p class="muted">✉️ ' + esc(c.email) + " · 👍 " + (c.likes || 0) + "</p>" +
+          '<div class="btn-row">' +
+          '<button type="button" class="btn small ghost" data-act="cm-hi" data-id="' + c.id + '">' + (c.highlighted ? "Hervorhebung entfernen" : "📌 Hervorheben") + "</button>" +
+          '<button type="button" class="btn small ghost" data-act="cm-hide" data-id="' + c.id + '">' + (c.hidden ? "Einblenden" : "Verbergen") + "</button>" +
+          '<button type="button" class="btn small danger" data-act="cm-del" data-id="' + c.id + '">🗑 Löschen</button>' +
+          "</div></section>";
+      }).join("");
+  }
+
+  function tabChronicles() {
+    if (!sbReady()) return sbConnectForm("Chroniken freigeben", "Eingereichte Geschichten prüfen, freigeben, hervorheben oder löschen.");
+    loadSbTab();
+    if (S.sbChronicles == null) return head("Chroniken freigeben", "Wird geladen …") + (S.sbErr ? '<div class="notice">' + esc(S.sbErr) + "</div>" : "");
+    var rows = S.sbChronicles;
+    if (!rows.length) return head("Chroniken freigeben", "Noch keine Einsendungen vorhanden.");
+    return head("Chroniken freigeben (" + rows.length + ")", "Freigegebene Chroniken erscheinen sofort in der öffentlichen Bibliothek.") +
+      '<div class="btn-row" style="margin-bottom:1rem"><button type="button" class="btn ghost small" data-act="ch-reload">↻ Neu laden</button></div>' +
+      rows.map(function (c) {
+        return '<section class="panel adm-card">' +
+          '<div class="adm-card-head"><h3>' + esc(c.title) + '</h3><span class="tag ' + (c.approved ? "" : "pre") + '">' + (c.approved ? "freigegeben" : "wartet auf Prüfung") + "</span></div>" +
+          '<p class="muted">von <strong>' + esc(c.author) + "</strong> · " + esc(c.character_name) + " · " + esc(c.writing_style) + "</p>" +
+          (c.summary ? "<p>" + esc(c.summary) + "</p>" : "") +
+          '<p class="muted">✉️ ' + esc(c.submitter_email) + " · 👍 " + (c.upvotes || 0) + " 👎 " + (c.downvotes || 0) + (c.has_audio ? " · 🔊 mit Hörprobe" : "") + "</p>" +
+          (c.book_path ? '<p><a href="' + esc(c.book_path) + '" target="_blank" rel="noopener">📖 Buch ansehen</a></p>' : "") +
+          '<div class="btn-row">' +
+          '<button type="button" class="btn small" data-act="ch-approve" data-id="' + c.id + '">' + (c.approved ? "Zurückziehen" : "✔ Freigeben") + "</button>" +
+          '<button type="button" class="btn small ghost" data-act="ch-feature" data-id="' + c.id + '">' + (c.featured ? "Nicht mehr hervorheben" : "⭐ Hervorheben") + "</button>" +
+          '<button type="button" class="btn small danger" data-act="ch-del" data-id="' + c.id + '">🗑 Löschen</button>' +
+          "</div></section>";
+      }).join("");
   }
 
   function initData(src) {
@@ -377,7 +504,7 @@
       '<div class="log" id="pub-log">' + esc(S.lastResult) + "</div></section>";
   }
 
-  var RENDER = { start: tabStart, downloads: tabDownloads, roadmap: tabRoadmap, timeline: tabTimeline, screenshots: tabScreenshots, gallery: tabGallery, links: tabLinks, preview: tabPreview, publish: tabPublish };
+  var RENDER = { start: tabStart, downloads: tabDownloads, roadmap: tabRoadmap, timeline: tabTimeline, screenshots: tabScreenshots, gallery: tabGallery, comments: tabComments, chronicles: tabChronicles, links: tabLinks, preview: tabPreview, publish: tabPublish };
 
   function render() {
     var nav = $("#adm-nav");
@@ -395,7 +522,7 @@
     $("#adm-main").innerHTML = RENDER[S.tab]();
     updateBar();
   }
-  function go(tab) { S.tab = tab; render(); window.scrollTo(0, 0); }
+  function go(tab) { S.tab = tab; render(); window.scrollTo(0, 0); loadSbTab(); }
 
   /* ---------- Dialoge ---------- */
   function rmDialog(item, status) {
@@ -715,6 +842,52 @@
         v.older.splice(parseInt(b.getAttribute("data-j"), 10), 1);
         render(); touch(); break;
       }
+      case "sb-connect": sbConnect(); break;
+      case "sb-forget": sbForget(); break;
+      case "cm-reload": S.sbComments = null; render(); loadSbTab(); break;
+      case "ch-reload": S.sbChronicles = null; render(); loadSbTab(); break;
+      case "cm-hi": {
+        var cm = S.sbComments.filter(function (x) { return x.id === id; })[0];
+        sbAdmin("/rest/v1/comments?id=eq." + id, { method: "PATCH", body: { highlighted: !cm.highlighted } })
+          .then(function () { cm.highlighted = !cm.highlighted; render(); toast("Gespeichert.", "ok"); })
+          .catch(function (err) { toast("Fehlgeschlagen: " + err.message, "err"); });
+        break;
+      }
+      case "cm-hide": {
+        var cm2 = S.sbComments.filter(function (x) { return x.id === id; })[0];
+        sbAdmin("/rest/v1/comments?id=eq." + id, { method: "PATCH", body: { hidden: !cm2.hidden } })
+          .then(function () { cm2.hidden = !cm2.hidden; render(); toast("Gespeichert.", "ok"); })
+          .catch(function (err) { toast("Fehlgeschlagen: " + err.message, "err"); });
+        break;
+      }
+      case "cm-del":
+        if (confirm("Diesen Kommentar (und evtl. Antworten) endgültig löschen?")) {
+          sbAdmin("/rest/v1/comments?id=eq." + id, { method: "DELETE" })
+            .then(function () { S.sbComments = S.sbComments.filter(function (x) { return x.id !== id && x.parent_id !== id; }); render(); toast("Gelöscht.", "ok"); })
+            .catch(function (err) { toast("Fehlgeschlagen: " + err.message, "err"); });
+        }
+        break;
+      case "ch-approve": {
+        var ch = S.sbChronicles.filter(function (x) { return x.id === id; })[0];
+        sbAdmin("/rest/v1/chronicles?id=eq." + id, { method: "PATCH", body: { approved: !ch.approved } })
+          .then(function () { ch.approved = !ch.approved; render(); toast("Gespeichert.", "ok"); })
+          .catch(function (err) { toast("Fehlgeschlagen: " + err.message, "err"); });
+        break;
+      }
+      case "ch-feature": {
+        var ch2 = S.sbChronicles.filter(function (x) { return x.id === id; })[0];
+        sbAdmin("/rest/v1/chronicles?id=eq." + id, { method: "PATCH", body: { featured: !ch2.featured } })
+          .then(function () { ch2.featured = !ch2.featured; render(); toast("Gespeichert.", "ok"); })
+          .catch(function (err) { toast("Fehlgeschlagen: " + err.message, "err"); });
+        break;
+      }
+      case "ch-del":
+        if (confirm("Diese Chronik endgültig löschen?")) {
+          sbAdmin("/rest/v1/chronicles?id=eq." + id, { method: "DELETE" })
+            .then(function () { S.sbChronicles = S.sbChronicles.filter(function (x) { return x.id !== id; }); render(); toast("Gelöscht.", "ok"); })
+            .catch(function (err) { toast("Fehlgeschlagen: " + err.message, "err"); });
+        }
+        break;
     }
   });
 

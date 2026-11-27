@@ -33,8 +33,8 @@
           </article>
           <article class="panel support-card">
             <div class="icon">🐞</div><h3>Fehler melden</h3>
-            <p>Etwas funktioniert nicht? Sag uns Bescheid, damit wir es beheben können.</p>
-            <a class="btn" data-link="githubIssues" href="#">Fehler melden</a>
+            <p>Etwas funktioniert nicht? Eröffne im Discord-Server einfach ein Ticket (Kanal „Support“ bzw. „Bug melden“) und beschreibe kurz, was passiert ist – wir kümmern uns darum.</p>
+            <a class="btn" data-link="discord" href="#">Ticket im Discord eröffnen</a>
           </article>
           <article class="panel support-card">
             <div class="icon">💡</div><h3>Diskussionen</h3>
@@ -75,6 +75,8 @@
           <div style="margin-top:1.4rem"><a class="btn" data-link="storyForm" href="#">Geschichte einsenden</a></div>
         </div>
 
+        <p class="muted" style="margin-top:1.4rem">Lieber gleich im Browser lesbar, mit Buchcover, Hörprobe und Bewertung? Schau in <a href="chroniken.html"><strong>Chroniken von Azeroth</strong></a> – dort kannst du deine Geschichte als fertige Buch-Designer-Datei direkt selbst einreichen.</p>
+
         <div class="notice">
           <strong>Gut zu wissen:</strong>
           <ul style="margin:.5rem 0 0">
@@ -105,8 +107,43 @@
         </div>
       </div>
     </section>
+    <!-- Kommentare -->
+    <section class="section" id="kommentare">
+      <div class="wrap prose">
+        <div class="section-head">
+          <h2>Kommentare</h2>
+          <div class="rule"></div>
+          <p>Fragen, Lob, Feedback – schreib uns direkt hier. Kein Konto nötig, nur ein Name und eine E-Mail-Adresse (wird nicht veröffentlicht).</p>
+        </div>
+
+        <form id="cj-comment-form" class="cj-form" novalidate>
+          <div class="cj-reply-hint" hidden>Antwort an <span></span> · <button type="button" class="cj-reply-cancel">abbrechen</button></div>
+          <input type="hidden" name="parent_id" value="">
+          <div class="cj-row2">
+            <div class="cj-field">
+              <label for="cf-name">Name / Pseudonym</label>
+              <input type="text" id="cf-name" name="name" maxlength="60" required>
+            </div>
+            <div class="cj-field">
+              <label for="cf-email">E-Mail (nicht öffentlich sichtbar)</label>
+              <input type="email" id="cf-email" name="email" maxlength="200" required>
+            </div>
+          </div>
+          <div class="cj-field">
+            <label for="cf-message">Dein Kommentar</label>
+            <textarea id="cf-message" name="message" maxlength="3000" required></textarea>
+          </div>
+          <div class="cj-captcha"></div>
+          <button type="submit" class="btn">Kommentar absenden</button>
+          <p class="cj-form-status" role="status"></p>
+        </form>
+
+        <div id="cj-comments"></div>
+      </div>
+    </section>
   </main>
 
   <footer id="site-footer"></footer>
+  <script src="js/community.js" defer></script>
 </body>
 </html>

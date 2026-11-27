@@ -34,6 +34,38 @@ window.CJ = {
     email:       ""     // Kontakt-E-Mail (optional)
   },
 
+  /* ---------- Kommentare & Chroniken (Supabase) ----------
+     Charakter Journal ist eine rein statische Website. Damit Kommentare,
+     Likes, Antworten und die Chroniken-Bibliothek trotzdem für ALLE
+     Besucher sichtbar sind (nicht nur im eigenen Browser), braucht es
+     eine kleine, kostenlose Datenbank: Supabase.
+       1. Kostenloses Konto auf https://supabase.com anlegen, neues Projekt erstellen.
+       2. Im Projekt: SQL Editor → Inhalt von supabase/schema.sql einfügen → Run.
+       3. Project Settings → API: "Project URL" und "anon public"-Schlüssel hierher kopieren.
+     Der "anon"-Schlüssel ist bewusst öffentlich (er darf es, siehe RLS-
+     Regeln in supabase/schema.sql) – NIEMALS den "service_role"-Schlüssel
+     hier eintragen, der gehört ausschließlich ins Dashboard (admin.html).
+     Ohne eingetragene Werte bleiben Kommentare und Chroniken ausgeblendet
+     und zeigen stattdessen einen Hinweis "noch nicht eingerichtet". */
+  supabase: {
+    url: "",      // z. B. https://xxxxxxxx.supabase.co
+    anonKey: ""   // der lange "anon public"-Schlüssel aus den Projekteinstellungen
+  },
+
+  /* ---------- Spamschutz (Cloudflare Turnstile) ----------
+     Kostenloses Konto auf https://dash.cloudflare.com/?to=/:account/turnstile
+     anlegen, eine neue Website eintragen (Typ "Managed"), dann den
+     "Site Key" hier eintragen. Ohne Site Key wird kein Captcha angezeigt
+     und Kommentare/Einsendungen sind ungeschützt möglich. */
+  turnstileSiteKey: "",
+
+  /* ---------- Schreibstile (Filter in "Chroniken von Azeroth") ----------
+     Wer eine Geschichte einreicht, wählt einen dieser Stile. Hier
+     ergänzen oder umbenennen, erscheint automatisch im Filter. */
+  writingStyles: [
+    "Episch", "Düster", "Humorvoll", "Romantisch", "Actionreich", "Melancholisch", "Sonstiges"
+  ],
+
   /* ---------- Downloads ----------
      Pro WoW-Version ein Eintrag. "url" = Direktlink auf die ZIP-Datei,
      am einfachsten ein GitHub-Release-Asset.

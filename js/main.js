@@ -33,9 +33,14 @@
         { href: "buch-designer.html",   label: "Buch-Designer" }
       ]
     },
-    { href: "roadmap.html",      label: "Roadmap" },
-    { href: "timeline.html",     label: "Timeline" },
-    { href: "community.html",    label: "Community" },
+    /* Roadmap & Timeline sind vorerst ausgeblendet (Seiten bleiben erhalten, nur nicht verlinkt) */
+    { href: "roadmap.html",      label: "Roadmap",  hidden: true },
+    { href: "timeline.html",     label: "Timeline",  hidden: true },
+    { label: "Community", items: [
+        { href: "community.html", label: "Community" },
+        { href: "chroniken.html", label: "Chroniken von Azeroth" }
+      ]
+    },
     { href: "unterstuetzen.html",label: "Unterstützen" }
   ];
 
@@ -76,7 +81,7 @@
     var host = document.getElementById("site-header");
     if (!host) return;
     var cur = current();
-    var links = PAGES.map(function (p) { return navItemHtml(p, cur); }).join("");
+    var links = PAGES.filter(function (p) { return !p.hidden; }).map(function (p) { return navItemHtml(p, cur); }).join("");
     host.className = "site-header";
     host.innerHTML =
       '<div class="wrap nav">' +
