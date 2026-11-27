@@ -152,13 +152,30 @@ dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:14px 
 .cover{background:var(--cover);color:#f4ead2}
 .cover .cimg{position:absolute;inset:0;width:100%;height:100%;object-fit:cover}
 .cover .shade{position:absolute;inset:0;background:linear-gradient(rgba(0,0,0,.62),rgba(0,0,0,.05) 38%,rgba(0,0,0,.05) 60%,rgba(0,0,0,.7))}
-.cover .ctext{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:space-between;padding:calc(var(--pw) * .13) calc(var(--pw) * .1);text-align:center}
-.cover .ct{font:600 2.9em/1.1 var(--ftitle);text-shadow:0 2px 12px rgba(0,0,0,.5);color:#fff}
-.cover .cs2{font-style:italic;font-size:1.2em;margin-top:.6em;color:#f4ead2}
-.cover .ca{letter-spacing:.3em;text-transform:uppercase;font-size:.85em;color:var(--gold);font-family:var(--ftitle)}
+.cover .ctext{position:absolute;inset:0;display:flex;flex-direction:column;align-items:var(--ctitems,center);justify-content:space-between;padding:calc(var(--pw) * .13) calc(var(--pw) * .1);text-align:var(--ctalign,center);transform:translate(calc(var(--ctx,0) * 1%),calc(var(--cty,0) * 1%))}
+.cover .ct{font:600 2.9em/1.1 var(--ftitle);color:#fff;text-shadow:var(--ctshadow,0 2px 12px rgba(0,0,0,.5));-webkit-text-stroke:var(--ctstroke,0px transparent)}
+.cover .cs2{font-style:italic;font-size:1.2em;margin-top:.6em;color:#f4ead2;text-shadow:var(--ctshadow,0 2px 12px rgba(0,0,0,.5));-webkit-text-stroke:var(--ctstroke,0px transparent)}
+.cover .ca{letter-spacing:.3em;text-transform:uppercase;font-size:.85em;color:var(--gold);font-family:var(--ftitle);text-shadow:var(--ctshadow,none);-webkit-text-stroke:var(--ctstroke,0px transparent)}
 .cover .orn{color:var(--gold)}
 .cover.plain .ctext{justify-content:center;gap:1.6em}
 .cover::after{content:"";position:absolute;inset:calc(var(--pw) * .05);border:.9mm double var(--gold);pointer-events:none}
+.backcover{background:var(--cover);color:#f4ead2}
+.backcover::after{content:"";position:absolute;inset:calc(var(--pw) * .05);border:.9mm double var(--gold);pointer-events:none}
+.backcover .clogo{position:absolute;left:50%;top:calc(var(--clY) * 1%);width:calc(var(--clS) * 1%);transform:translate(-50%,-50%);opacity:var(--clO);pointer-events:none}
+.backcover .clogo.mono{aspect-ratio:var(--clR);background:var(--clC);-webkit-mask:var(--clM) center/contain no-repeat;mask:var(--clM) center/contain no-repeat}
+.backcover .clogo.orig{height:auto}
+.backcover .bcwrap{position:absolute;inset:0;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:1.3em;padding:calc(var(--pw) * .15) calc(var(--pw) * .12);text-align:center}
+.backcover .bcquote{font-style:italic;color:var(--gold);font-size:1.08em;line-height:1.5}
+.backcover .bcblurb{font-size:.98em;line-height:1.6;color:#f4ead2;max-width:94%}
+.backcover .ca{letter-spacing:.3em;text-transform:uppercase;font-size:.85em;color:var(--gold);font-family:var(--ftitle)}
+.spinePrev{position:relative;height:var(--ph);width:12mm;flex:none;background:var(--spbg,var(--cover));border:.6mm solid var(--gold);box-shadow:0 2px 10px rgba(0,0,0,.35);overflow:hidden}
+.spinePrev .splogo{position:absolute;left:50%;top:8%;width:60%;transform:translateX(-50%);opacity:.8}
+.spinePrev .splogo.mono{aspect-ratio:var(--clR);background:var(--spfg,var(--gold));-webkit-mask:var(--clM) center/contain no-repeat;mask:var(--clM) center/contain no-repeat}
+.spinePrev .splogo.orig{height:auto}
+.spinePrev .sptext{position:absolute;left:50%;top:50%;white-space:nowrap;font:600 1em var(--ftitle);color:var(--spfg,#f4ead2);transform-origin:center}
+.spinePrev .sptext.up{transform:translate(-50%,-50%) rotate(-90deg)}
+.spinePrev .sptext.down{transform:translate(-50%,-50%) rotate(90deg)}
+.spineWrap{display:flex;align-items:center;gap:10px;margin:.5rem 0}
 .tp .body{display:flex;flex-direction:column;align-items:center;justify-content:center;text-align:center}
 .tp .logo{width:calc(var(--lgs) * 1%);max-height:42%;object-fit:contain;margin-bottom:1.2em;transform:translate(calc(var(--lgx) * 1mm),calc(var(--lgy) * 1mm))}
 .tp .ct{font:600 2.2em/1.15 var(--ftitle)}
@@ -351,6 +368,20 @@ dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:14px 
       </div>
       <label class="f">Deckkraft des Hintergrunds: <span id="vBo"></span><input type="range" min="0.05" max="1" step="0.05" data-bind="style.bgOpacity" data-out="vBo"></label>
       <label class="chk"><input type="checkbox" data-bind="coverFull"> Titelbild füllt das ganze Cover</label>
+      <div class="placebox">
+        <b>Eigene Cover-Beschriftung</b>
+        <div class="hint">Titel, Untertitel und Autor auf dem Cover frei anordnen – oder ganz ausblenden für ein Cover, das nur aus deinem Bild besteht.</div>
+        <label class="chk"><input type="checkbox" id="chCtOn" data-bind="style.ctOn"> Titel/Autor-Text auf dem Cover anzeigen</label>
+        <div id="ctOptions">
+          <label class="f">Ausrichtung<select data-bind="style.ctAlign"><option value="left">links</option><option value="center">mittig</option><option value="right">rechts</option></select></label>
+          <div class="row2">
+            <label class="f">waagerecht verschieben (%) <span id="vCtX"></span><input type="range" min="-30" max="30" step="1" data-bind="style.ctX" data-out="vCtX"></label>
+            <label class="f">senkrecht verschieben (%) <span id="vCtY"></span><input type="range" min="-30" max="30" step="1" data-bind="style.ctY" data-out="vCtY"></label>
+          </div>
+          <label class="f">Schrift-Effekt (damit sich der Text besser vom Bild abhebt)<select data-bind="style.ctFx"><option value="shadow">Schatten</option><option value="outline">Umrandung</option><option value="none">kein Effekt</option></select></label>
+          <label class="f">Stärke des Effekts: <span id="vCtFxS"></span><input type="range" min="0.1" max="1" step="0.05" data-bind="style.ctFxStrength" data-out="vCtFxS"></label>
+        </div>
+      </div>
     </div></details>
 
     <details><summary>5 · Seiten &amp; Zahlen</summary><div class="sec">
@@ -359,6 +390,39 @@ dialog menu{display:flex;gap:8px;justify-content:flex-end;padding:0;margin:14px 
       <label class="chk"><input type="checkbox" data-bind="pages.toc"> Inhaltsverzeichnis</label>
       <label class="chk"><input type="checkbox" data-bind="pages.end"> Schlussseite</label>
       <label class="f">Text der Schlussseite<input type="text" data-bind="pages.endText"></label>
+      <div class="placebox">
+        <b>Buchrückseite (für den Druck)</b>
+        <div class="hint">Praktisch, wenn du dein Buch selbst ausdrucken oder drucken lassen möchtest: eine letzte, cover-artige Seite mit Klappentext – wie bei einem gekauften Buch.</div>
+        <label class="chk"><input type="checkbox" id="chBackCover" data-bind="pages.backCover"> Buchrückseite hinzufügen</label>
+        <div id="backCoverOptions">
+          <label class="f">Zitat/Teaser (optional, kursiv hervorgehoben)<input type="text" data-bind="backQuote" maxlength="160"></label>
+          <label class="f">Klappentext<textarea data-bind="backText" rows="5" placeholder="Kurzer Teaser-Text zu deiner Geschichte …"></textarea></label>
+          <div class="hint">Nutzt automatisch Autor:in, Rücken-/Deckfarbe und Logo aus den Cover-Einstellungen oben.</div>
+        </div>
+      </div>
+      <div class="placebox">
+        <b>Buchrücken (für Hardcover/Druck)</b>
+        <div class="hint">Gestalte den Buchrücken separat – Text, Logo und Farben – und drucke ihn als eigenes Blatt für die Herstellung eines Hardcovers. Die genaue Breite hängt von Seitenzahl und Papier ab; am besten bei der Druckerei erfragen oder grob schätzen lassen.</div>
+        <label class="chk"><input type="checkbox" id="chSpineOn" data-bind="spine.on"> Buchrücken gestalten</label>
+        <div id="spineOptions">
+          <label class="f">Text auf dem Rücken (leer = Buchtitel)<input type="text" data-bind="spine.text" placeholder="Buchtitel wird verwendet"></label>
+          <div class="row2">
+            <label class="f">Leserichtung<select data-bind="spine.dir"><option value="up">von unten nach oben</option><option value="down">von oben nach unten</option></select></label>
+            <label class="f">Rückenbreite (mm) <span id="vSpMm"></span><input type="range" min="6" max="60" step="0.5" data-bind="spine.mm" data-out="vSpMm"></label>
+          </div>
+          <button class="btn small" id="bSpineAuto">Breite aus Seitenzahl schätzen</button>
+          <div class="row2">
+            <label class="f">Hintergrundfarbe<input type="color" data-bind="spine.bg"></label>
+            <label class="f">Textfarbe<input type="color" data-bind="spine.fg"></label>
+          </div>
+          <label class="chk"><input type="checkbox" data-bind="spine.logo"> Logo/Siegel auf dem Rücken anzeigen</label>
+          <div class="hint">Verwendet die Titelschrift des Buches (siehe Abschnitt „Schrift“).</div>
+          <div class="spineWrap">
+            <div class="spinePrev" id="spinePrev"></div>
+            <button class="btn small" id="bSpinePrint">Buchrücken drucken / als PDF</button>
+          </div>
+        </div>
+      </div>
       <label class="f">Seitenzahl unten
         <select data-bind="style.pn"><option value="plain">12</option><option value="dash">– 12 –</option><option value="dots">· 12 ·</option><option value="seite">Seite 12</option><option value="none">keine</option></select>
       </label>
@@ -544,6 +608,8 @@ const esc = s => String(s).replace(/&/g,'&amp;').replace(/</g,'&lt;').replace(/>
 const defState = () => ({
   v: 1,
   title: 'Die Geschichte von …', subtitle: 'Eine Reise durch Azeroth', author: '', dedication: '',
+  backText: '', backQuote: '',
+  spine: { on:false, text:'', dir:'up', mm:14, bg:'#6b4423', fg:'#f4ead2', logo:true },
   format: 'A5', coverFull: true,
   style: { theme:'pergament', ...THEMES.pergament, ftext:'georgia', ftitle:'georgia', size:10.5, lh:1.45,
            justify:true, indent:true, dropcap:true, pn:'plain', pnShot:true, header:true, frame:'line', orn:'flourish',
@@ -552,9 +618,10 @@ const defState = () => ({
            fdrop:'title', pnDecor:'none', bgSel:'', divSel:'', logoSel:'', cornerSel:'',
            clogo:'none', clogoMode:'gold', clogoOp:.25, clogoSize:70, clogoY:50,
            cvx:50, cvy:50, cvz:1,
+           ctOn:true, ctAlign:'center', ctX:0, ctY:0, ctFx:'shadow', ctFxStrength:.5,
            lgs:40, lgx:0, lgy:0,
            dvw:46, dvh:3, dvy:0 },
-  pages: { titlePage:true, dedication:true, toc:true, end:true, endText:'Ende' },
+  pages: { titlePage:true, dedication:true, toc:true, end:true, endText:'Ende', backCover:false },
   img: { cover:null, logo:null, corner:null, divider:null, bg:null },
   fonts: { text:null, title:null },
   chapters: [],
@@ -658,6 +725,15 @@ function applyVars() {
   r.setProperty('--accent', st.accent); r.setProperty('--gold', st.gold); r.setProperty('--cover', coverColor(st.accent));
   r.setProperty('--cs', st.cornerSize * f.w / 148); r.setProperty('--bgop', st.bgOpacity); r.setProperty('--cin', st.cornerInset * f.w / 148); r.setProperty('--fk', f.w / 148);
   r.setProperty('--cvx', st.cvx); r.setProperty('--cvy', st.cvy); r.setProperty('--cvz', st.cvz);
+  { const am = { left: 'flex-start', center: 'center', right: 'flex-end' };
+    r.setProperty('--ctalign', st.ctAlign || 'center'); r.setProperty('--ctitems', am[st.ctAlign] || 'center');
+    r.setProperty('--ctx', st.ctX || 0); r.setProperty('--cty', st.ctY || 0);
+    const fs = st.ctFxStrength != null ? st.ctFxStrength : .5;
+    let shadow = 'none', stroke = '0px transparent';
+    if (st.ctFx === 'outline') { stroke = (0.5 + fs * 1.8).toFixed(2) + 'px rgba(0,0,0,' + (0.6 + fs * 0.4).toFixed(2) + ')'; }
+    else if (st.ctFx !== 'none') { shadow = '0 ' + (1 + fs * 2).toFixed(1) + 'px ' + (8 + fs * 18).toFixed(0) + 'px rgba(0,0,0,' + (0.35 + fs * 0.45).toFixed(2) + ')'; }
+    r.setProperty('--ctshadow', shadow); r.setProperty('--ctstroke', stroke);
+  }
   r.setProperty('--lgs', st.lgs); r.setProperty('--lgx', st.lgx * f.w / 148); r.setProperty('--lgy', st.lgy * f.w / 148);
   r.setProperty('--dvw', st.dvw); r.setProperty('--dvh', st.dvh); r.setProperty('--dvy', st.dvy);
   const lg = LOGOS[st.clogo];
@@ -675,12 +751,58 @@ function applyVars() {
   $('#pagestyle').textContent = '@page{size:' + f.w + 'mm ' + f.h + 'mm;margin:0}';
 }
 
+function estimateSpineMm() {
+  // Faustregel für die Rückenbreite: ca. 0,06 mm Papierstärke je Seite plus etwas Puffer für den Einband.
+  // Dient nur als grober Richtwert – für den tatsächlichen Druck gibt die Druckerei die genaue Breite vor.
+  const n = Math.max(20, (pages && pages.length) || S.chapters.length * 8 + 6);
+  return Math.max(6, Math.min(60, +(n * 0.06 + 3).toFixed(1)));
+}
+function renderSpinePreview() {
+  const el = $('#spinePrev'); if (!el) return;
+  const sp = S.spine;
+  el.style.setProperty('--spbg', sp.bg || '#6b4423');
+  el.style.setProperty('--spfg', sp.fg || '#f4ead2');
+  el.style.width = (sp.mm || 14) + 'mm';
+  let h = '';
+  const lg = LOGOS[S.style.clogo];
+  if (sp.logo && lg) h += (S.style.clogoMode === 'orig' ? '<img class="splogo orig" src="' + lg.o + '" alt="">' : '<div class="splogo mono"></div>');
+  h += '<div class="sptext ' + (sp.dir === 'down' ? 'down' : 'up') + '">' + esc((sp.text || '').trim() || S.title) + '</div>';
+  el.innerHTML = h;
+}
+function printSpine() {
+  const sp = S.spine, f = FORMATS[S.format] || FORMATS.A5;
+  const mm = sp.mm || 14, h = f.h;
+  const lg = LOGOS[S.style.clogo];
+  const fam = (document.documentElement.style.getPropertyValue('--ftitle') || 'Georgia, serif');
+  const text = esc((sp.text || '').trim() || S.title);
+  let logoHtml = '';
+  if (sp.logo && lg) {
+    if (S.style.clogoMode === 'orig') logoHtml = '<img src="' + lg.o + '" style="position:absolute;left:50%;top:8%;width:62%;transform:translateX(-50%)">';
+    else {
+      const color = S.style.clogoMode === 'dark' ? '#140d06' : S.style.clogoMode === 'light' ? '#f4ead2' : (sp.fg || '#f4ead2');
+      logoHtml = '<div style="position:absolute;left:50%;top:8%;width:62%;aspect-ratio:' + (1 / lg.r).toFixed(4) + ';transform:translateX(-50%);background:' + color + ';-webkit-mask:url(' + JSON.stringify(lg.m) + ') center/contain no-repeat;mask:url(' + JSON.stringify(lg.m) + ') center/contain no-repeat"></div>';
+    }
+  }
+  const rotate = sp.dir === 'down' ? '90deg' : '-90deg';
+  const html = '<!doctype html><html><head><meta charset="utf-8"><title>Buchrücken</title><style>' +
+    '@page{size:' + mm + 'mm ' + h + 'mm;margin:0}' +
+    'html,body{margin:0;padding:0}' +
+    'body{width:' + mm + 'mm;height:' + h + 'mm;background:' + (sp.bg || '#6b4423') + ';position:relative;overflow:hidden;font-family:' + fam + '}' +
+    '.txt{position:absolute;left:50%;top:50%;white-space:nowrap;font:600 1em ' + fam + ';font-size:' + Math.max(10, mm * 2.1) + 'px;color:' + (sp.fg || '#f4ead2') + ';transform:translate(-50%,-50%) rotate(' + rotate + ')}' +
+    '</style></head><body>' + logoHtml + '<div class="txt">' + text + '</div></body></html>';
+  const w = window.open('', '_blank');
+  if (!w) { toast('Pop-up wurde blockiert – bitte erlauben und erneut versuchen.'); return; }
+  w.document.open(); w.document.write(html); w.document.close();
+  w.onload = () => setTimeout(() => w.print(), 300);
+  setTimeout(() => { try { w.focus(); w.print(); } catch (e) {} }, 500);
+}
+
 function newPage(kind, o = {}) {
   const n = pages.length + 1;
   const el = document.createElement('div');
   el.className = 'page ' + (n % 2 ? 'odd' : 'even') + ' ' + kind;
   const st = S.style;
-  if (kind !== 'cover') {
+  if (kind !== 'cover' && kind !== 'backcover') {
     if (st.frame !== 'none' && kind !== 'blankp') el.classList.add('frame-' + st.frame);
     if (bgSrc()) el.insertAdjacentHTML('beforeend', '<div class="bgi"></div>');
   }
@@ -727,15 +849,22 @@ function chapterLabel(i) {
 function coverPage() {
   const p = newPage('cover');
   const full = S.coverFull && S.img.cover;
+  const showText = S.style.ctOn !== false;
   p.el.classList.add(full ? 'full' : 'plain');
+  if (!showText) p.el.classList.add('notext');
   let h = '';
-  if (full) h += '<img class="cimg" src="' + S.img.cover + '" alt=""><div class="shade"></div>';
+  if (full) h += '<img class="cimg" src="' + S.img.cover + '" alt="">' + (showText ? '<div class="shade"></div>' : '');
   const lg = LOGOS[S.style.clogo];
   if (lg) h += S.style.clogoMode === 'orig' ? '<img class="clogo orig" src="' + lg.o + '" alt="">' : '<div class="clogo mono"></div>';
-  h += '<div class="ctext"><div class="ca">' + esc(S.author || '') + '</div><div>';
-  if (!full && S.img.cover) h += '<img src="' + S.img.cover + '" alt="" style="max-width:70%;max-height:36mm;object-fit:contain;margin-bottom:1.2em;border:.25mm solid var(--gold)">';
-  h += '<div class="ct">' + esc(S.title) + '</div>' + (divSrc() ? '<div class="orn divimg" style="margin-top:.9em;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))"></div>' : S.style.orn !== 'none' ? '<div class="orn" style="margin-top:.9em">' + ORN[S.style.orn] + '</div>' : '') +
-       '<div class="cs2">' + esc(S.subtitle) + '</div></div><div class="ca">Ein Charakter-Journal</div></div>';
+  if (showText) {
+    h += '<div class="ctext"><div class="ca">' + esc(S.author || '') + '</div><div>';
+    if (!full && S.img.cover) h += '<img src="' + S.img.cover + '" alt="" style="max-width:70%;max-height:36mm;object-fit:contain;margin-bottom:1.2em;border:.25mm solid var(--gold)">';
+    h += '<div class="ct">' + esc(S.title) + '</div>' + (divSrc() ? '<div class="orn divimg" style="margin-top:.9em;filter:drop-shadow(0 1px 3px rgba(0,0,0,.5))"></div>' : S.style.orn !== 'none' ? '<div class="orn" style="margin-top:.9em">' + ORN[S.style.orn] + '</div>' : '') +
+         '<div class="cs2">' + esc(S.subtitle) + '</div></div><div class="ca">Ein Charakter-Journal</div></div>';
+  } else if (!full && S.img.cover) {
+    // Nur Bild, kein Text: Titelbild groß und mittig zeigen.
+    h += '<div class="ctext" style="justify-content:center"><img src="' + S.img.cover + '" alt="" style="max-width:86%;max-height:72%;object-fit:contain;border:.25mm solid var(--gold)"></div>';
+  }
   p.el.insertAdjacentHTML('afterbegin', h);
   p.el.querySelector('.body').remove(); p.foot.remove();
   p.numbered = false;
@@ -766,6 +895,19 @@ function fillToc(p) {
 function endPage() {
   const p = newPage('endp'); p.numbered = false;
   p.body.innerHTML = ornHTML() + '<div class="ct">' + esc(S.pages.endText || '') + '</div>';
+}
+function backCoverPage() {
+  const p = newPage('backcover'); p.numbered = false;
+  let h = '';
+  const lg = LOGOS[S.style.clogo];
+  if (lg) h += S.style.clogoMode === 'orig' ? '<img class="clogo orig" src="' + lg.o + '" alt="">' : '<div class="clogo mono"></div>';
+  h += '<div class="bcwrap">';
+  if (S.backQuote.trim()) h += '<div class="bcquote">„' + esc(S.backQuote) + '“</div>';
+  if (S.backText.trim()) h += '<div class="bcblurb">' + esc(S.backText).replace(/\n/g, '<br>') + '</div>';
+  if (S.author) h += '<div class="ca">' + esc(S.author) + '</div>';
+  h += '</div>';
+  p.el.insertAdjacentHTML('afterbegin', h);
+  p.el.querySelector('.body').remove(); p.foot.remove();
 }
 function imagePage(src, caption, fit, sub) {
   const p = newPage('shot'); p.numbered = S.style.pnShot;
@@ -881,9 +1023,11 @@ function render() {
   if (S.pages.toc && S.chapters.length) toc = tocPage();
   S.chapters.forEach((_, i) => flowChapter(i));
   if (S.pages.end) endPage();
+  if (S.pages.backCover) backCoverPage();
+  renderSpinePreview();
   pages.forEach((p, i) => {
     p.num = i + 1;
-    const show = p.numbered !== false && p.kind !== 'cover' && p.kind !== 'blankp';
+    const show = p.numbered !== false && p.kind !== 'cover' && p.kind !== 'backcover' && p.kind !== 'blankp';
     p.foot && (p.foot.innerHTML = show ? footHTML(p.num) : '');
   });
   if (toc) fillToc(toc);
@@ -923,6 +1067,10 @@ function syncBinds() {
     (k && S.fonts[k] ? '<optgroup label="Eigene"><option value="custom">Eigene: ' + esc(S.fonts[k].name) + '</option></optgroup>' : '');
   $('#selText').innerHTML = gopts('text'); $('#selTitle').innerHTML = gopts('title'); $('#selDrop').innerHTML = gopts(null, true);
   $('#selText').value = S.style.ftext; $('#selTitle').value = S.style.ftitle; $('#selDrop').value = S.style.fdrop || 'title';
+  $('#ctOptions').style.display = S.style.ctOn === false ? 'none' : '';
+  $('#backCoverOptions').style.display = S.pages.backCover ? '' : 'none';
+  $('#spineOptions').style.display = S.spine.on ? '' : 'none';
+  renderSpinePreview();
   renderImgs(); renderPickers();
 }
 function bindInputs() {
@@ -1252,7 +1400,7 @@ $('#bLoad').onclick = async () => {
 };
 async function adopt(obj) {
   const d = defState();
-  S = { ...d, ...obj, style: { ...d.style, ...(obj.style || {}) }, pages: { ...d.pages, ...(obj.pages || {}) }, img: { ...d.img, ...(obj.img || {}) }, fonts: { ...d.fonts, ...(obj.fonts || {}) } };
+  S = { ...d, ...obj, style: { ...d.style, ...(obj.style || {}) }, pages: { ...d.pages, ...(obj.pages || {}) }, img: { ...d.img, ...(obj.img || {}) }, fonts: { ...d.fonts, ...(obj.fonts || {}) }, spine: { ...d.spine, ...(obj.spine || {}) } };
   S.chapters = (obj.chapters || []).map(c => ({ ...newChapter(), ...c }));
   await useFont('text'); await useFont('title');
   syncBinds(); fillEditor(); render();
@@ -1339,12 +1487,20 @@ async function makeCover() {
   const g = c.getContext('2d'); await document.fonts.ready;
   g.fillStyle = coverColor(st.accent); g.fillRect(0, 0, W, H);
   const full = S.coverFull && S.img.cover;
+  const showText = st.ctOn !== false;
   if (full) {
     const im = await loadImg(S.img.cover), z = Math.max(1, st.cvz || 1), sc = Math.max(W / im.width, H / im.height) * z;
     const iw = im.width * sc, ih = im.height * sc, ox = -(iw - W) * (st.cvx / 100), oy = -(ih - H) * (st.cvy / 100);
     g.drawImage(im, ox, oy, iw, ih);
-    const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, 'rgba(0,0,0,.62)'); gr.addColorStop(.38, 'rgba(0,0,0,.05)'); gr.addColorStop(.6, 'rgba(0,0,0,.05)'); gr.addColorStop(1, 'rgba(0,0,0,.7)');
-    g.fillStyle = gr; g.fillRect(0, 0, W, H);
+    if (showText) {
+      const gr = g.createLinearGradient(0, 0, 0, H); gr.addColorStop(0, 'rgba(0,0,0,.62)'); gr.addColorStop(.38, 'rgba(0,0,0,.05)'); gr.addColorStop(.6, 'rgba(0,0,0,.05)'); gr.addColorStop(1, 'rgba(0,0,0,.7)');
+      g.fillStyle = gr; g.fillRect(0, 0, W, H);
+    }
+  } else if (!showText && S.img.cover) {
+    const im = await loadImg(S.img.cover), sc = Math.min(W * .86 / im.width, H * .72 / im.height);
+    const iw = im.width * sc, ih = im.height * sc, ix = (W - iw) / 2, iy = (H - ih) / 2;
+    g.drawImage(im, ix, iy, iw, ih);
+    g.strokeStyle = st.gold; g.lineWidth = 4; g.strokeRect(ix, iy, iw, ih);
   }
   const lg = LOGOS[st.clogo];
   if (lg) {
@@ -1355,15 +1511,30 @@ async function makeCover() {
     g.globalAlpha = st.clogoOp; g.drawImage(t, (W - w) / 2, H * st.clogoY / 100 - h / 2); g.globalAlpha = 1;
   }
   g.strokeStyle = st.gold; g.lineWidth = 5; g.strokeRect(W * .05, W * .05, W * .9, H - W * .1); g.lineWidth = 2; g.strokeRect(W * .05 + 14, W * .05 + 14, W * .9 - 28, H - W * .1 - 28);
-  const fam = getComputedStyle(document.documentElement).getPropertyValue('--ftitle') || 'Georgia, serif';
-  g.textAlign = 'center'; g.textBaseline = 'alphabetic';
-  g.fillStyle = st.gold; g.font = '600 34px ' + fam; if (S.author) g.fillText(S.author.toUpperCase().split('').join(String.fromCharCode(8202)), W / 2, 230);
-  g.font = '600 34px ' + fam; g.fillText('EIN CHARAKTER-JOURNAL', W / 2, H - 200);
-  g.fillStyle = '#fff'; g.shadowColor = 'rgba(0,0,0,.5)'; g.shadowBlur = 16; g.font = '600 112px ' + fam;
-  const tl = wrapText(g, S.title, W * .76), th = 128, y0 = H / 2 - (tl.length * th) / 2 + 60;
-  tl.forEach((l, i) => g.fillText(l, W / 2, y0 + i * th));
-  g.shadowBlur = 0; g.fillStyle = '#f4ead2'; g.font = 'italic 52px ' + fam;
-  wrapText(g, S.subtitle || '', W * .7).forEach((l, i) => g.fillText(l, W / 2, y0 + tl.length * th + 40 + i * 66));
+  if (showText) {
+    const fam = getComputedStyle(document.documentElement).getPropertyValue('--ftitle') || 'Georgia, serif';
+    const align = st.ctAlign || 'center', padX = W * .12;
+    g.textAlign = align === 'left' ? 'left' : align === 'right' ? 'right' : 'center';
+    const tx = (align === 'left' ? padX : align === 'right' ? W - padX : W / 2) + W * (st.ctX || 0) / 100;
+    const dy = H * (st.ctY || 0) / 100;
+    const fs = st.ctFxStrength != null ? st.ctFxStrength : .5;
+    const fxStroke = st.ctFx === 'outline';
+    g.textBaseline = 'alphabetic';
+    const fx = () => {
+      if (fxStroke) { g.shadowBlur = 0; g.lineWidth = 1 + fs * 5; g.strokeStyle = 'rgba(0,0,0,' + (0.55 + fs * 0.4).toFixed(2) + ')'; }
+      else if (st.ctFx === 'none') { g.shadowBlur = 0; }
+      else { g.shadowColor = 'rgba(0,0,0,' + (0.35 + fs * 0.45).toFixed(2) + ')'; g.shadowBlur = 8 + fs * 24; }
+    };
+    const draw = (t, y) => { fx(); if (fxStroke) g.strokeText(t, tx, y); g.fillText(t, tx, y); };
+    g.fillStyle = st.gold; g.font = '600 34px ' + fam; if (S.author) draw(S.author.toUpperCase().split('').join(String.fromCharCode(8202)), 230 + dy);
+    g.font = '600 34px ' + fam; draw('EIN CHARAKTER-JOURNAL', H - 200 + dy);
+    g.fillStyle = '#fff'; g.font = '600 112px ' + fam;
+    const tl = wrapText(g, S.title, W * .76), th = 128, y0 = H / 2 - (tl.length * th) / 2 + 60 + dy;
+    tl.forEach((l, i) => draw(l, y0 + i * th));
+    g.fillStyle = '#f4ead2'; g.font = 'italic 52px ' + fam;
+    wrapText(g, S.subtitle || '', W * .7).forEach((l, i) => draw(l, y0 + tl.length * th + 40 + i * 66));
+    g.shadowBlur = 0; g.lineWidth = 0;
+  }
   return dataBytes(c.toDataURL('image/jpeg', .9));
 }
 function fontFaces(slot, fam) {   // eingebettete Schrift für das E-Book
@@ -1765,6 +1936,11 @@ $('#selOrn').innerHTML = Object.keys(ORN_LABELS).map(k => '<option value="' + k 
 $('#selCorner').innerHTML = Object.keys(CORNER_LABELS).map(k => '<option value="' + k + '">' + CORNER_LABELS[k] + '</option>').join('');
 $('#selPnd').innerHTML = Object.keys(PND_LABELS).map(k => '<option value="' + k + '">' + PND_LABELS[k] + '</option>').join('');
 $('#bPlaceReset').onclick = () => { const d = defState().style; for (const k of ['cvx', 'cvy', 'cvz', 'lgs', 'lgx', 'lgy', 'dvw', 'dvh', 'dvy', 'cornerInset', 'oTLx', 'oTLy', 'oTRx', 'oTRy', 'oBLx', 'oBLy', 'oBRx', 'oBRy']) S.style[k] = d[k]; syncBinds(); scheduleRender(10); };
+$('#chCtOn').addEventListener('change', e => { $('#ctOptions').style.display = e.target.checked ? '' : 'none'; });
+$('#chBackCover').addEventListener('change', e => { $('#backCoverOptions').style.display = e.target.checked ? '' : 'none'; });
+$('#chSpineOn').addEventListener('change', e => { $('#spineOptions').style.display = e.target.checked ? '' : 'none'; renderSpinePreview(); });
+$('#bSpineAuto').onclick = () => { S.spine.mm = estimateSpineMm(); syncBinds(); scheduleRender(10); };
+$('#bSpinePrint').onclick = () => printSpine();
 (() => {
   let drag = null;
   $('#sheet').addEventListener('pointerdown', e => {
