@@ -30,6 +30,16 @@
           <select id="cj-chron-filter" aria-label="Nach Schreibstil filtern">
             <option value="">Alle Schreibstile</option>
           </select>
+          <select id="cj-chron-filter-narrator" aria-label="Nach Erzählerform filtern">
+            <option value="">Jede Erzählerform</option>
+          </select>
+          <select id="cj-chron-filter-length" aria-label="Nach Länge filtern">
+            <option value="">Jede Länge</option>
+          </select>
+          <label class="chron-filter-check">
+            <input type="checkbox" id="cj-chron-filter-dungeon">
+            <span>⚔ Nur Dungeon-Kurzgeschichten</span>
+          </label>
         </div>
         <div id="cj-chronicles"></div>
       </div>
@@ -61,14 +71,28 @@
           </div>
           <div class="cj-row2">
             <div class="cj-field">
-              <label for="cc-style">Schreibstil</label>
+              <label for="cc-style">Stil</label>
               <select id="cc-style" name="writing_style"></select>
+            </div>
+            <div class="cj-field">
+              <label for="cc-narrator">Erzählerform</label>
+              <select id="cc-narrator" name="narrator_form"></select>
+            </div>
+          </div>
+          <div class="cj-row2">
+            <div class="cj-field">
+              <label for="cc-length">Länge</label>
+              <select id="cc-length" name="story_length"></select>
             </div>
             <div class="cj-field">
               <label for="cc-email">Deine E-Mail (nicht öffentlich, nur für Rückfragen)</label>
               <input type="email" id="cc-email" name="submitter_email" maxlength="200" required>
             </div>
           </div>
+          <label class="chk">
+            <input type="checkbox" id="cc-dungeon" name="is_dungeon">
+            Dungeon-Kurzgeschichte (spielt in einem Dungeon/Schlachtzug)
+          </label>
           <div class="cj-field">
             <label for="cc-summary">Kurzbeschreibung (optional, erscheint auf der Karte)</label>
             <textarea id="cc-summary" name="summary" maxlength="400"></textarea>

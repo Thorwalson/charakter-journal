@@ -217,7 +217,9 @@
       rows.map(function (c) {
         return '<section class="panel adm-card">' +
           '<div class="adm-card-head"><h3>' + esc(c.title) + '</h3><span class="tag ' + (c.approved ? "" : "pre") + '">' + (c.approved ? "freigegeben" : "wartet auf Prüfung") + "</span></div>" +
-          '<p class="muted">von <strong>' + esc(c.author) + "</strong> · " + esc(c.character_name) + " · " + esc(c.writing_style) + "</p>" +
+          '<p class="muted">von <strong>' + esc(c.author) + "</strong> · " + esc(c.character_name) + " · " + esc(c.writing_style) +
+            (c.narrator_form ? " · " + esc(c.narrator_form) : "") + (c.story_length ? " · " + esc(c.story_length) : "") +
+            (c.is_dungeon ? " · ⚔ Dungeon" : "") + "</p>" +
           (c.summary ? "<p>" + esc(c.summary) + "</p>" : "") +
           '<p class="muted">✉️ ' + esc(c.submitter_email) + " · 👍 " + (c.upvotes || 0) + " 👎 " + (c.downvotes || 0) + (c.has_audio ? " · 🔊 mit Hörprobe" : "") + "</p>" +
           (c.book_path ? '<p><a href="' + esc(c.book_path) + '" target="_blank" rel="noopener">📖 Buch ansehen</a></p>' : "") +

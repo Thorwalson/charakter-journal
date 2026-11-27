@@ -224,8 +224,14 @@
 
     var search = document.getElementById("cj-chron-search");
     var filter = document.getElementById("cj-chron-filter");
+    var filterNarrator = document.getElementById("cj-chron-filter-narrator");
+    var filterLength = document.getElementById("cj-chron-filter-length");
+    var filterDungeon = document.getElementById("cj-chron-filter-dungeon");
     if (search) search.addEventListener("input", renderChronicleGrid);
     if (filter) filter.addEventListener("change", renderChronicleGrid);
+    if (filterNarrator) filterNarrator.addEventListener("change", renderChronicleGrid);
+    if (filterLength) filterLength.addEventListener("change", renderChronicleGrid);
+    if (filterDungeon) filterDungeon.addEventListener("change", renderChronicleGrid);
 
     host.innerHTML = '<div class="muted center" style="padding:1.2rem">Chroniken werden geladen …</div>';
     sb("/rest/v1/chronicles_public?select=*&order=featured.desc,created_at.desc").then(function (rows) {
@@ -236,12 +242,17 @@
     });
   }
 
-  function buildStyleFilter() {
-    var sel = document.getElementById("cj-chron-filter");
+  function fillOptions(sel, list) {
     if (!sel || sel.options.length > 1) return;
-    (C.writingStyles || []).forEach(function (s) {
+    (list || []).forEach(function (s) {
       var o = document.createElement("option"); o.value = s; o.textContent = s; sel.appendChild(o);
     });
+  }
+
+  function buildStyleFilter() {
+    fillOptions(document.getElementById("cj-chron-filter"), C.writingStyles);
+    fillOptions(document.getElementById("cj-chron-filter-narrator"), C.narratorForms);
+    fillOptions(document.getElementById("cj-chron-filter-length"), C.storyLengths);
   }
 
   function renderChronicleGrid() {
@@ -250,8 +261,14 @@
     var q = (document.getElementById("cj-chron-search") || {}).value || "";
     q = q.trim().toLowerCase();
     var style = (document.getElementById("cj-chron-filter") || {}).value || "";
+    var narrator = (document.getElementById("cj-chron-filter-narrator") || {}).value || "";
+    var length = (document.getElementById("cj-chron-filter-length") || {}).value || "";
+    var dungeonOnly = (document.getElementById("cj-chron-filter-dungeon") || {}).checked || false;
     var list = chroniclesCache.filter(function (c) {
       if (style && c.writing_style !== style) return false;
+      if (narrator && c.narrator_form !== narrator) return false;
+      if (length && c.story_length !== length) return false;
+      if (dungeonOnly && !c.is_dungeon) return false;
       if (!q) return true;
       var hay = (c.title + " " + c.author + " " + c.character_name + " " + (c.summary || "")).toLowerCase();
       return hay.indexOf(q) > -1;
@@ -264,11 +281,18 @@
       var cover = c.cover_path ? '<img src="' + esc(c.cover_path) + '" alt="Buchcover: ' + esc(c.title) + '" loading="lazy">' :
         '<div class="chron-cover-fallback" aria-hidden="true">📘</div>';
       return '<article class="chron-card" data-id="' + c.id + '">' +
-        '<div class="chron-cover">' + cover + (c.has_audio ? '<span class="chron-audio-badge" title="Mit Hörprobe">🔊</span>' : "") + "</div>" +
+        '<div class="chron-cover">' + cover +
+          (c.is_dungeon ? '<span class="chron-dungeon-badge" title="Dungeon-Kurzgeschichte">⚔ Dungeon</span>' : "") +
+          (c.has_audio ? '<span class="chron-audio-badge" title="Mit Hörprobe">🔊</span>' : "") +
+        "</div>" +
         '<div class="chron-body">' +
           "<h3>" + esc(c.title) + "</h3>" +
           '<div class="chron-meta">von <strong>' + esc(c.author) + "</strong> · " + esc(c.character_name) + "</div>" +
-          '<span class="chron-style">' + esc(c.writing_style) + "</span>" +
+          '<div class="chron-tags">' +
+            '<span class="chron-style">' + esc(c.writing_style) + "</span>" +
+            (c.narrator_form ? '<span class="chron-tag">' + esc(c.narrator_form) + "</span>" : "") +
+            (c.story_length ? '<span class="chron-tag">' + esc(c.story_length) + "</span>" : "") +
+          "</div>" +
           (c.summary ? '<p class="chron-summary">' + esc(c.summary) + "</p>" : "") +
           '<div class="chron-actions">' +
             (c.book_path ? '<a class="btn small" href="' + esc(c.book_path) + '" target="_blank" rel="noopener">📖 Lesen</a><a class="btn small ghost" href="' + esc(c.book_path) + '" download>⬇ Download</a>' : "") +
@@ -307,12 +331,9 @@
   function wireSubmissionForm(form) {
     if (!form) return;
     buildStyleFilter();
-    var styleSel = form.querySelector("[name='writing_style']");
-    if (styleSel && !styleSel.options.length) {
-      (C.writingStyles || []).forEach(function (s) {
-        var o = document.createElement("option"); o.value = s; o.textContent = s; styleSel.appendChild(o);
-      });
-    }
+    fillOptions(form.querySelector("[name='writing_style']"), C.writingStyles);
+    fillOptions(form.querySelector("[name='narrator_form']"), C.narratorForms);
+    fillOptions(form.querySelector("[name='story_length']"), C.storyLengths);
     var capHost = form.querySelector(".cj-captcha");
     if (capHost) renderCaptcha(capHost);
 
@@ -323,6 +344,9 @@
       var author = form.querySelector("[name='author']").value.trim();
       var character = form.querySelector("[name='character_name']").value.trim();
       var style = form.querySelector("[name='writing_style']").value;
+      var narratorForm = form.querySelector("[name='narrator_form']").value;
+      var storyLength = form.querySelector("[name='story_length']").value;
+      var isDungeon = form.querySelector("[name='is_dungeon']").checked;
       var summary = form.querySelector("[name='summary']").value.trim();
       var email = form.querySelector("[name='submitter_email']").value.trim();
       var bookFile = form.querySelector("[name='book_file']").files[0];
@@ -345,6 +369,7 @@
           method: "POST",
           body: {
             title: title, author: author, character_name: character, writing_style: style,
+            narrator_form: narratorForm, story_length: storyLength, is_dungeon: isDungeon,
             summary: summary, submitter_email: email, book_path: urls[0], cover_path: urls[1] || "",
             has_audio: hasAudio
           }

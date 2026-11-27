@@ -59,11 +59,17 @@ window.CJ = {
      und Kommentare/Einsendungen sind ungeschützt möglich. */
   turnstileSiteKey: "",
 
-  /* ---------- Schreibstile (Filter in "Chroniken von Azeroth") ----------
-     Wer eine Geschichte einreicht, wählt einen dieser Stile. Hier
-     ergänzen oder umbenennen, erscheint automatisch im Filter. */
+  /* ---------- Filter-Kategorien "Chroniken von Azeroth" ----------
+     Wer eine Geschichte einreicht, wählt aus diesen Listen. Hier
+     ergänzen oder umbenennen, erscheint automatisch in Formular und Filter. */
   writingStyles: [
-    "Episch", "Düster", "Humorvoll", "Romantisch", "Actionreich", "Melancholisch", "Sonstiges"
+    "Klassisch", "Episch", "Humorvoll", "Düster", "Märchen", "Chronik", "Ballade"
+  ],
+  narratorForms: [
+    "Ich-Form", "Erzähler"
+  ],
+  storyLengths: [
+    "Kurz", "Mittel", "Lang"
   ],
 
   /* ---------- Downloads ----------

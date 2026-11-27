@@ -80,6 +80,9 @@ create table if not exists public.chronicles (
   author text not null check (char_length(author) between 1 and 80),
   character_name text not null check (char_length(character_name) between 1 and 80),
   writing_style text not null default 'Sonstiges',
+  narrator_form text not null default '',
+  story_length text not null default '',
+  is_dungeon boolean not null default false,
   summary text not null default '',
   cover_path text not null default '',
   book_path text not null default '',
@@ -91,6 +94,11 @@ create table if not exists public.chronicles (
   submitter_email text not null default ''
 );
 create index if not exists chronicles_approved_idx on public.chronicles(approved);
+
+-- Falls die Tabelle schon vor diesem Update angelegt wurde: neue Filter-Spalten nachträglich ergänzen.
+alter table public.chronicles add column if not exists narrator_form text not null default '';
+alter table public.chronicles add column if not exists story_length text not null default '';
+alter table public.chronicles add column if not exists is_dungeon boolean not null default false;
 
 alter table public.chronicles enable row level security;
 
@@ -105,7 +113,7 @@ create policy "chronicles_public_insert" on public.chronicles
 
 -- Öffentliche Sicht OHNE Einsender-E-Mail.
 create or replace view public.chronicles_public as
-  select id, created_at, title, author, character_name, writing_style, summary,
+  select id, created_at, title, author, character_name, writing_style, narrator_form, story_length, is_dungeon, summary,
          cover_path, book_path, has_audio, upvotes, downvotes, featured
   from public.chronicles
   where approved = true;
