@@ -12,6 +12,20 @@
   var C = window.CJ || {};
   var SB = C.supabase || {};
   var READY = !!(SB.url && SB.anonKey);
+  var I18N = window.CJ_I18N;
+  function T(key, de) { return I18N ? I18N.t(key, de) : de; }
+  /* Übersetzt einen der festen Chroniken-Label-Werte (Schreibstil, Erzählerform,
+     Länge), die als Rohwert weiter auf Deutsch gespeichert/gefiltert werden –
+     nur die ANZEIGE wechselt die Sprache. */
+  function labelFor(prefix, value) {
+    if (!value) return value;
+    return T("chron." + prefix + "." + value, value);
+  }
+  function langInfo(code) {
+    var list = (I18N && I18N.LANGS) || [{ code: "de", flag: "🇩🇪", label: "Deutsch" }];
+    var found = list.filter(function (l) { return l.code === code; })[0];
+    return found || list[0];
+  }
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -20,9 +34,10 @@
   }
   function fmtDate(iso) {
     try {
+      var locale = I18N && I18N.lang() === "en" ? "en-GB" : "de-DE";
       var d = new Date(iso);
-      return d.toLocaleDateString("de-DE", { day: "2-digit", month: "2-digit", year: "numeric" }) +
-        " " + d.toLocaleTimeString("de-DE", { hour: "2-digit", minute: "2-digit" });
+      return d.toLocaleDateString(locale, { day: "2-digit", month: "2-digit", year: "numeric" }) +
+        " " + d.toLocaleTimeString(locale, { hour: "2-digit", minute: "2-digit" });
     } catch (e) { return ""; }
   }
   function isEmail(s) { return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(String(s || "").trim()); }
@@ -67,8 +82,11 @@
 
   function notConfigured(host, what) {
     host.innerHTML = '<div class="panel center"><div style="font-size:2rem" aria-hidden="true">🛠️</div>' +
-      "<h3>" + esc(what) + " ist noch nicht eingerichtet</h3>" +
-      '<p class="muted" style="max-width:520px;margin-inline:auto">Dafür wird eine kostenlose Supabase-Datenbank angebunden. Siehe <code>supabase/schema.sql</code> und <code>js/config.js</code> (Bereich „Kommentare &amp; Chroniken“).</p></div>';
+      "<h3>" + esc(what) + " " + esc(T("chron.notConfigured.h", "ist noch nicht eingerichtet")) + "</h3>" +
+      '<p class="muted" style="max-width:520px;margin-inline:auto">' + esc(T("chron.notConfigured.p",
+        "Dafür wird eine kostenlose Supabase-Datenbank angebunden. Siehe ")) +
+        "<code>supabase/schema.sql</code> " + esc(T("common.and", "und")) + " <code>js/config.js</code> " +
+        esc(T("chron.notConfigured.area", "(Bereich „Kommentare & Chroniken“).")) + "</p></div>";
   }
 
   /* ---------- Captcha (Cloudflare Turnstile) ---------- */
@@ -137,17 +155,17 @@
           }).join("") + "</div>";
         }
 
-        var html = '<p class="discord-online-count"><strong>' + members.length + "</strong> gerade online" +
-          (data.presence_count != null ? " · " + data.presence_count + " auf dem Server" : "") + "</p>";
+        var html = '<p class="discord-online-count"><strong>' + members.length + "</strong> " + esc(T("chron.discord.online", "gerade online")) +
+          (data.presence_count != null ? " · " + data.presence_count + " " + esc(T("chron.discord.onServer", "auf dem Server")) : "") + "</p>";
 
         Object.keys(voiceChannels).forEach(function (cid) {
           html += '<div class="discord-channel"><span class="discord-channel-name">🔊 ' +
-            esc(channelName[cid] || "Sprachkanal") + "</span>" + avatarRow(voiceChannels[cid]) + "</div>";
+            esc(channelName[cid] || T("chron.discord.voiceChannel", "Sprachkanal")) + "</span>" + avatarRow(voiceChannels[cid]) + "</div>";
         });
         if (idle.length) html += avatarRow(idle);
 
         if (!members.length) {
-          html = '<p class="muted">Gerade ist niemand online.</p>';
+          html = '<p class="muted">' + esc(T("chron.discord.nobody", "Gerade ist niemand online.")) + "</p>";
         }
         body.innerHTML = html;
         box.hidden = false;
@@ -160,8 +178,8 @@
     wireCommentForm(document.getElementById("cj-comment-form"));
     var host = document.getElementById("cj-comments");
     if (!host) return;
-    if (!READY) { notConfigured(host, "Die Kommentarspalte"); return; }
-    host.innerHTML = '<div class="muted center" style="padding:1.2rem">Kommentare werden geladen …</div>';
+    if (!READY) { notConfigured(host, T("chron.commentsCol", "Die Kommentarspalte")); return; }
+    host.innerHTML = '<div class="muted center" style="padding:1.2rem">' + esc(T("chron.comments.loading", "Kommentare werden geladen …")) + "</div>";
     loadAndRenderComments(host);
   }
 
@@ -169,7 +187,7 @@
     sb("/rest/v1/comments_public?select=*&order=created_at.asc").then(function (rows) {
       renderComments(host, rows || []);
     }).catch(function (err) {
-      host.innerHTML = '<p class="notice">Kommentare konnten nicht geladen werden (' + esc(err.message || "Fehler") + ").</p>";
+      host.innerHTML = '<p class="notice">' + esc(T("chron.comments.loadError", "Kommentare konnten nicht geladen werden")) + " (" + esc(err.message || T("common.error", "Fehler")) + ").</p>";
     });
   }
 
@@ -181,18 +199,18 @@
     });
     var roots = byParent.root || [];
     if (!roots.length) {
-      host.innerHTML = '<p class="muted center" style="padding:1.2rem">Noch keine Kommentare. Sei der/die Erste!</p>';
+      host.innerHTML = '<p class="muted center" style="padding:1.2rem">' + esc(T("chron.comments.empty", "Noch keine Kommentare. Sei der/die Erste!")) + "</p>";
       return;
     }
     function card(c, isReply) {
       var replies = byParent[c.id] || [];
       return '<article class="comment' + (c.highlighted ? " is-highlighted" : "") + (isReply ? " is-reply" : "") + '" data-id="' + c.id + '">' +
-        (c.highlighted ? '<span class="comment-pin" title="Von der Redaktion hervorgehoben">📌 Hervorgehoben</span>' : "") +
+        (c.highlighted ? '<span class="comment-pin" title="' + esc(T("chron.comments.pinTitle", "Von der Redaktion hervorgehoben")) + '">📌 ' + esc(T("chron.comments.pin", "Hervorgehoben")) + "</span>" : "") +
         '<div class="comment-head"><strong>' + esc(c.name) + "</strong><time>" + esc(fmtDate(c.created_at)) + "</time></div>" +
         '<p class="comment-text">' + esc(c.message).replace(/\n/g, "<br>") + "</p>" +
         '<div class="comment-actions">' +
           '<button type="button" class="cjlike" data-id="' + c.id + '">👍 <span>' + (c.likes || 0) + "</span></button>" +
-          (isReply ? "" : '<button type="button" class="cjreply" data-id="' + c.id + '" data-name="' + esc(c.name) + '">Antworten</button>') +
+          (isReply ? "" : '<button type="button" class="cjreply" data-id="' + c.id + '" data-name="' + esc(c.name) + '">' + esc(T("chron.comments.reply", "Antworten")) + "</button>") +
         "</div>" +
         (replies.length ? '<div class="comment-replies">' + replies.map(function (r) { return card(r, true); }).join("") + "</div>" : "") +
         "</article>";
@@ -244,22 +262,22 @@
       var message = form.querySelector("[name='message']").value.trim();
       var parent = form.querySelector("[name='parent_id']").value || null;
       var status = form.querySelector(".cj-form-status");
-      if (!name || !email || !message) { status.textContent = "Bitte Name, E-Mail und Text ausfüllen."; return; }
-      if (!isEmail(email)) { status.textContent = "Bitte eine gültige E-Mail-Adresse eingeben."; return; }
-      if (C.turnstileSiteKey && !captchaToken(capHost)) { status.textContent = "Bitte das Captcha lösen."; return; }
-      if (!READY) { status.textContent = "Kommentare sind noch nicht eingerichtet (Supabase fehlt in js/config.js)."; return; }
-      status.textContent = "Wird gesendet …";
+      if (!name || !email || !message) { status.textContent = T("chron.comments.vMissing", "Bitte Name, E-Mail und Text ausfüllen."); return; }
+      if (!isEmail(email)) { status.textContent = T("chron.vEmail", "Bitte eine gültige E-Mail-Adresse eingeben."); return; }
+      if (C.turnstileSiteKey && !captchaToken(capHost)) { status.textContent = T("chron.vCaptcha", "Bitte das Captcha lösen."); return; }
+      if (!READY) { status.textContent = T("chron.comments.notReady", "Kommentare sind noch nicht eingerichtet (Supabase fehlt in js/config.js)."); return; }
+      status.textContent = T("chron.comments.sending", "Wird gesendet …");
       sb("/rest/v1/comments", {
         method: "POST",
         body: { name: name, email: email, message: message, parent_id: parent }
       }).then(function () {
-        status.textContent = "Danke! Dein Kommentar ist online.";
+        status.textContent = T("chron.comments.sent", "Danke! Dein Kommentar ist online.");
         form.reset();
         form.querySelector(".cj-reply-hint").hidden = true;
         if (window.turnstile && capHost) window.turnstile.reset();
         loadAndRenderComments(document.getElementById("cj-comments"));
       }).catch(function (err) {
-        status.textContent = "Senden fehlgeschlagen: " + (err.message || "unbekannter Fehler");
+        status.textContent = T("chron.comments.sendError", "Senden fehlgeschlagen") + ": " + (err.message || T("chron.unknownError", "unbekannter Fehler"));
       });
     });
   }
@@ -273,25 +291,27 @@
 
     var host = document.getElementById("cj-chronicles");
     if (!host) return;
-    if (!READY) { notConfigured(host, "Die Chroniken-Bibliothek"); return; }
+    if (!READY) { notConfigured(host, T("chron.library", "Die Chroniken-Bibliothek")); return; }
 
     var search = document.getElementById("cj-chron-search");
     var filter = document.getElementById("cj-chron-filter");
     var filterNarrator = document.getElementById("cj-chron-filter-narrator");
     var filterLength = document.getElementById("cj-chron-filter-length");
+    var filterLang = document.getElementById("cj-chron-filter-lang");
     var filterDungeon = document.getElementById("cj-chron-filter-dungeon");
     if (search) search.addEventListener("input", renderChronicleGrid);
     if (filter) filter.addEventListener("change", renderChronicleGrid);
     if (filterNarrator) filterNarrator.addEventListener("change", renderChronicleGrid);
     if (filterLength) filterLength.addEventListener("change", renderChronicleGrid);
+    if (filterLang) filterLang.addEventListener("change", renderChronicleGrid);
     if (filterDungeon) filterDungeon.addEventListener("change", renderChronicleGrid);
 
-    host.innerHTML = '<div class="muted center" style="padding:1.2rem">Chroniken werden geladen …</div>';
+    host.innerHTML = '<div class="muted center" style="padding:1.2rem">' + esc(T("chron.loading", "Chroniken werden geladen …")) + "</div>";
     sb("/rest/v1/chronicles_public?select=*&order=featured.desc,created_at.desc").then(function (rows) {
       chroniclesCache = rows || [];
       renderChronicleGrid();
     }).catch(function (err) {
-      host.innerHTML = '<p class="notice">Chroniken konnten nicht geladen werden (' + esc(err.message || "Fehler") + ").</p>";
+      host.innerHTML = '<p class="notice">' + esc(T("chron.loadError", "Chroniken konnten nicht geladen werden")) + " (" + esc(err.message || T("common.error", "Fehler")) + ").</p>";
     });
   }
 
@@ -302,10 +322,37 @@
     });
   }
 
+  function fillLangOptions(sel, withPrefix) {
+    if (!sel) return;
+    var list = (I18N && I18N.LANGS) || [{ code: "de", flag: "🇩🇪", label: "Deutsch" }];
+    while (sel.options.length > (withPrefix ? 1 : 0)) sel.remove(sel.options.length - 1);
+    list.forEach(function (l) {
+      var o = document.createElement("option");
+      o.value = l.code; o.textContent = l.flag + " " + l.label;
+      sel.appendChild(o);
+    });
+  }
+
+  function relabelOptions(sel, prefix) {
+    if (!sel) return;
+    for (var i = 0; i < sel.options.length; i++) {
+      var o = sel.options[i];
+      if (!o.value) continue; // "Alle …"-Platzhalter unverändert lassen
+      o.textContent = labelFor(prefix, o.value);
+    }
+  }
+
   function buildStyleFilter() {
     fillOptions(document.getElementById("cj-chron-filter"), C.writingStyles);
     fillOptions(document.getElementById("cj-chron-filter-narrator"), C.narratorForms);
     fillOptions(document.getElementById("cj-chron-filter-length"), C.storyLengths);
+    fillLangOptions(document.getElementById("cj-chron-filter-lang"), true);
+    relabelOptions(document.getElementById("cj-chron-filter"), "style");
+    relabelOptions(document.getElementById("cj-chron-filter-narrator"), "narrator");
+    relabelOptions(document.getElementById("cj-chron-filter-length"), "length");
+    relabelOptions(document.querySelector("#cj-chron-form [name='writing_style']"), "style");
+    relabelOptions(document.querySelector("#cj-chron-form [name='narrator_form']"), "narrator");
+    relabelOptions(document.querySelector("#cj-chron-form [name='story_length']"), "length");
   }
 
   function renderChronicleGrid() {
@@ -316,39 +363,45 @@
     var style = (document.getElementById("cj-chron-filter") || {}).value || "";
     var narrator = (document.getElementById("cj-chron-filter-narrator") || {}).value || "";
     var length = (document.getElementById("cj-chron-filter-length") || {}).value || "";
+    var lang = (document.getElementById("cj-chron-filter-lang") || {}).value || "";
     var dungeonOnly = (document.getElementById("cj-chron-filter-dungeon") || {}).checked || false;
     var list = chroniclesCache.filter(function (c) {
       if (style && c.writing_style !== style) return false;
       if (narrator && c.narrator_form !== narrator) return false;
       if (length && c.story_length !== length) return false;
+      if (lang && (c.language || "de") !== lang) return false;
       if (dungeonOnly && !c.is_dungeon) return false;
       if (!q) return true;
       var hay = (c.title + " " + c.author + " " + c.character_name + " " + (c.summary || "")).toLowerCase();
       return hay.indexOf(q) > -1;
     });
     if (!list.length) {
-      host.innerHTML = '<div class="panel center" style="grid-column:1/-1"><div style="font-size:2.2rem" aria-hidden="true">📖</div><h3>Keine Chroniken gefunden</h3><p class="muted">Andere Suche oder Filter versuchen – oder die erste Chronik einreichen!</p></div>';
+      host.innerHTML = '<div class="panel center" style="grid-column:1/-1"><div style="font-size:2.2rem" aria-hidden="true">📖</div><h3>' +
+        esc(T("chron.empty.h", "Keine Chroniken gefunden")) + '</h3><p class="muted">' +
+        esc(T("chron.empty.p", "Andere Suche oder Filter versuchen – oder die erste Chronik einreichen!")) + "</p></div>";
       return;
     }
     host.innerHTML = list.map(function (c) {
-      var cover = c.cover_path ? '<img src="' + esc(c.cover_path) + '" alt="Buchcover: ' + esc(c.title) + '" loading="lazy">' :
+      var cover = c.cover_path ? '<img src="' + esc(c.cover_path) + '" alt="' + esc(T("chron.coverAlt", "Buchcover")) + ': ' + esc(c.title) + '" loading="lazy">' :
         '<div class="chron-cover-fallback" aria-hidden="true">📘</div>';
+      var li = langInfo(c.language || "de");
       return '<article class="chron-card" data-id="' + c.id + '">' +
         '<div class="chron-cover">' + cover +
-          (c.is_dungeon ? '<span class="chron-dungeon-badge" title="Dungeon-Kurzgeschichte">⚔ Dungeon</span>' : "") +
-          (c.has_audio ? '<span class="chron-audio-badge" title="Mit Hörprobe">🔊</span>' : "") +
+          '<span class="chron-lang-badge" title="' + esc(li.label) + '">' + li.flag + "</span>" +
+          (c.is_dungeon ? '<span class="chron-dungeon-badge" title="' + esc(T("chron.dungeonTitle", "Dungeon-Kurzgeschichte")) + '">⚔ Dungeon</span>' : "") +
+          (c.has_audio ? '<span class="chron-audio-badge" title="' + esc(T("chron.audioTitle", "Mit Hörprobe")) + '">🔊</span>' : "") +
         "</div>" +
         '<div class="chron-body">' +
           "<h3>" + esc(c.title) + "</h3>" +
-          '<div class="chron-meta">von <strong>' + esc(c.author) + "</strong> · " + esc(c.character_name) + "</div>" +
+          '<div class="chron-meta">' + esc(T("chron.by", "von")) + " <strong>" + esc(c.author) + "</strong> · " + esc(c.character_name) + "</div>" +
           '<div class="chron-tags">' +
-            '<span class="chron-style">' + esc(c.writing_style) + "</span>" +
-            (c.narrator_form ? '<span class="chron-tag">' + esc(c.narrator_form) + "</span>" : "") +
-            (c.story_length ? '<span class="chron-tag">' + esc(c.story_length) + "</span>" : "") +
+            '<span class="chron-style">' + esc(labelFor("style", c.writing_style)) + "</span>" +
+            (c.narrator_form ? '<span class="chron-tag">' + esc(labelFor("narrator", c.narrator_form)) + "</span>" : "") +
+            (c.story_length ? '<span class="chron-tag">' + esc(labelFor("length", c.story_length)) + "</span>" : "") +
           "</div>" +
           (c.summary ? '<p class="chron-summary">' + esc(c.summary) + "</p>" : "") +
           '<div class="chron-actions">' +
-            (c.book_path ? '<a class="btn small" href="' + esc(c.book_path) + '" target="_blank" rel="noopener">📖 Lesen</a><a class="btn small ghost" href="' + esc(c.book_path) + '" download>⬇ Download</a>' : "") +
+            (c.book_path ? '<a class="btn small" href="' + esc(c.book_path) + '" target="_blank" rel="noopener">📖 ' + esc(T("chron.read", "Lesen")) + '</a><a class="btn small ghost" href="' + esc(c.book_path) + '" download>⬇ ' + esc(T("chron.download", "Download")) + "</a>" : "") +
           "</div>" +
           '<div class="chron-vote">' +
             '<button type="button" class="cjvote up" data-id="' + c.id + '" data-v="1">👍 <span>' + (c.upvotes || 0) + "</span></button>" +
@@ -387,6 +440,12 @@
     fillOptions(form.querySelector("[name='writing_style']"), C.writingStyles);
     fillOptions(form.querySelector("[name='narrator_form']"), C.narratorForms);
     fillOptions(form.querySelector("[name='story_length']"), C.storyLengths);
+    var langSel = form.querySelector("[name='language']");
+    if (langSel) {
+      fillLangOptions(langSel, false);
+      if (I18N) langSel.value = I18N.lang();
+      langSel.addEventListener("change", function () { langSel.dataset.touched = "1"; });
+    }
     var capHost = form.querySelector(".cj-captcha");
     if (capHost) renderCaptcha(capHost);
 
@@ -399,18 +458,19 @@
       var style = form.querySelector("[name='writing_style']").value;
       var narratorForm = form.querySelector("[name='narrator_form']").value;
       var storyLength = form.querySelector("[name='story_length']").value;
+      var language = langSel ? langSel.value : "de";
       var isDungeon = form.querySelector("[name='is_dungeon']").checked;
       var summary = form.querySelector("[name='summary']").value.trim();
       var email = form.querySelector("[name='submitter_email']").value.trim();
       var bookFile = form.querySelector("[name='book_file']").files[0];
       var coverFile = form.querySelector("[name='cover_file']").files[0];
       if (!title || !author || !character || !email || !bookFile) {
-        status.textContent = "Bitte Titel, Pseudonym, Charaktername, E-Mail und die HTML-Buchdatei angeben."; return;
+        status.textContent = T("chron.vRequired", "Bitte Titel, Pseudonym, Charaktername, E-Mail und die HTML-Buchdatei angeben."); return;
       }
-      if (!isEmail(email)) { status.textContent = "Bitte eine gültige E-Mail-Adresse eingeben."; return; }
-      if (C.turnstileSiteKey && !captchaToken(capHost)) { status.textContent = "Bitte das Captcha lösen."; return; }
-      if (!READY) { status.textContent = "Einreichungen sind noch nicht eingerichtet (Supabase fehlt in js/config.js)."; return; }
-      status.textContent = "Wird hochgeladen …";
+      if (!isEmail(email)) { status.textContent = T("chron.vEmail", "Bitte eine gültige E-Mail-Adresse eingeben."); return; }
+      if (C.turnstileSiteKey && !captchaToken(capHost)) { status.textContent = T("chron.vCaptcha", "Bitte das Captcha lösen."); return; }
+      if (!READY) { status.textContent = T("chron.vNotReady", "Einreichungen sind noch nicht eingerichtet (Supabase fehlt in js/config.js)."); return; }
+      status.textContent = T("chron.uploading", "Wird hochgeladen …");
       var stamp = Date.now().toString(36);
       var hasAudio = /aud-/.test("");
       bookFile.text().then(function (txt) { hasAudio = /<audio[\s>]/.test(txt); return null; }).catch(function () {}).then(function () {
@@ -422,17 +482,18 @@
           method: "POST",
           body: {
             title: title, author: author, character_name: character, writing_style: style,
-            narrator_form: narratorForm, story_length: storyLength, is_dungeon: isDungeon,
+            narrator_form: narratorForm, story_length: storyLength, is_dungeon: isDungeon, language: language,
             summary: summary, submitter_email: email, book_path: urls[0], cover_path: urls[1] || "",
             has_audio: hasAudio
           }
         });
       }).then(function () {
-        status.textContent = "Danke! Deine Chronik wird geprüft und erscheint nach Freigabe in der Bibliothek.";
+        status.textContent = T("chron.submitted", "Danke! Deine Chronik wird geprüft und erscheint nach Freigabe in der Bibliothek.");
         form.reset();
+        if (langSel && I18N) langSel.value = I18N.lang();
         if (window.turnstile && capHost) window.turnstile.reset();
       }).catch(function (err) {
-        status.textContent = "Einsenden fehlgeschlagen: " + (err.message || "unbekannter Fehler");
+        status.textContent = T("chron.submitError", "Einsenden fehlgeschlagen") + ": " + (err.message || T("chron.unknownError", "unbekannter Fehler"));
       });
     });
   }
@@ -441,5 +502,18 @@
     initDiscordWidget();
     initComments();
     initChronicles();
+  });
+
+  /* Sprache gewechselt: Filter-Optionen, Karten und Kommentare neu
+     aufbauen, damit Labels/Daten-Formatierung zur neuen Sprache passen. */
+  document.addEventListener("cj:langchange", function () {
+    if (document.getElementById("cj-chron-filter")) {
+      buildStyleFilter();
+      renderChronicleGrid();
+      var langSel = document.querySelector("#cj-chron-form [name='language']");
+      if (langSel && I18N && !langSel.dataset.touched) langSel.value = I18N.lang();
+    }
+    var commentsHost = document.getElementById("cj-comments");
+    if (commentsHost && commentsHost.children.length) loadAndRenderComments(commentsHost);
   });
 })();

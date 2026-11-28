@@ -21,28 +21,33 @@
   }
 
   var L = C.links || {};
+  var I18N = window.CJ_I18N;
+  function T(key, de) { return I18N ? I18N.t(key, de) : de; }
+  function TR(item, field) { return I18N ? I18N.tr(item, field) : (item || {})[field]; }
 
-  var PAGES = [
-    { href: "index.html",        label: "Start" },
-    { href: "downloads.html",    label: "Downloads" },
-    { href: "anleitung.html",    label: "Anleitung" },
-    { href: "ki-geschichten.html", label: "KI-Geschichten" },
-    { label: "Tools", items: [
-        { href: "namen-generator.html", label: "Name-Gen" },
-        { href: "export.html",          label: "Journal-Export" },
-        { href: "buch-designer.html",   label: "Buch-Designer" }
-      ]
-    },
-    /* Roadmap & Timeline sind vorerst ausgeblendet (Seiten bleiben erhalten, nur nicht verlinkt) */
-    { href: "roadmap.html",      label: "Roadmap",  hidden: true },
-    { href: "timeline.html",     label: "Timeline",  hidden: true },
-    { label: "Community", items: [
-        { href: "community.html", label: "Community" },
-        { href: "chroniken.html", label: "Chroniken von Azeroth" }
-      ]
-    },
-    { href: "unterstuetzen.html",label: "Unterstützen" }
-  ];
+  function buildPages() {
+    return [
+      { href: "index.html",        label: T("nav.start", "Start") },
+      { href: "downloads.html",    label: T("nav.downloads", "Downloads") },
+      { href: "anleitung.html",    label: T("nav.anleitung", "Anleitung") },
+      { href: "ki-geschichten.html", label: T("nav.ki", "KI-Geschichten") },
+      { label: T("nav.tools", "Tools"), items: [
+          { href: "namen-generator.html", label: T("nav.namegen", "Name-Gen") },
+          { href: "export.html",          label: T("nav.export", "Journal-Export") },
+          { href: "buch-designer.html",   label: T("nav.buchdesigner", "Buch-Designer") }
+        ]
+      },
+      /* Roadmap & Timeline sind vorerst ausgeblendet (Seiten bleiben erhalten, nur nicht verlinkt) */
+      { href: "roadmap.html",      label: "Roadmap",  hidden: true },
+      { href: "timeline.html",     label: "Timeline",  hidden: true },
+      { label: T("nav.community", "Community"), items: [
+          { href: "community.html", label: T("nav.community", "Community") },
+          { href: "chroniken.html", label: T("nav.chroniken", "Chroniken von Azeroth") }
+        ]
+      },
+      { href: "unterstuetzen.html",label: T("nav.unterstuetzen", "Unterstützen") }
+    ];
+  }
 
   function esc(s) {
     return String(s == null ? "" : s).replace(/[&<>"']/g, function (c) {
@@ -77,10 +82,31 @@
     return '<a href="' + p.href + '"' + (p.href === cur ? ' aria-current="page"' : "") + ">" + esc(p.label) + "</a>";
   }
 
+  function langSwitchHtml() {
+    if (!I18N) return "";
+    var cur = I18N.lang();
+    var curLang = I18N.LANGS.filter(function (l) { return l.code === cur; })[0] || I18N.LANGS[0];
+    var others = I18N.LANGS.filter(function (l) { return l.code !== cur; }).map(function (l) {
+      return '<button type="button" class="lang-opt" data-lang="' + esc(l.code) + '">' +
+        '<span class="lang-flag" aria-hidden="true">' + l.flag + "</span>" + esc(l.label) + "</button>";
+    }).join("");
+    return (
+      '<div class="nav-drop lang-switch">' +
+        '<button type="button" class="nav-drop-btn lang-btn" aria-haspopup="true" aria-expanded="false" aria-label="' +
+          esc(T("nav.language", "Sprache wählen")) + '">' +
+          '<span class="lang-flag" aria-hidden="true">' + curLang.flag + "</span>" +
+          '<span class="nav-drop-caret" aria-hidden="true">▾</span>' +
+        "</button>" +
+        '<div class="nav-drop-menu lang-menu">' + others + "</div>" +
+      "</div>"
+    );
+  }
+
   function buildHeader() {
     var host = document.getElementById("site-header");
     if (!host) return;
     var cur = current();
+    var PAGES = buildPages();
     var links = PAGES.filter(function (p) { return !p.hidden; }).map(function (p) { return navItemHtml(p, cur); }).join("");
     host.className = "site-header";
     host.innerHTML =
@@ -90,8 +116,9 @@
           'onerror="this.outerHTML=\'<span class=&quot;logo-fallback&quot;>CJ</span>\'">' +
           "<span>Charakter <em>Journal</em></span>" +
         "</a>" +
-        '<button class="nav-toggle" aria-label="Menü öffnen" aria-expanded="false" aria-controls="nav-links">☰</button>' +
-        '<nav class="nav-links" id="nav-links" aria-label="Hauptnavigation">' + links + "</nav>" +
+        '<button class="nav-toggle" aria-label="' + esc(T("nav.menuOpen", "Menü öffnen")) + '" aria-expanded="false" aria-controls="nav-links">☰</button>' +
+        '<nav class="nav-links" id="nav-links" aria-label="' + esc(T("nav.main", "Hauptnavigation")) + '">' + links + "</nav>" +
+        langSwitchHtml() +
       "</div>";
     var btn = host.querySelector(".nav-toggle");
     var nav = host.querySelector(".nav-links");
@@ -122,6 +149,16 @@
     }
     document.addEventListener("click", function () { closeAll(); });
     document.addEventListener("keydown", function (e) { if (e.key === "Escape") closeAll(); });
+
+    /* Sprachwahl */
+    var langHost = host.querySelector(".lang-switch");
+    if (langHost && I18N) {
+      langHost.addEventListener("click", function (e) {
+        var opt = e.target.closest(".lang-opt");
+        if (!opt) return;
+        I18N.setLang(opt.getAttribute("data-lang"));
+      });
+    }
   }
 
   /* ---------- Footer ---------- */
@@ -132,15 +169,16 @@
     host.innerHTML =
       '<div class="wrap footer-grid">' +
         "<div>" +
-          "<strong>" + esc(C.name) + "</strong> – " + esc(C.tagline) +
-          "<small>" + esc(C.name) + " ist ein inoffizielles Fan-Projekt und steht in keiner Verbindung zu Blizzard Entertainment, Inc. " +
-          "World of Warcraft® ist eine eingetragene Marke von Blizzard Entertainment, Inc. Alle Rechte an Spiel, Namen und Inhalten liegen bei Blizzard.</small>" +
+          "<strong>" + esc(C.name) + "</strong> – " + esc(T("footer.tagline", C.tagline)) +
+          "<small>" + esc(C.name) + " " + esc(T("footer.disclaimer",
+            "ist ein inoffizielles Fan-Projekt und steht in keiner Verbindung zu Blizzard Entertainment, Inc. " +
+            "World of Warcraft® ist eine eingetragene Marke von Blizzard Entertainment, Inc. Alle Rechte an Spiel, Namen und Inhalten liegen bei Blizzard.")) + "</small>" +
           "<small>© " + new Date().getFullYear() + " " + esc(C.name) + "</small>" +
         "</div>" +
         '<div class="footer-links">' +
-          '<a href="impressum.html">Impressum</a>' +
-          '<a href="datenschutz.html">Datenschutz</a>' +
-          '<a href="community.html">Community</a>' +
+          '<a href="impressum.html">' + esc(T("footer.impressum", "Impressum")) + "</a>" +
+          '<a href="datenschutz.html">' + esc(T("footer.datenschutz", "Datenschutz")) + "</a>" +
+          '<a href="community.html">' + esc(T("nav.community", "Community")) + "</a>" +
           '<a data-link="github" href="#">GitHub</a>' +
         "</div>" +
       "</div>";
@@ -167,26 +205,29 @@
         el.setAttribute("href", "#");
         el.classList.add("is-disabled");
         el.setAttribute("aria-disabled", "true");
-        el.setAttribute("title", "Bald verfügbar");
+        el.setAttribute("title", T("downloads.status.soonBtn", "Bald verfügbar"));
         el.addEventListener("click", function (e) { e.preventDefault(); });
       }
     }
   }
 
   /* ---------- Downloads ---------- */
-  var STATUS = {
-    release: { label: "Release", cls: "" },
-    beta:    { label: "Beta",    cls: "pre" },
-    soon:    { label: "Bald",    cls: "pre" }
-  };
+  function statusLabels() {
+    return {
+      release: { label: T("downloads.status.release", "Release"), cls: "" },
+      beta:    { label: T("downloads.status.beta", "Beta"),        cls: "pre" },
+      soon:    { label: T("downloads.status.soon", "Bald"),        cls: "pre" }
+    };
+  }
   function renderDownloads() {
     var host = document.getElementById("downloads");
     if (!host || !C.versions) return;
+    var STATUS = statusLabels();
     host.innerHTML = C.versions.map(function (v) {
       var st = STATUS[v.status] || STATUS.soon;
       var live = v.status !== "soon" && isLive(v.url);
       var older = (v.older || []).length
-        ? '<div class="dl-older"><details><summary>Ältere Versionen</summary><div><ul>' +
+        ? '<div class="dl-older"><details><summary>' + esc(T("downloads.older", "Ältere Versionen")) + '</summary><div><ul>' +
           v.older.map(function (o) {
             return '<li><a href="' + esc(o.url) + '" target="_blank" rel="noopener noreferrer">v' + esc(o.v) + "</a>" +
                    (o.date ? ' <span class="muted">(' + esc(o.date) + ")</span>" : "") + "</li>";
@@ -196,13 +237,13 @@
       return (
         '<article class="panel dl-card" id="' + esc(v.id) + '">' +
           '<div style="font-size:2rem" aria-hidden="true">' + esc(v.icon) + "</div>" +
-          "<h3>" + esc(v.title) + '<span class="tag ' + st.cls + '">' + st.label + "</span></h3>" +
-          '<p class="desc">' + esc(v.subtitle) + "</p>" +
-          '<div class="dl-version">Version ' + esc(v.version) + "</div>" +
-          '<div class="dl-meta">' + (v.date ? "Stand: " + esc(v.date) + " · " : "") + esc(v.note || "") + "</div>" +
+          "<h3>" + esc(TR(v, "title")) + '<span class="tag ' + st.cls + '">' + st.label + "</span></h3>" +
+          '<p class="desc">' + esc(TR(v, "subtitle")) + "</p>" +
+          '<div class="dl-version">' + esc(T("downloads.version", "Version")) + " " + esc(v.version) + "</div>" +
+          '<div class="dl-meta">' + (v.date ? esc(T("downloads.stand", "Stand")) + ": " + esc(v.date) + " · " : "") + esc(TR(v, "note") || "") + "</div>" +
           (live
-            ? '<a class="btn" href="' + esc(v.url) + '" target="_blank" rel="noopener noreferrer">⬇ Herunterladen (.zip)</a>'
-            : '<span class="btn is-disabled" aria-disabled="true">Bald verfügbar</span>') +
+            ? '<a class="btn" href="' + esc(v.url) + '" target="_blank" rel="noopener noreferrer">⬇ ' + esc(T("downloads.get", "Herunterladen (.zip)")) + "</a>"
+            : '<span class="btn is-disabled" aria-disabled="true">' + esc(T("downloads.status.soonBtn", "Bald verfügbar")) + "</span>") +
           older +
         "</article>"
       );
@@ -215,21 +256,23 @@
     var host = document.getElementById("ai-list");
     if (!host || !C.ais) return;
     host.innerHTML = C.ais.map(function (a) {
-      var steps = (a.steps || []).map(function (st) { return "<li>" + esc(st) + "</li>"; }).join("");
+      var stepsList = TR(a, "steps") || a.steps || [];
+      var steps = stepsList.map(function (st) { return "<li>" + esc(st) + "</li>"; }).join("");
+      var note = TR(a, "note");
       return (
         '<article class="panel ai-card">' +
           '<div class="ai-head"><span class="ai-icon" aria-hidden="true">' + esc(a.icon) + "</span>" +
             "<div><h3>" + esc(a.name) + '</h3><span class="muted">' + esc(a.provider) + "</span></div></div>" +
-          "<p>" + esc(a.text) + "</p>" +
+          "<p>" + esc(TR(a, "text")) + "</p>" +
           '<ul class="ai-facts">' +
-            "<li><strong>Kostenlos:</strong> " + esc(a.free) + "</li>" +
-            "<li><strong>Chat merken:</strong> " + esc(a.pin) + "</li>" +
+            "<li><strong>" + esc(T("ki.free", "Kostenlos")) + ":</strong> " + esc(TR(a, "free")) + "</li>" +
+            "<li><strong>" + esc(T("ki.pin", "Chat merken")) + ":</strong> " + esc(TR(a, "pin")) + "</li>" +
           "</ul>" +
-          (steps ? "<details><summary>So merkst du dir den Chat</summary><div><ol>" + steps + "</ol>" +
-            (a.note ? '<p class="muted" style="margin-top:.6rem">' + esc(a.note) + "</p>" : "") + "</div></details>" : "") +
+          (steps ? "<details><summary>" + esc(T("ki.stepsSummary", "So merkst du dir den Chat")) + "</summary><div><ol>" + steps + "</ol>" +
+            (note ? '<p class="muted" style="margin-top:.6rem">' + esc(note) + "</p>" : "") + "</div></details>" : "") +
           '<div class="btn-row" style="margin-top:auto">' +
-            '<a class="btn" href="' + esc(a.url) + '" target="_blank" rel="noopener noreferrer">' + esc(a.name) + " öffnen ↗</a>" +
-            (a.info ? '<a class="btn small ghost" href="' + esc(a.info) + '" target="_blank" rel="noopener noreferrer">Mehr dazu</a>' : "") +
+            '<a class="btn" href="' + esc(a.url) + '" target="_blank" rel="noopener noreferrer">' + esc(a.name) + " " + esc(T("ki.open", "öffnen")) + " ↗</a>" +
+            (a.info ? '<a class="btn small ghost" href="' + esc(a.info) + '" target="_blank" rel="noopener noreferrer">' + esc(T("ki.more", "Mehr dazu")) + "</a>" : "") +
           "</div>" +
         "</article>"
       );
@@ -343,7 +386,7 @@
           var text = target.innerText;
           var done = function () {
             var old = btn.textContent;
-            btn.textContent = "✔ Kopiert!";
+            btn.textContent = "✔ " + T("common.copied", "Kopiert!");
             setTimeout(function () { btn.textContent = old; }, 1800);
           };
           if (navigator.clipboard && navigator.clipboard.writeText) {
@@ -371,18 +414,30 @@
     }
   }
 
-  document.addEventListener("DOMContentLoaded", function () {
+  function renderAll() {
     buildHeader();
     buildFooter();
     renderDownloads();
     renderAIs();
-    renderScreenshots();
-    renderGallery();
     renderRoadmap();
     renderTimeline();
-    applyText();
     applyLinks();
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    if (I18N) I18N.apply();
+    renderAll();
+    renderScreenshots();
+    renderGallery();
+    applyText();
     setupCopy();
     setupLightbox();
+  });
+
+  /* Sprache gewechselt: statische [data-i18n]-Texte sind von i18n.js
+     schon aktualisiert, hier nur das per JS erzeugte neu aufbauen. */
+  document.addEventListener("cj:langchange", function () {
+    if (I18N) I18N.apply();
+    renderAll();
   });
 })();

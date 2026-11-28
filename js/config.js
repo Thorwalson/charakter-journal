@@ -96,7 +96,8 @@ window.CJ = {
       status: "soon",
       url: "#",
       note: "Die moderne Live-Version des Spiels.",
-      older: []
+      older: [],
+      i18n: { en: { subtitle: "Current World of Warcraft", note: "The modern live version of the game." } }
     },
     {
       id: "classic",
@@ -108,7 +109,8 @@ window.CJ = {
       status: "soon",
       url: "#",
       note: "Für die klassischen Realms.",
-      older: []
+      older: [],
+      i18n: { en: { note: "For the classic realms." } }
     },
     {
       id: "hardcore",
@@ -120,7 +122,8 @@ window.CJ = {
       status: "soon",
       url: "#",
       note: "Perfekt für Hardcore: jeder Schritt wird festgehalten, bis zum letzten.",
-      older: []
+      older: [],
+      i18n: { en: { subtitle: "One life. One story.", note: "Perfect for hardcore: every step is recorded, right up to the last one." } }
     },
     {
       id: "forever",
@@ -132,7 +135,8 @@ window.CJ = {
       status: "soon",
       url: "#",
       note: "Für die Forever-Version von WoW.",
-      older: []
+      older: [],
+      i18n: { en: { subtitle: "The Forever realms", note: "For the Forever version of WoW." } }
     }
   ],
 
@@ -153,7 +157,19 @@ window.CJ = {
         "Am Handy: Chat lange gedrückt halten und „Pin“ wählen.",
         "Tipp: Den Chat gleich nach dem Charakter benennen, z. B. „Thorwin – Chronik“."
       ],
-      note: "Es lassen sich nur 3 Chats gleichzeitig anpinnen. Wenn du mehrere Charaktere hast, benenne die Chats zusätzlich eindeutig."
+      note: "Es lassen sich nur 3 Chats gleichzeitig anpinnen. Wenn du mehrere Charaktere hast, benenne die Chats zusätzlich eindeutig.",
+      i18n: { en: {
+        text: "The best-known AI chat, good at narrating and continuing long stories.",
+        free: "Free tier with limited use. The limit varies depending on load.",
+        pin: "Pin it, up to 3 chats at once.",
+        steps: [
+          "On a computer, hover over the chat in the left sidebar.",
+          "Click the three dots and choose “Pin”.",
+          "On mobile: press and hold the chat, then choose “Pin”.",
+          "Tip: name the chat after your character right away, e.g. “Thorwin – Chronicle”."
+        ],
+        note: "Only 3 chats can be pinned at once. If you have several characters, also give each chat a clear, unique name."
+      } }
     },
     {
       name: "Claude", provider: "Anthropic", icon: "✒️",
@@ -168,7 +184,20 @@ window.CJ = {
         "Tipp: Den Chat nach dem Charakter benennen."
       ],
       note: "Wird ein Chat sehr lang, weist die KI darauf hin, wenn das Kontextfenster überschritten wird. Siehe „Wenn der Chat zu lang wird“ unten.",
-      info: "https://support.claude.com/en/articles/8602283-about-free-claude-usage"
+      info: "https://support.claude.com/en/articles/8602283-about-free-claude-usage",
+      i18n: { en: {
+        text: "Likes to write in detail and keeps track of the thread well even in long chats.",
+        free: "Free to use. The usage limit applies per session and resets every 5 hours.",
+        pin: "Mark it with a star, the chat then appears under “Starred”.",
+        steps: [
+          "Hover over the chat in the left sidebar.",
+          "Click the three dots and choose “Star”.",
+          "The chat is now listed under “Starred”, easy to find.",
+          "Tip: name the chat after your character."
+        ],
+        note: "If a chat gets very long, the AI will let you know once the context window is exceeded. See “When the chat gets too long” below.",
+        info: "https://support.claude.com/en/articles/8602283-about-free-claude-usage"
+      } }
     },
     {
       name: "Copilot", provider: "Microsoft", icon: "🪁",
@@ -182,7 +211,19 @@ window.CJ = {
         "Prüfe in der App, ob du Chats benennen oder anheften kannst.",
         "Speichere die fertigen Kapitel zusätzlich selbst (z. B. in Word)."
       ],
-      note: "Verlass dich bei Copilot nicht allein auf den Chatverlauf. Sichere fertige Kapitel regelmäßig selbst."
+      note: "Verlass dich bei Copilot nicht allein auf den Chatverlauf. Sichere fertige Kapitel regelmäßig selbst.",
+      i18n: { en: {
+        text: "Microsoft's AI assistant, usable directly in the browser and as an app.",
+        free: "Free to use, with daily limits. A Microsoft account is recommended.",
+        pin: "We couldn't confirm a pin feature. Name the chat after your character and bookmark it in your browser.",
+        steps: [
+          "Open the chat your story runs in.",
+          "Bookmark the address in your browser (Ctrl + D).",
+          "Check in the app whether you can name or pin chats.",
+          "Also save finished chapters yourself (e.g. in Word)."
+        ],
+        note: "Don't rely solely on the chat history with Copilot. Save finished chapters yourself on a regular basis."
+      } }
     },
     {
       name: "Gemini", provider: "Google", icon: "🌟",
@@ -197,7 +238,20 @@ window.CJ = {
         "Gepinnte Chats stehen oben in der Liste „Zuletzt“."
       ],
       note: "Wichtig: Löschst du einen Chat aus der Liste, wird er auch aus der Gemini-Aktivität gelöscht, inklusive aller darin erstellten Inhalte.",
-      info: "https://support.google.com/gemini/answer/13666746"
+      info: "https://support.google.com/gemini/answer/13666746",
+      i18n: { en: {
+        text: "Google's AI assistant. Convenient if you already have a Google account.",
+        free: "Free with a Google account. Daily usage limits apply, varying by feature.",
+        pin: "Pinning is possible, but only when “Gemini Apps Activity” is turned on.",
+        steps: [
+          "Open the sidebar (via the menu if needed).",
+          "Hover over the chat under “Recent”.",
+          "Click “More” (three dots) and choose “Pin”.",
+          "Pinned chats appear at the top of the “Recent” list."
+        ],
+        note: "Important: deleting a chat from the list also deletes it from Gemini Apps Activity, including everything created in it.",
+        info: "https://support.google.com/gemini/answer/13666746"
+      } }
     },
     {
       name: "Le Chat", provider: "Mistral AI", icon: "🇪🇺",
@@ -212,7 +266,20 @@ window.CJ = {
         "Melde dich an, damit dein Verlauf erhalten bleibt."
       ],
       note: "Ohne Anmeldung ist der Verlauf nicht zuverlässig. Für eine lange Geschichte also unbedingt einloggen.",
-      info: "https://help.mistral.ai/en/articles/316384-what-are-the-features-and-limitations-of-le-chat-free"
+      info: "https://help.mistral.ai/en/articles/316384-what-are-the-features-and-limitations-of-le-chat-free",
+      i18n: { en: {
+        text: "The AI assistant from the French company Mistral AI. Good if a European provider matters to you.",
+        free: "Free to use. Features like web search, images or document upload have daily limits.",
+        pin: "We couldn't confirm a pin feature. Name the chat after your character and bookmark it in your browser.",
+        steps: [
+          "Open the chat your story runs in.",
+          "Bookmark the address in your browser (Ctrl + D).",
+          "Check in Le Chat whether you can name or flag chats.",
+          "Sign in so your history is kept."
+        ],
+        note: "Without signing in, the history isn't reliable. So for a long story, make sure to log in.",
+        info: "https://help.mistral.ai/en/articles/316384-what-are-the-features-and-limitations-of-le-chat-free"
+      } }
     }
   ],
 

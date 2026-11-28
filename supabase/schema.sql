@@ -83,6 +83,7 @@ create table if not exists public.chronicles (
   narrator_form text not null default '',
   story_length text not null default '',
   is_dungeon boolean not null default false,
+  language text not null default 'de',
   summary text not null default '',
   cover_path text not null default '',
   book_path text not null default '',
@@ -99,6 +100,10 @@ create index if not exists chronicles_approved_idx on public.chronicles(approved
 alter table public.chronicles add column if not exists narrator_form text not null default '';
 alter table public.chronicles add column if not exists story_length text not null default '';
 alter table public.chronicles add column if not exists is_dungeon boolean not null default false;
+-- "language" ist neu (Mehrsprachigkeit): alle bereits vorhandenen Chroniken waren
+-- deutschsprachig, bekommen also automatisch 'de'. Neue Einsendungen geben ihre
+-- Sprache selbst mit (siehe js/community.js).
+alter table public.chronicles add column if not exists language text not null default 'de';
 
 alter table public.chronicles enable row level security;
 
@@ -113,7 +118,7 @@ create policy "chronicles_public_insert" on public.chronicles
 
 -- Öffentliche Sicht OHNE Einsender-E-Mail.
 create or replace view public.chronicles_public as
-  select id, created_at, title, author, character_name, writing_style, narrator_form, story_length, is_dungeon, summary,
+  select id, created_at, title, author, character_name, writing_style, narrator_form, story_length, is_dungeon, language, summary,
          cover_path, book_path, has_audio, upvotes, downvotes, featured
   from public.chronicles
   where approved = true;

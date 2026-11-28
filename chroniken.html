@@ -10,35 +10,40 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/config.js"></script>
   <script src="js/content.js"></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/i18n.js"></script>
+<script src="js/i18n-data.js"></script>
+<script src="js/main.js" defer></script>
 </head>
 <body>
   <header id="site-header"></header>
 
   <main>
     <section class="page-hero wrap">
-      <h1>Chroniken von Azeroth</h1>
+      <h1 data-i18n="chron.pageTitle">Chroniken von Azeroth</h1>
       <div class="rule"></div>
-      <p>Geschichten aus der Community – direkt im Browser lesen, herunterladen und bewerten. Erstellt mit dem <a href="buch-designer.html">Buch-Designer</a>.</p>
+      <p data-i18n="chron.pageLead">Geschichten aus der Community – direkt im Browser lesen, herunterladen und bewerten. Erstellt mit dem <a href="buch-designer.html">Buch-Designer</a>.</p>
     </section>
 
     <!-- Bibliothek -->
     <section class="section">
       <div class="wrap">
         <div class="chron-toolbar">
-          <input type="search" id="cj-chron-search" placeholder="Titel, Pseudonym oder Charakter suchen …" aria-label="Chroniken durchsuchen">
-          <select id="cj-chron-filter" aria-label="Nach Schreibstil filtern">
-            <option value="">Alle Schreibstile</option>
+          <input type="search" id="cj-chron-search" placeholder="Titel, Pseudonym oder Charakter suchen …" aria-label="Chroniken durchsuchen" data-i18n-attr="placeholder:chron.search.ph;aria-label:chron.search.aria">
+          <select id="cj-chron-filter" aria-label="Nach Schreibstil filtern" data-i18n-attr="aria-label:chron.filter.styleAria">
+            <option value="" data-i18n="chron.filter.styleAll">Alle Schreibstile</option>
           </select>
-          <select id="cj-chron-filter-narrator" aria-label="Nach Erzählerform filtern">
-            <option value="">Jede Erzählerform</option>
+          <select id="cj-chron-filter-narrator" aria-label="Nach Erzählerform filtern" data-i18n-attr="aria-label:chron.filter.narratorAria">
+            <option value="" data-i18n="chron.filter.narratorAll">Jede Erzählerform</option>
           </select>
-          <select id="cj-chron-filter-length" aria-label="Nach Länge filtern">
-            <option value="">Jede Länge</option>
+          <select id="cj-chron-filter-length" aria-label="Nach Länge filtern" data-i18n-attr="aria-label:chron.filter.lengthAria">
+            <option value="" data-i18n="chron.filter.lengthAll">Jede Länge</option>
+          </select>
+          <select id="cj-chron-filter-lang" aria-label="Nach Sprache filtern" data-i18n-attr="aria-label:chron.filter.langAria">
+            <option value="" data-i18n="chron.filter.langAll">Jede Sprache</option>
           </select>
           <label class="chron-filter-check">
             <input type="checkbox" id="cj-chron-filter-dungeon">
-            <span>⚔ Nur Dungeon-Kurzgeschichten</span>
+            <span data-i18n="chron.filter.dungeon">⚔ Nur Dungeon-Kurzgeschichten</span>
           </label>
         </div>
         <div id="cj-chronicles"></div>
@@ -49,70 +54,74 @@
     <section class="section" id="einreichen">
       <div class="wrap prose">
         <div class="section-head">
-          <h2>Eigene Chronik einreichen</h2>
+          <h2 data-i18n="chron.submit.h">Eigene Chronik einreichen</h2>
           <div class="rule"></div>
-          <p>Exportiere deine Geschichte im <a href="buch-designer.html">Buch-Designer</a> als <strong>„Interaktives HTML-Buch“</strong> (mit eingebundener Hörprobe, falls gewünscht) und reiche die Datei hier ein. Nach kurzer Prüfung erscheint sie in der Bibliothek oben.</p>
+          <p data-i18n="chron.submit.p">Exportiere deine Geschichte im <a href="buch-designer.html">Buch-Designer</a> als <strong>„Interaktives HTML-Buch“</strong> (mit eingebundener Hörprobe, falls gewünscht) und reiche die Datei hier ein. Nach kurzer Prüfung erscheint sie in der Bibliothek oben.</p>
         </div>
 
         <form id="cj-chron-form" class="cj-form" novalidate>
           <div class="cj-field">
-            <label for="cc-title">Titel der Geschichte</label>
+            <label for="cc-title" data-i18n="chron.form.title">Titel der Geschichte</label>
             <input type="text" id="cc-title" name="title" maxlength="160" required>
           </div>
           <div class="cj-row2">
             <div class="cj-field">
-              <label for="cc-author">Dein Pseudonym</label>
+              <label for="cc-author" data-i18n="chron.form.author">Dein Pseudonym</label>
               <input type="text" id="cc-author" name="author" maxlength="80" required>
             </div>
             <div class="cj-field">
-              <label for="cc-character">Charaktername</label>
+              <label for="cc-character" data-i18n="chron.form.character">Charaktername</label>
               <input type="text" id="cc-character" name="character_name" maxlength="80" required>
             </div>
           </div>
           <div class="cj-row2">
             <div class="cj-field">
-              <label for="cc-style">Stil</label>
+              <label for="cc-style" data-i18n="chron.form.style">Stil</label>
               <select id="cc-style" name="writing_style"></select>
             </div>
             <div class="cj-field">
-              <label for="cc-narrator">Erzählerform</label>
+              <label for="cc-narrator" data-i18n="chron.form.narrator">Erzählerform</label>
               <select id="cc-narrator" name="narrator_form"></select>
             </div>
           </div>
           <div class="cj-row2">
             <div class="cj-field">
-              <label for="cc-length">Länge</label>
+              <label for="cc-length" data-i18n="chron.form.length">Länge</label>
               <select id="cc-length" name="story_length"></select>
             </div>
             <div class="cj-field">
-              <label for="cc-email">Deine E-Mail (nicht öffentlich, nur für Rückfragen)</label>
-              <input type="email" id="cc-email" name="submitter_email" maxlength="200" required>
+              <label for="cc-language" data-i18n="chron.form.language">Sprache der Geschichte</label>
+              <select id="cc-language" name="language"></select>
             </div>
+          </div>
+          <div class="cj-field">
+            <label for="cc-email" data-i18n="chron.form.email">Deine E-Mail (nicht öffentlich, nur für Rückfragen)</label>
+            <input type="email" id="cc-email" name="submitter_email" maxlength="200" required>
           </div>
           <label class="chk">
             <input type="checkbox" id="cc-dungeon" name="is_dungeon">
-            Dungeon-Kurzgeschichte (spielt in einem Dungeon/Schlachtzug)
+            <span data-i18n="chron.form.dungeon">Dungeon-Kurzgeschichte (spielt in einem Dungeon/Schlachtzug)</span>
           </label>
           <div class="cj-field">
-            <label for="cc-summary">Kurzbeschreibung (optional, erscheint auf der Karte)</label>
+            <label for="cc-summary" data-i18n="chron.form.summary">Kurzbeschreibung (optional, erscheint auf der Karte)</label>
             <textarea id="cc-summary" name="summary" maxlength="400"></textarea>
           </div>
           <div class="cj-row2">
             <div class="cj-field">
-              <label for="cc-book">HTML-Buchdatei (aus dem Buch-Designer)</label>
+              <label for="cc-book" data-i18n="chron.form.book">HTML-Buchdatei (aus dem Buch-Designer)</label>
               <input type="file" id="cc-book" name="book_file" accept=".html" required>
             </div>
             <div class="cj-field">
-              <label for="cc-cover">Buchcover (optional, Bild)</label>
+              <label for="cc-cover" data-i18n="chron.form.cover">Buchcover (optional, Bild)</label>
               <input type="file" id="cc-cover" name="cover_file" accept="image/*">
             </div>
           </div>
           <div class="cj-captcha"></div>
-          <button type="submit" class="btn">Chronik einreichen</button>
+          <button type="submit" class="btn" data-i18n="chron.form.submit">Chronik einreichen</button>
           <p class="cj-form-status" role="status"></p>
         </form>
 
-        <div class="notice">
+        <div class="notice" data-i18n="chron.notice">
           <strong>Gut zu wissen:</strong>
           <ul style="margin:.5rem 0 0">
             <li>Jede Einsendung wird vor der Veröffentlichung kurz geprüft.</li>

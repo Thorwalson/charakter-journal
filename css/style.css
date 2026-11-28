@@ -168,6 +168,21 @@ p { margin: 0 0 1em; }
 .nav-drop-menu span.is-disabled { color: var(--muted); opacity: .6; cursor: not-allowed; }
 .nav-drop-menu span.is-disabled::after { content: " (bald)"; font-size: .85em; }
 
+/* ---------- Sprachumschalter (Flaggen) ---------- */
+.lang-switch { margin-left: .2rem; }
+.lang-btn { padding: .5rem .55rem; }
+.lang-flag { font-size: 1.15rem; line-height: 1; }
+.lang-menu { min-width: 170px; right: 0; left: auto; }
+.lang-opt {
+  display: flex; align-items: center; gap: .55rem; width: 100%;
+  background: transparent; border: none; cursor: pointer; text-align: left;
+  font-family: var(--display); font-size: .8rem; font-weight: 600;
+  letter-spacing: .03em; color: var(--text);
+  padding: .55rem .7rem; border-radius: 6px;
+}
+.lang-opt:hover { color: var(--gold-hi); background: rgba(212, 168, 67, .08); }
+.lang-opt .lang-flag { font-size: 1.1rem; }
+
 /* ---------- Logo-Fallback (falls assets/logo.png fehlt) ---------- */
 .logo-fallback {
   display: inline-flex; align-items: center; justify-content: center;
@@ -585,6 +600,7 @@ details > div { padding: 0 1.1rem 1rem; color: #d9d3bf; }
 .chron-cover-fallback { width: 100%; height: 100%; display: flex; align-items: center; justify-content: center; font-size: 3.4rem; color: var(--gold-lo); }
 .chron-audio-badge { position: absolute; top: .5rem; right: .5rem; background: rgba(0, 0, 0, .6); border: 1px solid var(--gold-lo); border-radius: 50%; width: 30px; height: 30px; display: flex; align-items: center; justify-content: center; }
 .chron-dungeon-badge { position: absolute; top: .5rem; left: .5rem; background: rgba(0, 0, 0, .6); border: 1px solid var(--gold-lo); border-radius: 999px; color: var(--gold-hi); font-size: .75rem; padding: .2rem .55rem; display: flex; align-items: center; gap: .3rem; }
+.chron-lang-badge { position: absolute; bottom: .5rem; right: .5rem; background: rgba(0, 0, 0, .6); border: 1px solid var(--gold-lo); border-radius: 50%; width: 28px; height: 28px; display: flex; align-items: center; justify-content: center; font-size: 1rem; line-height: 1; }
 .chron-body { padding: 1rem 1.1rem 1.2rem; }
 .chron-body h3 { margin: 0 0 .3rem; }
 .chron-meta { color: var(--muted); font-size: .85rem; margin-bottom: .5rem; }

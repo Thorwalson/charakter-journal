@@ -10,23 +10,25 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/config.js"></script>
   <script src="js/content.js"></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/i18n.js"></script>
+<script src="js/i18n-data.js"></script>
+<script src="js/main.js" defer></script>
 </head>
 <body>
   <header id="site-header"></header>
 
   <main>
     <section class="page-hero wrap">
-      <h1>Downloads</h1>
+      <h1 data-i18n="downloads.title">Downloads</h1>
       <div class="rule"></div>
-      <p>Wähle die Version, mit der du spielst. Jede WoW-Version hat ihr eigenes Paket.</p>
+      <p data-i18n="downloads.lead">Wähle die Version, mit der du spielst. Jede WoW-Version hat ihr eigenes Paket.</p>
     </section>
 
     <section class="section">
       <div class="wrap">
         <div id="downloads" class="grid cols-4" aria-live="polite"></div>
 
-        <div class="notice blue">
+        <div class="notice blue" data-i18n="downloads.notice">
           <strong>Du weißt nicht, welche Version du brauchst?</strong><br>
           Retail ist das aktuelle Spiel. Classic sind die klassischen Realms, Classic Hardcore die Ein-Leben-Realms,
           und WoW Forever die Forever-Realms. Passt die Version nicht zum Spiel, taucht das Addon in der Addon-Liste
@@ -35,23 +37,23 @@
 
         <div class="grid cols-3" style="margin-top:2rem">
           <article class="panel">
-            <h3>Auch auf CurseForge</h3>
-            <p class="muted">Mit dem CurseForge-Client oder WowUp installierst du das Addon mit einem Klick und bekommst Updates automatisch.</p>
-            <a class="btn small ghost" data-link="curseforge" href="#">CurseForge öffnen</a>
+            <h3 data-i18n="downloads.curseforge.h">Auch auf CurseForge</h3>
+            <p class="muted" data-i18n="downloads.curseforge.p">Mit dem CurseForge-Client oder WowUp installierst du das Addon mit einem Klick und bekommst Updates automatisch.</p>
+            <a class="btn small ghost" data-link="curseforge" href="#" data-i18n="downloads.curseforge.btn">CurseForge öffnen</a>
           </article>
           <article class="panel">
-            <h3>Auch auf Wago</h3>
-            <p class="muted">Dasselbe Addon, gleiche Versionen, einfach über die Wago-App.</p>
-            <a class="btn small ghost" data-link="wago" href="#">Wago öffnen</a>
+            <h3 data-i18n="downloads.wago.h">Auch auf Wago</h3>
+            <p class="muted" data-i18n="downloads.wago.p">Dasselbe Addon, gleiche Versionen, einfach über die Wago-App.</p>
+            <a class="btn small ghost" data-link="wago" href="#" data-i18n="downloads.wago.btn">Wago öffnen</a>
           </article>
           <article class="panel">
-            <h3>Probleme beim Download?</h3>
-            <p class="muted">Schau in die <a href="anleitung.html#faq">FAQ</a> oder melde dich bei uns.</p>
-            <a class="btn small ghost" href="community.html">Zur Community</a>
+            <h3 data-i18n="downloads.trouble.h">Probleme beim Download?</h3>
+            <p class="muted" data-i18n="downloads.trouble.p">Schau in die <a href="anleitung.html#faq">FAQ</a> oder melde dich bei uns.</p>
+            <a class="btn small ghost" href="community.html" data-i18n="nav.community">Zur Community</a>
           </article>
         </div>
 
-        <p class="center muted" style="margin-top:2rem">
+        <p class="center muted" style="margin-top:2rem" data-i18n="downloads.footnote">
           Zum Installieren siehst du dir die <a href="anleitung.html">Anleitung</a> an. Es dauert nur ein paar Minuten.
         </p>
       </div>

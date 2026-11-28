@@ -10,44 +10,46 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/config.js"></script>
   <script src="js/content.js"></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/i18n.js"></script>
+<script src="js/i18n-data.js"></script>
+<script src="js/main.js" defer></script>
 </head>
 <body>
   <header id="site-header"></header>
 
   <main>
     <section class="page-hero wrap">
-      <h1>Impressum</h1>
+      <h1 data-i18n="legal.impressum.title">Impressum</h1>
       <div class="rule"></div>
     </section>
 
     <section class="section">
       <div class="wrap prose">
-        <div class="notice">
+        <div class="notice" data-i18n="legal.impressum.templateNotice">
           <strong>VORLAGE, bitte vor dem Veröffentlichen ausfüllen!</strong><br>
           Ersetze alle Angaben in <code>[eckigen Klammern]</code> durch deine echten Daten und lösche diesen Hinweis. Wer eine Website in Deutschland geschäftsmäßig betreibt (dazu zählen oft schon Spendenbutton oder Verkauf), braucht in der Regel ein vollständiges Impressum mit ladungsfähiger Anschrift. Das ist keine Rechtsberatung. Im Zweifel lass dich beraten oder nutze einen Impressum-Generator.
         </div>
 
         <div class="panel">
-          <h2>Angaben gemäß § 5 DDG</h2>
-          <p>
+          <h2 data-i18n="legal.impressum.h2">Angaben gemäß § 5 DDG</h2>
+          <p data-i18n="legal.impressum.address">
             [Vor- und Nachname]<br>
             [Straße und Hausnummer]<br>
             [PLZ Ort]<br>
             Deutschland
           </p>
 
-          <h3>Kontakt</h3>
-          <p>
+          <h3 data-i18n="legal.impressum.contact.h">Kontakt</h3>
+          <p data-i18n="legal.impressum.contact.p">
             E-Mail: [deine-E-Mail-Adresse]<br>
             [Optional: Telefon]
           </p>
 
-          <h3>Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h3>
-          <p>[Vor- und Nachname, Anschrift wie oben]</p>
+          <h3 data-i18n="legal.impressum.responsible.h">Verantwortlich für den Inhalt nach § 18 Abs. 2 MStV</h3>
+          <p data-i18n="legal.impressum.responsible.p">[Vor- und Nachname, Anschrift wie oben]</p>
 
-          <h3>Hinweis zu Blizzard Entertainment</h3>
-          <p>Charakter Journal ist ein inoffizielles Fan-Projekt. Es steht in keiner Verbindung zu Blizzard Entertainment, Inc. und wird nicht von Blizzard unterstützt oder gebilligt. World of Warcraft® ist eine eingetragene Marke von Blizzard Entertainment, Inc.</p>
+          <h3 data-i18n="legal.impressum.blizzard.h">Hinweis zu Blizzard Entertainment</h3>
+          <p data-i18n="legal.impressum.blizzard.p">Charakter Journal ist ein inoffizielles Fan-Projekt. Es steht in keiner Verbindung zu Blizzard Entertainment, Inc. und wird nicht von Blizzard unterstützt oder gebilligt. World of Warcraft® ist eine eingetragene Marke von Blizzard Entertainment, Inc.</p>
         </div>
       </div>
     </section>

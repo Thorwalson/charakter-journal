@@ -10,64 +10,66 @@
   <link rel="stylesheet" href="css/style.css">
   <script src="js/config.js"></script>
   <script src="js/content.js"></script>
-  <script src="js/main.js" defer></script>
+  <script src="js/i18n.js"></script>
+<script src="js/i18n-data.js"></script>
+<script src="js/main.js" defer></script>
 </head>
 <body>
   <header id="site-header"></header>
 
   <main>
     <section class="page-hero wrap">
-      <h1>Unterstützen</h1>
+      <h1 data-i18n="support.title">Unterstützen</h1>
       <div class="rule"></div>
-      <p>Charakter Journal ist ein Herzensprojekt und kostenlos. Wenn du uns helfen möchtest, gibt es viele Wege.</p>
+      <p data-i18n="support.lead">Charakter Journal ist ein Herzensprojekt und kostenlos. Wenn du uns helfen möchtest, gibt es viele Wege.</p>
     </section>
 
     <section class="section">
       <div class="wrap">
         <div class="section-head">
-          <h2>Eine Spende</h2>
+          <h2 data-i18n="support.donate.h">Eine Spende</h2>
           <div class="rule"></div>
-          <p>Spenden sind freiwillig und helfen uns, Zeit und Kosten (Website, Tests, Gestaltung) zu stemmen.</p>
+          <p data-i18n="support.donate.p">Spenden sind freiwillig und helfen uns, Zeit und Kosten (Website, Tests, Gestaltung) zu stemmen.</p>
         </div>
         <div class="support-grid">
           <article class="panel support-card">
             <div class="icon">☕</div><h3>Ko-fi</h3>
-            <p>Ein Kaffee für die Entwickler. Einmalig oder regelmäßig.</p>
-            <a class="btn" data-link="kofi" href="#">Auf Ko-fi unterstützen</a>
+            <p data-i18n="support.kofi.p">Ein Kaffee für die Entwickler. Einmalig oder regelmäßig.</p>
+            <a class="btn" data-link="kofi" href="#" data-i18n="support.kofi.btn">Auf Ko-fi unterstützen</a>
           </article>
           <article class="panel support-card">
             <div class="icon">💛</div><h3>PayPal</h3>
-            <p>Direkt per PayPal, in jeder Höhe.</p>
-            <a class="btn" data-link="paypal" href="#">Mit PayPal spenden</a>
+            <p data-i18n="support.paypal.p">Direkt per PayPal, in jeder Höhe.</p>
+            <a class="btn" data-link="paypal" href="#" data-i18n="support.paypal.btn">Mit PayPal spenden</a>
           </article>
         </div>
-        <p class="center muted" style="margin-top:1.2rem;font-size:.92rem">Eine Spende ist eine freiwillige Zuwendung. Es entsteht kein Anspruch auf eine Gegenleistung.</p>
+        <p class="center muted" style="margin-top:1.2rem;font-size:.92rem" data-i18n="support.donateNote">Eine Spende ist eine freiwillige Zuwendung. Es entsteht kein Anspruch auf eine Gegenleistung.</p>
       </div>
     </section>
 
     <section class="section">
       <div class="wrap">
         <div class="section-head">
-          <h2>Auch ohne Geld kannst du helfen</h2>
+          <h2 data-i18n="support.other.h">Auch ohne Geld kannst du helfen</h2>
           <div class="rule"></div>
         </div>
         <div class="grid cols-4">
-          <article class="panel feature"><div class="icon">🧪</div><h3>Testen</h3><p>Probiere neue Versionen aus und sag uns, was dir auffällt.</p></article>
-          <article class="panel feature"><div class="icon">🐞</div><h3>Fehler melden</h3><p>Jeder gemeldete Fehler macht das Addon besser.</p></article>
-          <article class="panel feature"><div class="icon">💡</div><h3>Ideen teilen</h3><p>Sag uns, was dein Journal können soll.</p></article>
-          <article class="panel feature"><div class="icon">📣</div><h3>Weitersagen</h3><p>Erzähl Freunden und deiner Gilde davon.</p></article>
-          <article class="panel feature"><div class="icon">🌍</div><h3>Übersetzen</h3><p>Hilf mit, das Addon in weitere Sprachen zu bringen.</p></article>
-          <article class="panel feature"><div class="icon">📖</div><h3>Geschichten teilen</h3><p>Zeig, was aus deiner Reise geworden ist.</p></article>
+          <article class="panel feature"><div class="icon">🧪</div><h3 data-i18n="support.other.1.h">Testen</h3><p data-i18n="support.other.1.p">Probiere neue Versionen aus und sag uns, was dir auffällt.</p></article>
+          <article class="panel feature"><div class="icon">🐞</div><h3 data-i18n="support.other.2.h">Fehler melden</h3><p data-i18n="support.other.2.p">Jeder gemeldete Fehler macht das Addon besser.</p></article>
+          <article class="panel feature"><div class="icon">💡</div><h3 data-i18n="support.other.3.h">Ideen teilen</h3><p data-i18n="support.other.3.p">Sag uns, was dein Journal können soll.</p></article>
+          <article class="panel feature"><div class="icon">📣</div><h3 data-i18n="support.other.4.h">Weitersagen</h3><p data-i18n="support.other.4.p">Erzähl Freunden und deiner Gilde davon.</p></article>
+          <article class="panel feature"><div class="icon">🌍</div><h3 data-i18n="support.other.5.h">Übersetzen</h3><p data-i18n="support.other.5.p">Hilf mit, das Addon in weitere Sprachen zu bringen.</p></article>
+          <article class="panel feature"><div class="icon">📖</div><h3 data-i18n="support.other.6.h">Geschichten teilen</h3><p data-i18n="support.other.6.p">Zeig, was aus deiner Reise geworden ist.</p></article>
         </div>
-        <div class="center" style="margin-top:2rem"><a class="btn ghost" href="community.html">Zur Community</a></div>
+        <div class="center" style="margin-top:2rem"><a class="btn ghost" href="community.html" data-i18n="nav.community">Zur Community</a></div>
       </div>
     </section>
 
     <section class="section">
       <div class="wrap prose">
         <div class="panel parchment">
-          <h3>Ausblick: Die gedruckte Chronik</h3>
-          <p>Wir träumen von einem gestalteten PDF und später einem echten Buch mit den schönsten Geschichten der Community. Das ist noch Zukunftsmusik. Sobald es soweit ist, erfährst du es hier und in der <a href="roadmap.html">Roadmap</a>. Geschichten werden dafür nur mit der ausdrücklichen Zustimmung der Verfasser verwendet.</p>
+          <h3 data-i18n="support.future.h">Ausblick: Die gedruckte Chronik</h3>
+          <p data-i18n="support.future.p">Wir träumen von einem gestalteten PDF und später einem echten Buch mit den schönsten Geschichten der Community. Das ist noch Zukunftsmusik. Sobald es soweit ist, erfährst du es hier und in der <a href="roadmap.html">Roadmap</a>. Geschichten werden dafür nur mit der ausdrücklichen Zustimmung der Verfasser verwendet.</p>
         </div>
       </div>
     </section>
